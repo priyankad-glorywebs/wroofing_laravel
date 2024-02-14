@@ -7,36 +7,6 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
 
-    // public function up(): void
-    // {
-    //     Schema::create('projects', function (Blueprint $table) {
-    //         $table->id(); // Auto-incremental primary key
-    //         $table->string('title', 255)->nullable();
-    //         $table->json('project_image')->nullable();
-    //         $table->text('roofandgutterdesign')->nullable();
-    //         $table->string('rooftypeandrating', 255)->nullable();
-    //         $table->string('guttertypeaccessories', 255)->nullable();
-    //         $table->string('guttertypeaccessories1', 255)->nullable();
-    
-    //         $table->unsignedBigInteger('user_id')->nullable();
-    //         $table->string('name', 255)->nullable();
-    //         $table->string('address', 255)->nullable();
-    //         $table->string('insurance_company', 255)->nullable();
-    //         $table->string('insurance_agency', 255)->nullable();
-    //         $table->string('billing', 255)->nullable();
-    //         $table->string('mortgage_company', 255)->nullable();
-    //         $table->enum('project_status', ['Approve', 'Request', 'Rejected'])->default('Request');
-    //         $table->integer('status')->default(0);
-    //         $table->timestamps(); // created_at and updated_at
-    //         $table->timestamp('created_by')->nullable();
-    //         $table->timestamp('updated_by')->nullable();
-    
-    //         // Foreign key constraint
-    //         $table->foreign('user_id')->references('id')->on('users');
-    //     });
-    // }
-    
-    
     /**
      * Run the migrations.
      */
