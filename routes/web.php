@@ -19,7 +19,6 @@ use App\Http\Controllers\DropzoneController;
 Route::get('/', function () {
     return view('welcome');
 });
-// By-UAWC6KAcq$b-
 Route::group(['namespace' => 'Front\Auth'], function () {
     // custom authentication routes
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

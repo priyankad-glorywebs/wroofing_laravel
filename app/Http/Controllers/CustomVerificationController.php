@@ -19,6 +19,5 @@ class CustomVerificationController extends Controller
 
         return redirect('/login');
 
-        // Redirect or display a success message
     }
 }

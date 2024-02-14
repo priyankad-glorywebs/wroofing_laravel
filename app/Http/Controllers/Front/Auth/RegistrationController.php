@@ -17,8 +17,6 @@ use App\Models\Contractor;
 
 class RegistrationController extends Controller
 {
-    
-
     // public function test(){
     //     $message = "Test message";
     //     Mail::to('anil.test34@gmail.com')->send(new TestMail($message));
@@ -34,7 +32,6 @@ public function registerStepOne(Request $request){
 
 public function register(Request $request)
 {
-    // dd("in");
     $user = new User;
     $user->name = $request->name;
     $user->email = $request->email;

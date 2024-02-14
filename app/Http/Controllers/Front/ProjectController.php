@@ -131,7 +131,6 @@ class ProjectController extends Controller
 
     public function generalInformation($project_id)
     {
-        //dd($project_id);
         $project_id = base64_decode($project_id);
         return view(
             "layouts.front.projects.steps.general-information",
@@ -285,26 +284,26 @@ public function documentationStore(Request $request, $project_id)
 }
 
 
-    private function getFileTypepdf($file)
-    {
-        $allowedExtensions = [
-            "pdf",
-            "doc",
-            "docx",
-            "jpg",
-            "jpeg",
-            "png",
-            "gif",
-        ];
+    // private function getFileTypepdf($file)
+    // {
+    //     $allowedExtensions = [
+    //         "pdf",
+    //         "doc",
+    //         "docx",
+    //         "jpg",
+    //         "jpeg",
+    //         "png",
+    //         "gif",
+    //     ];
 
-        $fileExtension = strtolower($file->getClientOriginalExtension());
+    //     $fileExtension = strtolower($file->getClientOriginalExtension());
 
-        if (in_array($fileExtension, $allowedExtensions)) {
-            return "document";
-        } else {
-            return "unknown";
-        }
-    }
+    //     if (in_array($fileExtension, $allowedExtensions)) {
+    //         return "document";
+    //     } else {
+    //         return "unknown";
+    //     }
+    // }
 
 
 
@@ -336,8 +335,6 @@ public function contractorProjectList(){
 public function projectDetailsContractor(Request $request,$project_id){
     $projectData = base64_decode($project_id);
    $projectinfo =  Project::where('id',$projectData)->get();
-  // return view('')
-   //dd($projectinfo);
 }
 
 }
