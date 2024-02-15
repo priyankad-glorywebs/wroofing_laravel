@@ -15,7 +15,15 @@ use App\Http\Controllers\DropzoneController;
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::group(['middleware' => 'switch.guard:contractor', 'namespace' => 'Front\Auth'], function () {
+    //contractor dashboard
+    Route::get('contractor/dashboard', [ProjectController::class, 'contractorProjectList'])->name('contractor.dashboard');
+    Route::get('contractor/project/details/{project_id}', [ProjectController::class, 'projectDetailsContractor']);
+    //download a file 
+    // Route::get('/{filename}', [ProjectController::class, 'download'])->name('download.file');
+});
+Route::group(['namespace' => 'Front\Auth'], function () {
     // custom authentication routes
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
@@ -23,11 +31,6 @@ Route::group(['middleware' => 'switch.guard:contractor', 'namespace' => 'Front\A
     Route::get('/register', [RegistrationController::class, 'registerStepOne'])->name('register.one');
     Route::post('/register', [RegistrationController::class, 'register'])->name('register');
 
-    //contractor dashboard
-    Route::get('contractor/dashboard', [ProjectController::class, 'contractorProjectList'])->name('contractor.dashboard');
-    Route::get('contractor/project/details/{project_id}', [ProjectController::class, 'projectDetailsContractor']);
-    //download a file 
-    // Route::get('/{filename}', [ProjectController::class, 'download'])->name('download.file');
     Route::get('/test', [RegistrationController::class, 'test']);
     Route::post('remove/image', [ProjectController::class, 'removeImage'])->name('remove.image');
     // Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
