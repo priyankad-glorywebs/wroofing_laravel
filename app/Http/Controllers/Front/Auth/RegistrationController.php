@@ -28,8 +28,9 @@ public function registerStepOne(Request $request){
 }
 
 
-public function register(Request $request)
+public function register(RegisterRequest $request)
 {
+
     $user                  = new User;
     $user->name            = $request->name;
     $user->email           = $request->email;
