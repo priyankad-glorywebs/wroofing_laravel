@@ -10,15 +10,22 @@ use App\Http\Controllers\Front\ContractorController;
 //use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\CustomVerificationController;
 use App\Http\Controllers\DropzoneController;
+use Illuminate\Support\Facades\Artisan;
 
-
-
-
-
-
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/clear-cache', function () {
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+ return 'Cache cleared successfully.';
 });
+
+/*********************************************************/
+//   -------------Authentication Routes ----------------
+/*********************************************************/
 Route::group(['namespace' => 'Front\Auth'], function () {
     // custom authentication routes
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -26,18 +33,6 @@ Route::group(['namespace' => 'Front\Auth'], function () {
     // Route::post('/logout',[LoginController::class,'logout'])->name('logout');
     Route::get('/register', [RegistrationController::class, 'registerStepOne'])->name('register.one');
     Route::post('/register', [RegistrationController::class, 'register'])->name('register');
-
-    //contractor dashboard
-Route::get('contractor/dashboard',[ProjectController::class,'contractorProjectList'])->name('contractor.dashboard');
-
-
-Route::get('contractor/project/details/{project_id}',[ProjectController::class,'projectDetailsContractor']);
-//download a file 
-// Route::get('/{filename}', [ProjectController::class, 'download'])->name('download.file');
-
-
-
-
 
     Route::get('/test', [RegistrationController::class, 'test']);
 
@@ -55,12 +50,32 @@ Route::get('contractor/project/details/{project_id}',[ProjectController::class,'
     Route::post('/reset-password', [ResetPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
 });
+/************************************************************/
+//   ------------- END Authentication Routes ----------------
+/************************************************************/
 
-Route::controller(DropzoneController::class)->group(function(){
-    Route::get('dropzone', 'index');
-    Route::post('dropzone/store', 'store')->name('dropzone.store');
+// Route::controller(DropzoneController::class)->group(function(){
+//     Route::get('dropzone', 'index');
+//     Route::post('dropzone/store', 'store')->name('dropzone.store');
+// });
+
+/*********************************************************/
+//   -------------All Contractor Routes ----------------
+/*********************************************************/
+Route::group(['middleware' => 'contractor.middleware:contractor','namespace' => 'Front\Auth'], function () {
+     //contractor dashboard
+    Route::get('contractor/dashboard',[ProjectController::class,'contractorProjectList'])->name('contractor.dashboard');
+    Route::get('contractor/project/details/{project_id}',[ProjectController::class,'projectDetailsContractor']);
+    //download a file 
+    Route::get('/{filename}', [ProjectController::class, 'download'])->name('download.file');
 });
+/*********************************************************/
+//   -------------End Contractor Routes ----------------
+/*********************************************************/
 
+/*********************************************************/
+//   -------------All customer Routes ----------------
+/*********************************************************/
 Route::group(['middleware' => 'customAuth'], function () {
 
 // project Routes
@@ -103,8 +118,16 @@ Route::get('/home', function () {
 });
 
 
+/*********************************************************/
+//   ------------- END customer Routes ----------------
+/*********************************************************/
 
-//contact us page && term and condition page 
+
+
+/*********************************************************/
+//   ------------- Guest Routes ----------------
+/*********************************************************/
+//contact us page && term and condition page  guest routes
 Route::get('contact-us',[ContactusController::class,'contactus'])->name('contact-us');
 Route::post('contact/store',[ContactusController::class,'store'])->name('contact.submit');
 Route::get('terms-and-conditions',[ContactusController::class,'term'])->name('term.and.condition');

@@ -31,10 +31,13 @@ class ProjectController extends Controller
 
     public function addProject(Request $request)
     {
+      // here i need a unique projectname user specific not for whole table 
         try {
             $validator = Validator::make($request->all(), [
                 // "projectname" => "required|string|max:255",
-                "projectname" => "required|string|max:255|unique:projects,name",
+                // "projectname" => "required|string|max:255|unique:projects,name",
+                "projectname" => "required|string|max:255|unique:projects,name,NULL,id,user_id," . auth()->id(),
+
 
             ]);
 
@@ -339,16 +342,16 @@ public function projectDetailsContractor(Request $request, $project_id)
     return view('layouts.front.projects.contractor.details', compact('projectinfo', 'documentdata', 'contractordocuments', 'insurancedocuments', 'mortgagedocuments'));
 }
 
-// public function download($filename)
-// {
-//     $filePath = storage_path('app/public/' . $filename);
+public function download($filename)
+{
+    $filePath = storage_path('app/public/' . $filename);
 
-//     if (file_exists($filePath)) {
-//         return response()->download($filePath, $filename);
-//     } else {
-//         abort(404, 'File not found');
-//     }
-// }
+    if (file_exists($filePath)) {
+        return response()->download($filePath, $filename);
+    } else {
+        abort(404, 'File not found');
+    }
+}
 
 }
 

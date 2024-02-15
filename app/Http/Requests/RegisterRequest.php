@@ -27,9 +27,9 @@ class RegisterRequest extends FormRequest
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
             'password_confirmation' => 'required',
-            'profile_image' => 'image|mimes:jpeg,png,jpg',
-            'contact_number' => 'required|string',
-            'zip_code' => 'required|string',
+            //'profile_image' => 'image|mimes:jpeg,png,jpg',
+            // 'contact_number' => 'required|string',
+            // 'zip_code' => 'required|string',
         ];
     }
     public function messages()
@@ -47,10 +47,10 @@ class RegisterRequest extends FormRequest
             'password.min' => 'The password must be at least 6 characters.',
             'password.confirmed' => 'The password confirmation does not match.',
             'password_confirmation.required' => 'The password confirmation field is required.',
-            'profile_image.image' => 'The profile image must be an image file.',
-            'profile_image.mimes' => 'The profile image must be of type: jpeg, png, jpg.',
-            'contact_number.required' => 'The contact number field is required.',
-            'zip_code.required' => 'The zip code field is required.',
+            // 'profile_image.image' => 'The profile image must be an image file.',
+            // 'profile_image.mimes' => 'The profile image must be of type: jpeg, png, jpg.',
+           // 'contact_number.required' => 'The contact number field is required.',
+            //'zip_code.required' => 'The zip code field is required.',
         ];
     }
 }
