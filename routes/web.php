@@ -32,6 +32,9 @@ Route::get('contractor/dashboard',[ProjectController::class,'contractorProjectLi
 
 
 Route::get('contractor/project/details/{project_id}',[ProjectController::class,'projectDetailsContractor']);
+//download a file 
+// Route::get('/{filename}', [ProjectController::class, 'download'])->name('download.file');
+
 
 
 

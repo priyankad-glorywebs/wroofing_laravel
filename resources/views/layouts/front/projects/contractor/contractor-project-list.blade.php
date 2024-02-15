@@ -72,31 +72,31 @@
                                            @php $images =  json_decode($project->project_image, true);
                                            
                                            @endphp
-@if(isset($images) && is_array($images) && count($images) > 0)
-
-
-
-    <div class="col-12">
-        <div class="contractor-img-wrap">
-            <div class="contractor-img">
-                <img src="{{ asset('storage/project_images/'.$images[0]) }}" alt="First Image" width="370" height="200">
-            </div>
-        </div>
-    </div>
-@else
-    <p>No images available</p>
-@endif
+										@if(isset($images) && is_array($images) && count($images) > 0)
+										<div class="col-12">
+												<div class="contractor-img-wrap">
+													<div class="contractor-img">
+														<img src="{{ asset('storage/project_images/'.$images[0]) }}" alt="First Image" width="370" height="200">
+													</div>
+												</div>
+											</div>
+										@else
+											<p>No images available</p>
+										@endif
 
                   
                                         </div>
 											<div class="contractor-review approved-txt d-flex align-items-center">
-												<div class="contractor-review-text">@if($project->status == 0)
-                                                        Requested
+												<div class="contractor-review-text">
+													{{--@if($project->status == 0)
+                                                       Requested
                                                         @elseif($project->status == 1)
                                                         Approved
                                                         @elseif($project->status == 2)
                                                         Rejected
-                                                        @endif
+                                                        @endif--}}
+														{{$project->project_status??""}}
+
 
                                                 </div>
 											</div>
@@ -127,7 +127,7 @@
 												</div>
 											</div>
 										</div>
-										<a class="contractor-link" href="{{URL::to('contractor/project/details/'.base64_encode($project->id))}}">HELLOO</a>
+										<a class="contractor-link" href="{{URL::to('contractor/project/details/'.base64_encode($project->id))}}"></a>
 									</div>
 								</div>
                                 @endforeach

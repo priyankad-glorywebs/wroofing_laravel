@@ -7,7 +7,14 @@ jQuery(document).ready(function() {
 		$('.navbar-overlay').toggleClass('show');
 	});
 
-
+	$(".documentation-download-item").click(function(){
+		$(this).find(".documentation-download-btn-wrap").slideToggle();
+	});
+	
+	$("#editquotepopup a").click(function(){
+		$("#editquotepopup").modal("hide");
+		$("#sendquotepopup").modal("show");
+	});
 	$(".password-icon-view").click(function() {
 		$(this).hide();
 		$(this).closest(".form-element").find(".password-icon-hide").show();
