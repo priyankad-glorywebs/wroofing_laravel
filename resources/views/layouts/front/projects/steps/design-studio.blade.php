@@ -399,7 +399,7 @@ $(document).ready(function () {
     var dropzone = new Dropzone('#image-upload', {
         thumbnailWidth: 200,
         url: "{{ route('test') }}",
-        maxFilesize: 1,
+        maxFilesize: 20,
         addRemoveLinks: true, 
         acceptedFiles: ".jpeg,.jpg,.png,.gif,.mp4",
         dictRemoveFile: "Remove file",

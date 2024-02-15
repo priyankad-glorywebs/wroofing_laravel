@@ -332,10 +332,45 @@ public function contractorProjectList(){
  
 }
 
-public function projectDetailsContractor(Request $request,$project_id){
+public function projectDetailsContractor(Request $request, $project_id)
+{
     $projectData = base64_decode($project_id);
-   $projectinfo =  Project::where('id',$projectData)->get();
+    $projectinfo = Project::where('id', $projectData)->first();
+    $project_documents = ProjectDocument::where('project_id', $projectinfo->id)->get();
+
+    $documentdata = '';
+    $contractordocuments = '';
+    $insurancedocuments = '';
+    $mortgagedocuments = '';
+
+    foreach ($project_documents as $document) {
+        if ($document->document_name == "documents") {
+            $documentdata = $document->document_file ?? '';
+        }
+        if ($document->document_name == "contractordocuments") {
+            $contractordocuments = $document->document_file ?? '';
+        }
+        if ($document->document_name == "insurancedocuments") {
+            $insurancedocuments = $document->document_file ?? '';
+        }
+        if ($document->document_name == "mortgagedocuments") {
+            $mortgagedocuments = $document->document_file ?? '';
+        }
+    }
+
+    return view('layouts.front.projects.contractor.details', compact('projectinfo', 'documentdata', 'contractordocuments', 'insurancedocuments', 'mortgagedocuments'));
 }
+
+// public function download($filename)
+// {
+//     $filePath = storage_path('app/public/' . $filename);
+
+//     if (file_exists($filePath)) {
+//         return response()->download($filePath, $filename);
+//     } else {
+//         abort(404, 'File not found');
+//     }
+// }
 
 }
 
