@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Front\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
-use App\Models\User; 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use  Illuminate\Support\Facades\Hash;
-use  Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
 use App\Models\Contractor;
+use App\Models\User;  // model
 
 
 
@@ -28,52 +28,40 @@ public function registerStepOne(Request $request){
 }
 
 
-
-
 public function register(Request $request)
 {
-    $user = new User;
-    $user->name = $request->name;
-    $user->email = $request->email;
-    $user->password = Hash::make($request->password);
-    $user->contact_number = $request->contact_number;
-    $user->zip_code = $request->zip_code;
+    $user                  = new User;
+    $user->name            = $request->name;
+    $user->email           = $request->email;
+    $user->password        = Hash::make($request->password);
+    $user->contact_number  = $request->contact_number;
+    $user->zip_code        = $request->zip_code;
 
     if ($request->areyoua === "customer") {
         $user->save();
-
-        $storagePath = 'customer_profile/';
-
+         $storagePath = 'customer_profile/';
         if (!File::exists($storagePath)) {
             File::makeDirectory($storagePath, 0755, true);
         }
-
         if ($request->hasFile('customer_profile')) {
             $image = $request->file('customer_profile');
             $imageName = \Str::random(3).time() . '.' . $image->getClientOriginalExtension();
-
             Storage::putFileAs($storagePath, $image, $imageName);
-
             $user->profile_image = $storagePath . $imageName;
             $user->save();
-            
-            
-
         }
-
         $user->sendEmailVerificationNotification();
-           \Log::info('Email verification notification sent.');
+           //\Log::info('Email verification notification sent.');
 
     } 
     if ($request->areyoua === "contractor") {
-    $profileImageName = null; 
+       $profileImageName = null; 
 
     if ($request->hasFile('profile_image')) {
         $profileImage = $request->file('profile_image');
         $profileImageName = time() . '_' . $profileImage->getClientOriginalName();
         $profileImage->storeAs('uploads/contractor_profile', $profileImageName);
     }
-    
     $portfolioPaths = [];
     
     if ($request->hasFile('uploadimagerecentwork')) {
@@ -84,15 +72,15 @@ public function register(Request $request)
         }
     }
     
-    $contractor = new Contractor;
-    $contractor->name = $request->name;
-    $contractor->email = $request->email;
-    $contractor->company_name = $request->companyname ?? '';
-    $contractor->password = bcrypt($request->password);
-    $contractor->contact_number = $request->contact_number;
-    $contractor->zip_code = $request->zip_code;
-    $contractor->profile_image = $profileImageName ? 'uploads/contractor_profile/' . $profileImageName : null;
-    $contractor->contractor_portfolio = $portfolioPaths;
+    $contractor                        = new Contractor;
+    $contractor->name                  = $request->name;
+    $contractor->email                 = $request->email;
+    $contractor->company_name          = $request->companyname ?? '';
+    $contractor->password              = bcrypt($request->password);
+    $contractor->contact_number        = $request->contact_number;
+    $contractor->zip_code              = $request->zip_code;
+    $contractor->profile_image         = $profileImageName ? 'uploads/contractor_profile/' . $profileImageName : null;
+    $contractor->contractor_portfolio  = $portfolioPaths;
     $contractor->save();
     }
     
