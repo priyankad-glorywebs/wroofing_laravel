@@ -1,4 +1,22 @@
 jQuery(document).ready(function() {
+	// body click hide navigation 
+	$(document).find('body').on('click', function(event) {
+		var clickedElement = $(event.target);
+		var hamburgerMenu = $(this).find('.hamburger-menu');
+		var navbarCollapse = $(this).find('.navbar-collapse');
+
+		if (!clickedElement.closest('.navbar-collapse').length) {
+			if (navbarCollapse.hasClass('navbar-collapse') && navbarCollapse.hasClass('show')) {
+				// Check if the clicked element does not have the class 'hamburger-menu' and 'open'
+				if (!clickedElement.hasClass('hamburger-menu') || !clickedElement.hasClass('open')) {
+					$('body').removeClass('menuopen');
+					// Remove the "open" class from hamburger menu and "show" class from navbar collapse
+					hamburgerMenu.removeClass('open');
+					navbarCollapse.removeClass('show');
+				}
+			} 
+		}
+	});
 	// Menu hamburger
 	$( '.hamburger-menu' ).on( 'click', function() {
 		$('body').toggleClass('menuopen');

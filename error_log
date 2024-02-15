@@ -1,0 +1,1 @@
+[13-Feb-2024 16:53:51 UTC] PHP Fatal error:  Cannot redeclare App\Http\Middleware\CustomAuthMiddleware::handle() in /home2/gloryweb/public_html/Laravel/wroofing_laravel/app/Http/Middleware/CustomAuthMiddleware.php on line 41

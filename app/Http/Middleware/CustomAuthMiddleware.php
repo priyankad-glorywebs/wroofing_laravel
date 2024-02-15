@@ -18,7 +18,7 @@ class CustomAuthMiddleware
     {
         if (Auth::check()) {
             $user = Auth::user();
-     if ($user->hasVerifiedEmail()) {
+            if ($user->hasVerifiedEmail()) {
                 if ($user instanceof \App\Models\User || $user instanceof \App\Models\Contractor) {
                     return $next($request);
                 }
