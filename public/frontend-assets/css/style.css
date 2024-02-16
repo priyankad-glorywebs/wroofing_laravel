@@ -253,7 +253,7 @@ input:focus + .input-icon svg path {stroke: #0A84FF;}
 .contractor-sec button:not(.collapsed) {color: #2C2C2E; background-color: #fff; box-shadow: none; border-bottom: 1px solid #F6F6F6;}
 .contractor-sec .accordion-item {border: none;}
 .contractor-sec .contractor-title-img {width: 61px; height: 61px; margin-top: -15px; margin-right: 20px;}
-.contractor-sec .contractor-title-img img {border-radius: 50px; border: 6px solid #fff; text-align: center;}
+.contractor-sec .contractor-title-img img {border-radius: 50px; border: 6px solid #fff; text-align: center; height: 100%;width: 100%;object-fit: cover;object-position: center center;}
 .contractor-sec .contractor-img-icon {width: 35px; height: 35px; background-color: #fff; padding: 7px; border-radius: 7px; position: absolute; bottom: 20px; right: 20px; cursor: pointer;}
 .contractor-sec .contractor-img-icon img {vertical-align: unset;}
 .contractor-sec .contractor-title {font-weight: 600;}
