@@ -83,7 +83,7 @@
                                         <label for="email">Email<span>*</span></label>
                                     </div>
                                     <div class="form-element">
-                                        <input type="email" name="email" placeholder="John doe">
+                                        <input type="email" name="email" placeholder="john@example.com">
                                     </div>
                                     @error('email')
                                     <span class="text-danger">{{ $message }}</span>
@@ -155,7 +155,7 @@
                                         <label for="contact_number">Contact number<span>*</span></label>
                                     </div>
                                     <div class="form-element">
-                                        <input type="number" name="contact_number" placeholder="John doe">
+                                        <input type="number" name="contact_number" placeholder="Enter Contact Number">
                                     </div>
                                     @error('contact_number')
                                     <span class="text-danger">{{ $message }}</span>
@@ -169,7 +169,7 @@
                                     </div>
                                    
                                     <div class="form-element">
-                                        <input type="number" name="zip_code" placeholder="John doe">
+                                        <input type="number" name="zip_code" placeholder="Enter Zip code">
                                     </div>
                                     @error('zip_code')
                                     <span class="text-danger">{{ $message }}</span>

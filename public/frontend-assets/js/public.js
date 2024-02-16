@@ -228,12 +228,12 @@ $("#register input[type='submit']").click(function () {
         // profile_image: {
         //     required: true,
         // },
-        contact_number: {
-            required: true,
-        },
-        zip_code: {
-            required: true,
-        },
+        // contact_number: {
+        //     required: true,
+        // },
+        // zip_code: {
+        //     required: true,
+        // },
     },
 	// submitHandler: function (form) {
 	// 	// console.log('teWe can go. No it's okay. It's not five minutes public.dest');

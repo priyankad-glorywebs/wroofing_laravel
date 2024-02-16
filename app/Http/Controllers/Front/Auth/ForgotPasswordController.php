@@ -33,7 +33,6 @@ class ForgotPasswordController extends Controller
         ]);
         
         $resetLink = url("/reset-password/{$token}");
-       // dd($resetLink);
         mail::to($email)->send(new ForgetPasswordEmail($resetLink));
         return back()->with('message', 'We have e-mailed your password reset link!');
         }catch (\Exception $exception) {

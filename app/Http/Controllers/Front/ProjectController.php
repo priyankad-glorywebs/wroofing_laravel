@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Project;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use App\Models\ProjectDocument;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Project; // model
+use App\Models\ProjectDocument; //model
 
 class ProjectController extends Controller
 {
@@ -26,36 +26,36 @@ class ProjectController extends Controller
     }
     public function create(Request $request, $project_id)
     {
-        return view(
-            "layouts.front.projects.project-details",
-            compact("project_id")
-        );
+        return view( "layouts.front.projects.project-details",compact("project_id"));
     }
 
     public function addProject(Request $request)
     {
+      // here i need a unique projectname user specific not for whole table 
         try {
             $validator = Validator::make($request->all(), [
                 // "projectname" => "required|string|max:255",
-                "projectname" => "required|string|max:255|unique:projects,name",
+                // "projectname" => "required|string|max:255|unique:projects,name",
+                "projectname" => "required|string|max:255|unique:projects,name,NULL,id,user_id," . auth()->id(),
+
 
             ]);
 
             if ($validator->fails()) {
                 return response()->json([
-                    "success" => false,
-                    "message" => "Validation failed",
-                    "errors" => $validator->errors(),
+                    "success"  => false,
+                    "message"  => "Validation failed",
+                    "errors"   => $validator->errors(),
                 ]);
             }
 
-            $project = new Project();
-            $project->name = $request->projectname;
-            $project->title = $request->projectname;
-            $project->user_id = auth()->id();
-            $project->created_by = auth()->id();
-            $project->updated_by = auth()->id();
-            $project->status = 0;
+            $project              = new Project();
+            $project->name        = $request->projectname;
+            $project->title       = $request->projectname;
+            $project->user_id     = auth()->id();
+            $project->created_by  = auth()->id();
+            $project->updated_by  = auth()->id();
+            $project->status      = 0;
             $project->save();
 
             return response()->json([
@@ -71,21 +71,17 @@ class ProjectController extends Controller
             ]);
         }
     }
+
     public function designStudio($project_id)
     {
-        return view(
-            "layouts.front.projects.steps.design-studio",
-            compact("project_id")
-        );
+        return view("layouts.front.projects.steps.design-studio",compact("project_id"));
     }
 
-    public function test()
-    {
-    }
+    public function test(){}
 
     public function removeImage(Request $request)
     {
-        $fileName = $request->input("file_name");
+        $fileName  = $request->input("file_name");
         $projectId = $request->input("project_id");
 
         Storage::disk("public")->delete("project_images/" . $fileName);
@@ -95,17 +91,15 @@ class ProjectController extends Controller
 
         if (is_array($imageArray) && in_array($fileName, $imageArray)) {
             $updatedImages = array_values(array_diff($imageArray, [$fileName]));
-
             $project->update(["project_image" => json_encode($updatedImages)]);
         }
-
         return response()->json(["message" => "Image removed successfully"]);
     }
 
     public function designStudioStore(Request $request, $project_id)
     {
         $project_id = base64_decode($project_id);
-        $project = Project::findOrFail($project_id);
+        $project    = Project::findOrFail($project_id);
 
         $projectImages = [];
 
@@ -132,41 +126,38 @@ class ProjectController extends Controller
     public function generalInformation($project_id)
     {
         $project_id = base64_decode($project_id);
-        return view(
-            "layouts.front.projects.steps.general-information",
-            compact("project_id")
-        );
+        return view("layouts.front.projects.steps.general-information",compact("project_id"));
     }
 
 
     public function generalInformationPost(Request $request, $project_id)
     {
         try {
-            $validatedData = $request->validate([
-                "title" => "required|string|max:255",
-                "address" => "required|string|max:255",
-                "insurancecompany" => "required|string|max:255",
-                "insuranceagency" => "required|string|max:255",
-                "billing" => "required|string|max:255",
-                "mortgagecompany" => "required|string|max:255",
+            $validatedData           = $request->validate([
+                "title"              => "required|string|max:255",
+                "address"            => "required|string|max:255",
+                "insurancecompany"   => "required|string|max:255",
+                "insuranceagency"    => "required|string|max:255",
+                "billing"            => "required|string|max:255",
+                "mortgagecompany"    => "required|string|max:255",
             ]);
 
             if (isset($project_id)) {
-                $project_id = base64_decode($project_id);
-                $project = Project::find($project_id);
+                $project_id              = base64_decode($project_id);
+                $project                 = Project::find($project_id);
             } else {
-                $project = new Project();
+                $project                 = new Project();
             }
-            $project->title = $request->title ?? "";
-            $project->address = $request->address ?? "";
-            $project->insurance_company = $request->insurancecompany ?? "";
-            $project->insurance_agency = $request->insuranceagency ?? "";
-            $project->billing = $request->billing ?? "";
-            $project->mortgage_company = $request->mortgagecompany ?? "";
-            $project->project_status = "Request";
-            $project->user_id = Auth::id() ?? "";
-            $project->created_by = Auth::id() ?? "";
-            $project->updated_by = Auth::id() ?? "";
+            $project->title              = $request->title ?? "";
+            $project->address            = $request->address ?? "";
+            $project->insurance_company  = $request->insurancecompany ?? "";
+            $project->insurance_agency   = $request->insuranceagency ?? "";
+            $project->billing            = $request->billing ?? "";
+            $project->mortgage_company   = $request->mortgagecompany ?? "";
+            $project->project_status     = "Request";
+            $project->user_id            = Auth::id() ?? "";
+            $project->created_by         = Auth::id() ?? "";
+            $project->updated_by         = Auth::id() ?? "";
             $project->save();
 
             $project_id = base64_encode($project_id);
@@ -175,49 +166,44 @@ class ProjectController extends Controller
             ]);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return redirect()
-                ->back()
-                ->withInput()
-                ->withErrors([
-                    "error" => "An error occurred while saving the data.",
-                ]);
+            return redirect()->back()->withInput()->withErrors(["error" => "An error occurred while saving the data.",]);
         }
     }
 
    
     public function documentation($project_id)
-{
-    $project_id = base64_decode($project_id);
-    $documents = $insurancedocuments = $mortgagedocuments = $contractordocuments = null;
+    {
+        $project_id    = base64_decode($project_id);
+        $documents     = $insurancedocuments = $mortgagedocuments = $contractordocuments = null;
 
-    $documentsData = ProjectDocument::where("project_id", $project_id)->get();
+        $documentsData = ProjectDocument::where("project_id", $project_id)->get();
 
-    foreach ($documentsData as $val) {
-        if ($val->document_name == "documents") {
-            $documents = pathinfo($val->document_file);
-        } elseif ($val->document_name == "insurancedocuments") {
-            $insurancedocuments = pathinfo($val->document_file);
-        } elseif ($val->document_name == "mortgagedocuments") {
-            $mortgagedocuments = pathinfo($val->document_file);
-        } elseif ($val->document_name == "contractordocuments") {
-            $contractordocuments = pathinfo($val->document_file);
+        foreach ($documentsData as $val) {
+            if ($val->document_name == "documents") {
+                $documents = pathinfo($val->document_file);
+            } elseif ($val->document_name == "insurancedocuments") {
+                $insurancedocuments = pathinfo($val->document_file);
+            } elseif ($val->document_name == "mortgagedocuments") {
+                $mortgagedocuments = pathinfo($val->document_file);
+            } elseif ($val->document_name == "contractordocuments") {
+                $contractordocuments = pathinfo($val->document_file);
+            }
         }
+
+        $data = compact(
+            "project_id",
+            "documents",
+            "insurancedocuments",
+            "mortgagedocuments",
+            "contractordocuments"
+        );
+
+        $data = array_filter($data, function ($value) {
+            return isset($value);
+        });
+
+       return view("layouts.front.projects.steps.documentation", $data);
     }
-
-    $data = compact(
-        "project_id",
-        "documents",
-        "insurancedocuments",
-        "mortgagedocuments",
-        "contractordocuments"
-    );
-
-    $data = array_filter($data, function ($value) {
-        return isset($value);
-    });
-
-    return view("layouts.front.projects.steps.documentation", $data);
-}
 
 
 public function documentationStore(Request $request, $project_id)
@@ -226,10 +212,7 @@ public function documentationStore(Request $request, $project_id)
         $project_id = base64_decode($project_id);
 
         if (!$project_id) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->withErrors(["error" => "Project ID not found."]);
+            return redirect()->back()->withInput()->withErrors(["error" => "Project ID not found."]);
         }
 
         $project = Project::find($project_id);
@@ -309,10 +292,10 @@ public function documentationStore(Request $request, $project_id)
 
 public function removeDocuments(Request $request)
 {
-    $file = $request->input('file');
+    $file       = $request->input('file');
     $removefile = 'project_documents_laststage/'.$file;
-    $projectId = $request->input('project_id');
-    $filePath = public_path('project_documents_laststage/' . $file);
+    $projectId  = $request->input('project_id');
+    $filePath   = public_path('project_documents_laststage/' . $file);
     if (file_exists($filePath)) {
         unlink($filePath);
     }
@@ -328,14 +311,12 @@ public function removeDocuments(Request $request)
 public function contractorProjectList(){
     $projects = Project::get();
     return view('layouts.front.projects.contractor.contractor-project-list',compact('projects'));
-
- 
 }
 
 public function projectDetailsContractor(Request $request, $project_id)
 {
-    $projectData = base64_decode($project_id);
-    $projectinfo = Project::where('id', $projectData)->first();
+    $projectData       = base64_decode($project_id);
+    $projectinfo       = Project::where('id', $projectData)->first();
     $project_documents = ProjectDocument::where('project_id', $projectinfo->id)->get();
 
     $documentdata = '';
@@ -361,16 +342,16 @@ public function projectDetailsContractor(Request $request, $project_id)
     return view('layouts.front.projects.contractor.details', compact('projectinfo', 'documentdata', 'contractordocuments', 'insurancedocuments', 'mortgagedocuments'));
 }
 
-// public function download($filename)
-// {
-//     $filePath = storage_path('app/public/' . $filename);
+public function download($filename)
+{
+    $filePath = storage_path('app/public/' . $filename);
 
-//     if (file_exists($filePath)) {
-//         return response()->download($filePath, $filename);
-//     } else {
-//         abort(404, 'File not found');
-//     }
-// }
+    if (file_exists($filePath)) {
+        return response()->download($filePath, $filename);
+    } else {
+        abort(404, 'File not found');
+    }
+}
 
 }
 
