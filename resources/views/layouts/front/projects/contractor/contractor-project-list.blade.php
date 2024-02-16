@@ -81,7 +81,15 @@
 												</div>
 											</div>
 										@else
-											<p>No images available</p>
+										<div class="col-12">
+												<div class="contractor-img-wrap">
+													<div class="contractor-img">
+														<img src="{{asset('frontend-assets/images/project-1.png')}}" alt="First Image" width="370" height="200">
+													</div>
+												</div>
+											</div>
+										
+		
 										@endif
 
                   
@@ -111,7 +119,14 @@
 														<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 															<div class="contractor-detail-title-wrap d-flex">
 																<div class="contractor-title-img">
-																	<img src="{{asset('frontend-assets/images/Ellipse 15.svg')}}" alt="contractor-img" width="55" height="">
+																	@php
+																	$userinfo = \App\Models\User::where('id',$project->user_id)->first();
+																	@endphp
+																	@if(isset($userinfo->profile_image))
+																	<img src="{{asset($userinfo->profile_image)}}" alt="contractor-img" width="55" height="">
+																@else	
+																	<img src="{{asset('frontend-assets/images/defaultimage.jpg')}}" alt="contractor-img" width="55" height="">
+																	@endif
 																</div>
 																<div class="contractor-title-main">
 																	<!-- <div class="contractor-title">Bob’s Roofing</div> -->
