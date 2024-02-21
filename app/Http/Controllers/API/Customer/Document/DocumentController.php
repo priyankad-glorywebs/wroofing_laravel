@@ -127,7 +127,7 @@ class DocumentController extends BaseController
             $file = $request->file('document_file');
             $document_file = $file->store('project_documents');
 
-            $project_documents = Document::create([
+            $project_documents = ProjectDocument::create([
 
                 'document_name' => $request->input('document_name'),
                 'project_id' => $request->input('project_id'),

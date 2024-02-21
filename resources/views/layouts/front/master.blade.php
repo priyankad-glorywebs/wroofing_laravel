@@ -84,16 +84,26 @@
 
 				<div class="navbar-collapse header-right">
 					<ul id="desktop" class="navbar-nav mainmenu align-items-start align-items-lg-center">
-					@if(isset($user))
+					@php	
+					$contractor = auth()->guard('contractor')->user();
+					@endphp
+
+						@if($contractor)
 						<li class="nav-item">
-							<a class="nav-link" href="{{route('project.list')}}">Your project</a>
+							<a class="nav-link" href="{{route('contractor.dashboard')}}">Your project</a>
 						</li>
+
+					@elseif(isset($user))
+						
 						{{--<li class="nav-item">
 							<a class="nav-link" href="#">General Information</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="#">Design Studio</a>
 						</li>--}}
+						<li class="nav-item">
+							<a class="nav-link" href="{{route('project.list')}}">Your project</a>
+						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="{{ route('contractor.list') }}">Contractor</a>
 						</li>

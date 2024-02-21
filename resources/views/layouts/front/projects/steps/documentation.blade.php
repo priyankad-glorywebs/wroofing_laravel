@@ -70,8 +70,6 @@
 										<div class="field-wrap">	
 											<div class="form-element">
 												<div class="upload-img-wrap">
-
-
 													<input id="documents" type="file" name="documents" accept="image/jpg, image/jpeg, image/png">
 													<label for="documents">
 													
