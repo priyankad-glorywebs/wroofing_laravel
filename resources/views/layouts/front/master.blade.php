@@ -27,8 +27,9 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('frontend-assets/css/owl.carousel.min.css')}}">
 	<!-- Custom CSS -->
 	<link rel="stylesheet" type="text/css" href="{{asset('frontend-assets/css/style.css')}}">
-
-    
+	<!-- magnific CSS -->
+	<link rel="stylesheet" type="text/css" href="{{asset('frontend-assets/css/magnific-popup.css')}}">
+		
     <!-- Allow child views to include additional CSS -->
     @yield('css')
 </head>
@@ -149,8 +150,9 @@
 	<script src="{{asset('frontend-assets/js/owl.carousel.min.js')}}"></script>
 	<!-- Custom JS -->
 	<script src="{{asset('frontend-assets/js/public.js')}}"></script>
-
-    <!-- Allow child views to include additional scripts -->
+	<!-- Allow child views to include additional scripts -->
+	<script src="{{asset('frontend-assets/js/jquery.magnific-popup.min.js')}}"></script>
+	
     @yield('scripts')
 </body>
 </html>

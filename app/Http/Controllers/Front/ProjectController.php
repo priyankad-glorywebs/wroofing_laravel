@@ -342,15 +342,30 @@ public function projectDetailsContractor(Request $request, $project_id)
     return view('layouts.front.projects.contractor.details', compact('projectinfo', 'documentdata', 'contractordocuments', 'insurancedocuments', 'mortgagedocuments'));
 }
 
+// public function download($filename)
+// {
+//     dd($filename);
+//     $filePath = storage_path('app/public/' . $filename);
+
+//     if (file_exists($filePath)) {
+//         return response()->download($filePath, $filename);
+//     } else {
+//         abort(404, 'File not found');
+//     }
+// }
+
 public function download($filename)
 {
     $filePath = storage_path('app/public/' . $filename);
 
     if (file_exists($filePath)) {
-        return response()->download($filePath, $filename);
+        $headers = [
+            'Content-Type' => 'image/*',
+        ];
+        return response()->download($filePath, $filename, $headers);
     } else {
         abort(404, 'File not found');
-    }
+}
 }
 
 }
