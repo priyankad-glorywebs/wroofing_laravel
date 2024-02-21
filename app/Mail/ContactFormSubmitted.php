@@ -52,4 +52,6 @@ class ContactFormSubmitted extends Mailable
     {
         return [];
     }
+
+    
 }
