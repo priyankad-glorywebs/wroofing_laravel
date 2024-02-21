@@ -39,6 +39,7 @@ class ComposerStaticInit820dd1989754e9d38b7b38ecccba2ec9
         'a1cfe24d14977df6878b9bf804af2d1c' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Autoload.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         '320163ac6b93aebe3dc25b60a0533d56' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/helpers.php',
+        'be2dabd89e6571c763d3c521b1c3701e' => __DIR__ . '/../..' . '/app/Helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -537,6 +538,11 @@ class ComposerStaticInit820dd1989754e9d38b7b38ecccba2ec9
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Controllers\\API\\Customer\\Document\\DocumentController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/Customer/Document/DocumentController.php',
+        'App\\Http\\Controllers\\API\\Customer\\GeneralInformationController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/Customer/GeneralInformationController.php',
+        'App\\Http\\Controllers\\API\\Customer\\ProjectListController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/Customer/ProjectListController.php',
+        'App\\Http\\Controllers\\API\\Customer\\UserLoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/Customer/UserLoginController.php',
+        'App\\Http\\Controllers\\API\\Customer\\UserRegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/API/Customer/UserRegisterController.php',
         'App\\Http\\Controllers\\Auth\\LoginRegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginRegisterController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\CustomVerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/CustomVerificationController.php',
@@ -551,6 +557,7 @@ class ComposerStaticInit820dd1989754e9d38b7b38ecccba2ec9
         'App\\Http\\Controllers\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/VerificationController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
+        'App\\Http\\Middleware\\ContractorMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/ContractorMiddleware.php',
         'App\\Http\\Middleware\\CustomAuthMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/CustomAuthMiddleware.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\PreventRequestsDuringMaintenance' => __DIR__ . '/../..' . '/app/Http/Middleware/PreventRequestsDuringMaintenance.php',

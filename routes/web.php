@@ -23,6 +23,10 @@ Route::get('/clear-cache', function () {
  return 'Cache cleared successfully.';
 });
 
+//contact us page && term and condition page  guest routes
+Route::get('/contact-us',[ContactusController::class,'contactus'])->name('contact-us');
+Route::post('contact/store',[ContactusController::class,'store'])->name('contact.submit');
+Route::get('terms-and-conditions',[ContactusController::class,'term'])->name('term.and.condition');
 /*********************************************************/
 //   -------------Authentication Routes ----------------
 /*********************************************************/
@@ -104,7 +108,7 @@ Route::post('/documentation/{project_id}',[ProjectController::class,'documentati
 Route::post('remove/documents',[ProjectController::class,'removeDocuments'])->name('remove.document');
 
 // contarctor list 
-Route::get('contractor',[ContractorController::class,'index'])->name('contractor.list');
+Route::get('contractor/list',[ContractorController::class,'index'])->name('contractor.list');
 
 //project details page for contractor projects  details page 
 
@@ -127,7 +131,3 @@ Route::get('/home', function () {
 /*********************************************************/
 //   ------------- Guest Routes ----------------
 /*********************************************************/
-//contact us page && term and condition page  guest routes
-Route::get('contact-us',[ContactusController::class,'contactus'])->name('contact-us');
-Route::post('contact/store',[ContactusController::class,'store'])->name('contact.submit');
-Route::get('terms-and-conditions',[ContactusController::class,'term'])->name('term.and.condition');
