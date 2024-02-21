@@ -16,6 +16,8 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('frontend-assets/css/owl.carousel.min.css')}}">
 	<!-- Custom CSS -->
 	<link rel="stylesheet" type="text/css" href="{{asset('frontend-assets/css/style.css')}}">
+	<!-- jQuery JS -->
+	<script src="{{ asset('frontend-assets/js/jquery-3.7.1.min.js')}}"></script>
 	<style>
 		.error{
 			color:red;
@@ -241,9 +243,6 @@
 		</div>
 	</section>--}}
 
-
-	<!-- jQuery JS -->
-	<script src="{{ asset('frontend-assets/js/jquery-3.7.1.min.js')}}"></script>
 	<!-- Bootstrap JS -->
 	<script src="{{ asset('frontend-assets/js/bootstrap.bundle.min.js')}}"></script>
 	<!-- Owl Carousel JS -->
