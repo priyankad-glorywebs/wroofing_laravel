@@ -25,10 +25,11 @@
 <link rel="stylesheet" type="text/css" href="{{asset('frontend-assets/css/bootstrap.min.css')}}">
 	<!-- Owl Carousel CSS -->
 	<link rel="stylesheet" type="text/css" href="{{asset('frontend-assets/css/owl.carousel.min.css')}}">
+		<!-- magnific CSS -->
+		<link rel="stylesheet" type="text/css" href="{{asset('frontend-assets/css/magnific-popup.css')}}">
 	<!-- Custom CSS -->
 	<link rel="stylesheet" type="text/css" href="{{asset('frontend-assets/css/style.css')}}">
-	<!-- magnific CSS -->
-	<link rel="stylesheet" type="text/css" href="{{asset('frontend-assets/css/magnific-popup.css')}}">
+
 		
     <!-- Allow child views to include additional CSS -->
     @yield('css')
@@ -49,6 +50,9 @@
 				@php
 				$user = Auth::user();
 				@endphp
+				@php	
+					$contractor = auth()->guard('contractor')->user();
+					@endphp
 				<!-- @if(isset($user)) -->
 				<div class="notification-wrap ms-auto">
 					{{--<div class="notification-icon">
@@ -59,7 +63,7 @@
 				
 				<div class="profile-detail-wrap d-none d-lg-flex align-items-center">
 					
-
+						
 					<div class="profile-image">
 						@if(isset($user->profile_image) && $user->profile_image == "" && $user->profile_image == null)
 							<img id="userProfileImage" src="{{ asset($user->profile_image) }}"  alt="Profile Image" width="47" height="47">
@@ -70,7 +74,12 @@
 					</div>
 					<div class="profile-detail">
 						<div class="profile-username">Hello, {{$user->name}}</div>
-						<div class="viewprofile-link"><a href="#">View profile</a></div>
+						@if($contractor)
+						<div class="viewprofile-link"><a href="{{route('contractor.profile')}}">View profile</a></div>
+						@elseif($user)
+						<div class="viewprofile-link"><a href="{{route('customer.profile')}}">View profile </a></div>
+
+						@endif
 					</div>
 				</div>
 				
@@ -84,9 +93,7 @@
 
 				<div class="navbar-collapse header-right">
 					<ul id="desktop" class="navbar-nav mainmenu align-items-start align-items-lg-center">
-					@php	
-					$contractor = auth()->guard('contractor')->user();
-					@endphp
+					
 
 						@if($contractor)
 						<li class="nav-item">
@@ -158,10 +165,11 @@
 	<script src="{{asset('frontend-assets/js/bootstrap.bundle.min.js')}}"></script>
 	<!-- Owl Carousel JS -->
 	<script src="{{asset('frontend-assets/js/owl.carousel.min.js')}}"></script>
+		<!-- Allow child views to include additional scripts -->
+		<script src="{{asset('frontend-assets/js/jquery.magnific-popup.min.js')}}"></script>
 	<!-- Custom JS -->
 	<script src="{{asset('frontend-assets/js/public.js')}}"></script>
-	<!-- Allow child views to include additional scripts -->
-	<script src="{{asset('frontend-assets/js/jquery.magnific-popup.min.js')}}"></script>
+
 	
     @yield('scripts')
 </body>

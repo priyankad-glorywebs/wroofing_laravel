@@ -2,6 +2,62 @@
 @section('title', 'Design Studio')
  
 @section('content')
+@section('css')
+
+<style>
+	.contractor-sec .project-detail-tabs .project-detail-photos-item-img {height:100%;}
+    .contractor-sec .project-detail-tabs .project-detail-photos-item-img img {height: 100%; width: 100%; object-fit: cover; object-position: center center;}
+	.contractor-sec .project-detail-tabs .project-detail-photos-item .image-gallery-popup, 
+	.contractor-sec .project-detail-tabs .video_container,
+	.contractor-sec .project-detail-tabs .project-detail-photos-item video {width: 100%; height: 100%;}
+	.contractor-sec .project-detail-tabs .project-detail-photos-item .lightbox {height:200px;}
+	.contractor-sec .project-detail-tabs .project-detail-photos-item video {background-color:#000;}
+	
+    .contractor-sec{padding :14px 0;}
+</style>
+@endsection
+
+<div class="breadcrumb-title-wrap">
+
+<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<ol class="breadcrumb m-0">
+						<li class="breadcrumb-item"><a href="{{route('contractor.dashboard')}}"><svg width="5" height="9" viewBox="0 0 5 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.13654 8L1.25522 5.11869C0.914945 4.77841 0.914945 4.22159 1.25522 3.88131L4.13654 1" stroke="#0A84FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</a></li>
+					</ol>
+				</div>
+			</div>
+			<div class="row d-lg-none mt-4">
+				<div class="col-12">
+					<div class="signin-notes">Request a quote</div>
+				</div>
+			</div>
+			<div class="row breadcrumb-title">
+				<div class="col-12 col-lg-8">
+					<div class="section-title">{{$projectinfo->title??Projects}}</div>
+					<div class="section-subtitle d-none d-lg-block">The contractors on this list are held to the highest standards and are local to your exact area. <br class="d-none d-lg-block">
+					We only partner with the top contractors in your area and will back their warranty if anything ever happens.</div>
+				</div>
+				<div class="col-12 col-lg-4 text-end">
+					<div class="section-subtitle d-lg-none">The contractors on this list are held to the highest standards and are local to your exact area. <br class="d-none d-lg-block">
+					We only partner with the top contractors in your area and will back their warranty if anything ever happens.</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12">
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+						<li class="nav-item" role="presentation">
+							<button class="nav-link active" id="contractor-list-tab" data-bs-toggle="tab" data-bs-target="#contractor-list-tab-pane" type="button" role="tab" aria-controls="contractor-list-tab-pane" aria-selected="true">Projects list</button>
+						</li>
+						<li class="nav-item" role="presentation">
+							<button class="nav-link" id="view-quotes-tab" data-bs-toggle="tab" data-bs-target="#view-quotes-tab-pane" type="button" role="tab" aria-controls="view-quotes-tab-pane" aria-selected="false">View quotes</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 
 <section class="contractor-sec">
 		<div class="container">
@@ -36,7 +92,6 @@
 																<div class="contractor-img">
 																	<img src="{{ asset('storage/project_images/'.$images[0]) }}" alt="contractor" width="370" height="200">
 																</div>
-
 																<div class="contractor-img-icon" data-bs-toggle="modal" data-bs-target="#gallerypopup">
 																	<img src="{{asset('frontend-assets/images/img-icon.svg')}}" alt="img-icon" width="32" height="32">
 																</div>
@@ -45,7 +100,63 @@
 														</div>
 													</div>
 												</div>
+												{{-- old code <div class="row">
+															@if(isset($images) && is_array($images) && count($images) > 0)
+															@foreach($images as $img)
+															<div class="col-6 col-md-4 col-lg-3">
+														     <div class="project-detail-photos-item">
+																@if(is_video_file($img))
+																<a class="image-gallery-popup" href="{{ $img }}">
+																	<video width="170" height="150" controls>
+																		<source src="{{ asset('storage/project_images/'.$img) }}" type="video/mp4">
+																		Your browser does not support the video tag.
+																	</video>
+																</a>
+																
+																@else
+																<div class="project-detail-photos-item-img">
+																	<img src="{{ asset('storage/project_images/'.$img) }}" alt="project-photos" width="270" height="230">
+																</div>
+															@endif
+															</div>
+													        </div>
+															@endforeach
+															@endif
+												</div>--}}
+
 												<div class="row">
+        												@if(isset($images) && is_array($images) && count($images) > 0)
+        												@foreach($images as $img)
+        												<div class="col-6 col-md-4 col-lg-3">
+        													<div class="project-detail-photos-item">
+        														@if(is_video_file($img))
+        															<div class="video_container">
+        															<a class="image-gallery-popup video_model" href="{{ asset('storage/project_images/'.$img) }}">
+        																<video width="170" height="150" controls>
+        																	<source src="{{ asset('storage/project_images/'.$img) }}" type="video/mp4">
+        																		Your browser does not support the video tag.
+        																</video>
+        															</a>
+        															</div>
+        														@else
+        														<div class="gallery_container">
+        													    <div class="project-detail-photos-item-img ">
+        													        <a class="lightbox" href="{{ asset('storage/project_images/'.$img) }}">
+        														        <img src="{{ asset('storage/project_images/'.$img) }}" alt="project-photos" width="270" height="230">
+        														    </a>
+        														</div>
+        														</div>
+        														@endif
+        													</div>
+        												</div>
+        												@endforeach
+        												@endif
+    												</div>
+												
+
+											
+												
+												{{--<div class="row">
 													<div class="col-6 col-md-4 col-lg-3">
 														<div class="project-detail-photos-item">
 															<div class="project-detail-photos-item-img">
@@ -78,7 +189,7 @@
 															<div class="project-detail-photos-item-title">Gutter types and accessories</div>
 														</div>
 													</div>
-												</div>
+												</div>--}}
 												<div class="row justify-content-center">
 													<div class="col-12 col-md-6 col-lg-4">
 														<a class="btn-primary d-block" id="designStudiotab" href="javascript:void(0)">Next</a>
@@ -411,7 +522,7 @@
 							<button class="btn-gallery-filter" data-category="recentwork">Recent work</button>
 						</div>
 						<div class="items">
-										@if(isset($images) && is_array($images) && count($images) > 0)
+									{{--	@if(isset($images) && is_array($images) && count($images) > 0)
                                 @foreach($images as $img)
                             <div class="item" data-category="images">
                                     <a class="image-gallery-popup" href="{{asset('frontend-assets/images/gallery-img-1.png')}}">
@@ -419,12 +530,37 @@
                                     </a>
                             </div>
                             @endforeach
-                            @endif
+                            @endif--}}
+
+					@if(isset($images) && is_array($images) && count($images) > 0)
+						@foreach($images as $img)
+								@if(is_video_file($img))
+								<div class="item" data-category="{{ is_video_file($img) ? 'video' : 'images' }}">
+								<a class="image-gallery-popup" href="{{ $img }}">
+										<video width="170" height="150" controls>
+											<source src="{{ asset('storage/project_images/'.$img) }}" type="video/mp4">
+											Your browser does not support the video tag.
+										</video>
+									</a>
+								</div>
+								@else
+								<div class="item">
+									<a class="image-gallery-popup" href="{{ asset('storage/project_images/'.$img) }}">
+										<img src="{{ asset('storage/project_images/'.$img) }}" alt="gallery-img" width="170" height="150">
+									</a>
+								</div>
+								@endif
+						@endforeach
+					@endif
+
+					initialize the magnificPopup js for this images and videos 
+
+
 							{{--<div class="item" data-category="images">
 								<a class="image-gallery-popup" href="{{asset('frontend-assets/images/gallery-img-1.png')}}">
 									<img src="{{asset('frontend-assets/images/gallery-img-1.png')}}" alt="gallery-img" width="170" height="150">
 								</a>
-							</div>--}}
+							</div>
 
 							<div class="item" data-category="video">
 								<a class="image-gallery-popup video" href="https://www.youtube.com/watch?v=LXb3EKWsInQ">
@@ -436,7 +572,7 @@
 								<a class="image-gallery-popup video" href="https://www.youtube.com/watch?v=LXb3EKWsInQ">
 									<img src="{{asset('frontend-assets/images/gallery-img-3.png')}}" alt="gallery-img" width="170" height="150">
 								</a>
-							</div>
+							</div>--}}
 
 							{{--<div class="item" data-category="images recentwork">
 								<a class="image-gallery-popup" href="images/gallery-img-4.png">
@@ -656,14 +792,62 @@
 
 @section('scripts')
 <script>
+/* Video Popup*/
+jQuery(document).ready(function ($) {
+  // Define App Namespace
+  var popup = {
+    // Initializer
+    init: function() {
+      popup.popupVideo();
+    },
+    popupVideo : function() {
+
+    $('.video_model').magnificPopup({
+    type: 'iframe',
+    mainClass: 'mfp-fade',
+    removalDelay: 160,
+    preloader: false,
+    fixedContentPos: false,
+    gallery: {
+          enabled:true
+        }
+  });
+
+/* Image Popup*/ 
+ $('.gallery_container').magnificPopup({
+      delegate: 'a',
+    type: 'image',
+    mainClass: 'mfp-fade',
+    removalDelay: 160,
+    preloader: false,
+    fixedContentPos: false,
+    gallery: {
+          enabled:true
+        }
+  });
+
+    }
+  };
+  popup.init($);
+});
+
+
 $('#generalinfotab').on("click",function(){
 	$('#nav-general-info').removeClass('show active');
 	$('#nav-design-studio').addClass('show active');
+
+	$('#nav-general-info-tab').removeClass('active');
+	$('#nav-design-studio-tab').addClass('active');
+
 })
 
 $('#designStudiotab').on("click",function(){
 	$('#nav-design-studio').removeClass('show active');
 	$('#nav-documentation').addClass('show active');
+
+
+	$('#nav-design-studio-tab').removeClass('active');
+	$('#nav-documentation-tab').addClass('active');
 })
 
 

@@ -25,9 +25,9 @@ jQuery(document).ready(function() {
 		$('.navbar-overlay').toggleClass('show');
 	});
 
-	$(".documentation-download-item").click(function(){
-		$(this).find(".documentation-download-btn-wrap").slideToggle();
-	});
+	// $(".documentation-download-item").click(function(){
+	// 	$(this).find(".documentation-download-btn-wrap").slideToggle();
+	// });
 	
 	$("#editquotepopup a").click(function(){
 		$("#editquotepopup").modal("hide");
@@ -218,6 +218,8 @@ $("#register input[type='submit']").click(function () {
         },
         email: {
             required: true,
+			email: true
+
         },
         password: {
             required: true,
