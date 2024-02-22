@@ -10,8 +10,6 @@ use Illuminate\Validation\ValidationException;
 
 class UserRegisterController extends BaseController
 {
-    //
-
     public function userregister(Request $request)
     {
 
