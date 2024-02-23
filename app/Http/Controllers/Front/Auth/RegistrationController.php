@@ -30,7 +30,6 @@ public function registerStepOne(Request $request){
 
     public function register(Request $request)
     {
-
         $user                  = new User;
         $user->name            = $request->name;
         $user->email           = $request->email;
@@ -84,7 +83,7 @@ public function registerStepOne(Request $request){
         $contractor->contractor_portfolio  = $portfolioPaths;
         $contractor->save();
 
-        // $contractor->sendEmailVerificationNotification();
+        $contractor->sendEmailVerificationNotification();
 
         }
         

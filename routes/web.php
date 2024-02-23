@@ -4,6 +4,7 @@ use App\Http\Controllers\Front\Auth\LoginController;
 use App\Http\Controllers\Front\Auth\RegistrationController;
 use App\Http\Controllers\Front\Auth\ForgotPasswordController;
 use App\Http\Controllers\Front\Auth\ResetPasswordController;
+use App\Http\Controllers\Front\ChangePasswordController;
 use App\Http\Controllers\Front\ProjectController;
 use App\Http\Controllers\Front\ContactusController;
 use App\Http\Controllers\Front\ContractorController;
@@ -11,6 +12,10 @@ use App\Http\Contractors\Front\ProfileContaroller;
 //use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\CustomVerificationController;
 use App\Http\Controllers\DropzoneController;
+/* start google / facebook */
+use App\Http\Controllers\SocialFacebookController;
+use App\Http\Controllers\SocialGoogleController;
+/* end google / facebook */
 use Illuminate\Support\Facades\Artisan;
 
 use App\Http\Controllers\Front\Auth\ContractorLoginContraoller;
@@ -27,8 +32,23 @@ Route::get('/clear-cache', function () {
     Artisan::call('config:clear');
     Artisan::call('route:clear');
     Artisan::call('view:clear');
- return 'Cache cleared successfully.';
+    Artisan::call('optimize:clear');
+    echo '<pre>';
+    echo Artisan::output();
+    echo '</pre>';
 });
+
+/*********************************************************/
+//   -------------Authentication Google Sign In -----------
+/*********************************************************/
+Route::get('/login/google', [SocialGoogleController::class, 'redirectToGoogle']);
+Route::get('/login/google/callback', [SocialGoogleController::class, 'handleGoogleCallback']);
+
+/*********************************************************/
+//   -------------Authentication Facebook Sign In -----------
+/*********************************************************/
+Route::get('/login/facebook', [SocialFacebookController::class, 'redirectToFacebook'])->name('login.facebook');
+Route::get('/login/facebook/callback', [SocialFacebookController::class, 'handleFacebookCallback']);
 
 //contact us page && term and condition page  guest routes
 Route::get('/contact-us',[ContactusController::class,'contactus'])->name('contact-us');
@@ -56,7 +76,9 @@ Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
 
-
+// change password
+Route::get('change-password',[ChangePasswordController::class,'index'])->name('front.password.index');
+Route::post('front-update-password',[ChangePasswordController::class,'changePassword'])->name('front.password.update');
 
 /*********************************************************/
 //   -------------Authentication customer  Routes ----------------
@@ -201,4 +223,3 @@ Route::get('/home', function () {
 /*********************************************************/
 //   ------------- Guest Routes ----------------
 /*********************************************************/
-
