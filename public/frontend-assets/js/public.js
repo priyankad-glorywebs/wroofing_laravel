@@ -346,6 +346,28 @@ $("#register input[type='submit']").click(function () {
 		});
 	});
 
+	// Change Password
+	$("#changepassword button[type='submit']").click(function () {
+		var form = $("#changepassword");
+		form.validate({
+			errorElement: 'span',
+			errorClass: 'help-block',
+			rules: {
+				cpassword   : {'required': true},
+				mpassword   : {'required': true},
+				cfmpassword : {
+				  required: true,
+				  equalTo: "#mpassword",
+				},
+			},
+			messages: {
+				cfmpassword  : {
+					equalTo    : "The password confirmation does not match.",
+				},
+			},
+		});
+	});
+
 	// Construction
 	$("#construction button[type='submit']").click(function () {
 		var form = $("#construction");

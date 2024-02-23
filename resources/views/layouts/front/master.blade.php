@@ -121,6 +121,12 @@
 							<a class="nav-link" href="#">Documentation</a>
 						</li>--}}
 						@endif
+
+						@if(isset($user) && isset(Auth::user()->password))
+						<li class="nav-item">
+							<a class="nav-link" href="{{route('front.password.index')}}">Change Password</a>
+						</li>
+						@endif
 						<li class="nav-item">
 							<a class="nav-link" href="#">Reviews</a>
 						</li>

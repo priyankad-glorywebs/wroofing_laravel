@@ -46,6 +46,11 @@ Route::get('/login/facebook/callback', [SocialFacebookController::class, 'handle
 Route::get('/contact-us',[ContactusController::class,'contactus'])->name('contact-us');
 Route::post('contact/store',[ContactusController::class,'store'])->name('contact.submit');
 Route::get('terms-and-conditions',[ContactusController::class,'term'])->name('term.and.condition');
+
+// change password
+Route::get('change-password',[ChangePasswordController::class,'index'])->name('front.password.index');
+Route::post('front-update-password',[ChangePasswordController::class,'changePassword'])->name('front.password.update');
+
 /*********************************************************/
 //   -------------Authentication Routes ----------------
 /*********************************************************/
