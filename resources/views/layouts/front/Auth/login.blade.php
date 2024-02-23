@@ -29,6 +29,10 @@
 
 							<form id="loginform" method="POST" action="{{route('login')}}" enctype="multipart/form-data">
 								@csrf
+							
+
+
+								
 								<div class="row">
 									<div class="form-group col-12">
 										<div class="field-wrap">
@@ -38,7 +42,7 @@
 											<div class="form-element">
 												<input type="email" name="email" 
 												
-													@if(isset($_COOKIE["eamil"])) 
+													@if(isset($_COOKIE["email"])) 
 														value="{{ $_COOKIE['email'] }}"
 													@endif
 												placeholder="Enter your email address">
