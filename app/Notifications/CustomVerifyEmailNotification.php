@@ -17,7 +17,6 @@ class CustomVerifyEmailNotification extends Notification
         $verificationUrl = URL::temporarySignedRoute(
             'verification.customVerify', now()->addMinutes(60), ['id' => $notifiable->getKey()]
         );
-
         return (new MailMessage)
             ->subject('Custom Email Verification')
             ->line('Please click the button below to verify your email address.')

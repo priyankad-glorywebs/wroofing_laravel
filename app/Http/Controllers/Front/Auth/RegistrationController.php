@@ -28,7 +28,7 @@ public function registerStepOne(Request $request){
 }
 
 
-    public function register(RegisterRequest $request)
+    public function register(Request $request)
     {
 
         $user                  = new User;
@@ -56,7 +56,7 @@ public function registerStepOne(Request $request){
 
         } 
         if ($request->areyoua === "contractor") {
-        $profileImageName = null; 
+        $profileImageName = null;
 
         if ($request->hasFile('profile_image')) {
             $profileImage = $request->file('profile_image');
@@ -83,6 +83,9 @@ public function registerStepOne(Request $request){
         $contractor->profile_image         = $profileImageName ? 'uploads/contractor_profile/' . $profileImageName : null;
         $contractor->contractor_portfolio  = $portfolioPaths;
         $contractor->save();
+
+        // $contractor->sendEmailVerificationNotification();
+
         }
         
         return view("layouts.front.Auth.register-thankyou");

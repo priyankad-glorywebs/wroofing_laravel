@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 use Carbon\Carbon; 
 use App\Models\User;
+use App\Models\Contractor;
 
 class ResetPasswordController extends Controller
 {
@@ -19,16 +20,23 @@ class ResetPasswordController extends Controller
     public function showResetPasswordForm($token) { 
        try{
         $data =  PasswordReset::where('token',$token)->first();
+        
         return view('layouts.front.Auth.resetpassword', ['data' => $data]);
         }catch (\Exception $exception) {
             return redirect()->route('error.page')->with('error', 'An unexpected error occurred.');
         }
       }
  
- public function submitResetPasswordForm(ResetPasswordRequest $request)
+//  public function submitResetPasswordForm(ResetPasswordRequest $request)
+public function submitResetPasswordForm(Request $request)
  {
-   
-   $passwordReset = DB::table('password_resets')
+    $user = User::where('email',$request->email)->first();
+    // dd($user);
+    $contractor = Contractor::where('email',$request->email)->first();
+    // dd($contractor);
+
+    if(isset($contractor) || isset($user) || $contractor !== ''  || $user !== '' || $contractor !== NULL || $user !== NULL ){
+    $passwordReset = DB::table('password_resets')
          ->where('email', $request->email)
          ->where('token', $request->token)
          ->first();
@@ -37,13 +45,26 @@ class ResetPasswordController extends Controller
          return back()->withInput()->with('error', 'Invalid or expired token!');
      }
  
-     User::where('email', $request->email)
+     if($user){
+     User::where('email', $user->email)
          ->update(['password' => Hash::make($request->password)]);
- 
+     }
+
+     if($contractor){
+     Contractor::where('email',$contractor->email)
+                 ->update(['password' => Hash::make($request->password)]);
+
+     }
+     //dd($this->getRouter()->getCurrentRoute()->getPrefix());
+
      DB::table('password_resets')->where('email', $request->email)->delete();
  
-     return redirect('/login')->with('message', 'Your password has been changed!');
+     return redirect('customer/login')->with('message', 'Your password has been changed!');
+    }else {
+        return back()->with('error','something went wrong');
+    }
  }
+ 
  
  protected function tokenValid($passwordReset)
  {

@@ -13,9 +13,23 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Project; // model
 use App\Models\ProjectDocument; //model
+use App\Models\Contractor; //Model
+use App\Models\User; //Model
+
+use App\Repositories\ProjectRepository;
+
+
 
 class ProjectController extends Controller
 {
+
+private $projectRepository;
+
+public function __construct(ProjectRepository $projectRepository)
+{
+    $this->projectRepository = $projectRepository;
+}
+
     public function list()
     {
         // $projects = Project::orderBy("id", "desc")
@@ -29,48 +43,101 @@ class ProjectController extends Controller
         return view( "layouts.front.projects.project-details",compact("project_id"));
     }
 
+    // public function addProject(Request $request)
+    // {
+    //   // here i need a unique projectname user specific not for whole table 
+    //     try {
+    //         $validator = Validator::make($request->all(), [
+    //             // "projectname" => "required|string|max:255",
+    //             // "projectname" => "required|string|max:255|unique:projects,name",
+    //             "projectname" => "required|string|max:255|unique:projects,name,NULL,id,user_id," . auth()->id(),
+
+
+    //         ]);
+
+    //         if ($validator->fails()) {
+    //             return response()->json([
+    //                 "success"  => false,
+    //                 "message"  => "Validation failed",
+    //                 "errors"   => $validator->errors(),
+    //             ]);
+    //         }
+
+    //         $project              = new Project();
+    //         $project->name        = $request->projectname;
+    //         $project->title       = $request->projectname;
+    //         $project->user_id     = auth()->id();
+    //         $project->created_by  = auth()->id();
+    //         $project->updated_by  = auth()->id();
+    //         $project->status      = 0;
+    //         $project->save();
+
+    //         return response()->json([
+    //             "success" => true,
+    //             "message" => "Project created successfully",
+    //             "data" => $project->id,
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             "success" => false,
+    //             "message" => "something went wrong",
+    //             "error" => $e->getMessage(),
+    //         ]);
+    //     }
+    // }
+
     public function addProject(Request $request)
     {
-      // here i need a unique projectname user specific not for whole table 
         try {
             $validator = Validator::make($request->all(), [
-                // "projectname" => "required|string|max:255",
-                // "projectname" => "required|string|max:255|unique:projects,name",
-                "projectname" => "required|string|max:255|unique:projects,name,NULL,id,user_id," . auth()->id(),
+                "projectname" => [
+                    "required",
+                    "string",
+                    "max:255",
+                    function ($attribute, $value, $fail) {
+                        $isUnique = $this->projectRepository->isProjectNameUnique($value, auth()->id());
 
-
+                        if (!$isUnique) {
+                            $fail("The $attribute has already been taken for this user.");
+                        }
+                    },
+                ],
             ]);
 
             if ($validator->fails()) {
                 return response()->json([
-                    "success"  => false,
-                    "message"  => "Validation failed",
-                    "errors"   => $validator->errors(),
+                    "success" => false,
+                    "message" => "Validation failed",
+                    "errors" => $validator->errors(),
                 ]);
             }
 
-            $project              = new Project();
-            $project->name        = $request->projectname;
-            $project->title       = $request->projectname;
-            $project->user_id     = auth()->id();
-            $project->created_by  = auth()->id();
-            $project->updated_by  = auth()->id();
-            $project->status      = 0;
-            $project->save();
+            $projectData = [
+                'name' => $request->projectname,
+                'title' => $request->projectname,
+                'user_id' => auth()->id(),
+                'created_by' => auth()->id(),
+                'updated_by' => auth()->id(),
+                'status' => 0,
+            ];
+
+            $project = $this->projectRepository->createProject($projectData);
 
             return response()->json([
                 "success" => true,
                 "message" => "Project created successfully",
                 "data" => $project->id,
+
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 "success" => false,
-                "message" => "something went wrong",
+                "message" => "Something went wrong",
                 "error" => $e->getMessage(),
             ]);
         }
     }
+
 
     public function designStudio($project_id)
     {
@@ -367,6 +434,126 @@ public function download($filename)
         abort(404, 'File not found');
 }
 }
+
+//update contractor profile
+public function profileView(){
+    return view('layouts.front.contractor-profile');
+}
+
+public function profileUpdate(Request $request)
+{
+    $validator = Validator::make($request->all(), [
+        'contarctorId' => 'required|exists:contractors,id',
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'contactnumber' => 'required|string|max:20',
+        'zipcode' => 'required|string|max:10',
+        'customer_profile' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Assuming it's an image upload
+
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+    $contractor = Contractor::find($request->contarctorId);
+
+    if ($contractor) {
+        $contractor->name = $request->name;
+        $contractor->email = $request->email;
+        $contractor->contact_number = $request->contactnumber;
+        $contractor->zip_code = $request->zipcode;
+
+        // $storagePath = 'customer_profile/';
+        // if (!File::exists($storagePath)) {
+        //     File::makeDirectory($storagePath, 0755, true);
+        // }
+
+        // if ($request->hasFile('customer_profile')) {
+        //     $image = $request->file('customer_profile');
+        //     $imageName = \Str::random(3).time() . '.' . $image->getClientOriginalExtension();
+        //     Storage::putFileAs($storagePath, $image, $imageName);
+        //     $contractor->profile_image = $imageName;
+        // }
+
+        $profileImageName = null; 
+
+        if ($request->hasFile('profile_image')) {
+            $profileImage = $request->file('profile_image');
+            $profileImageName = time() . '_' . $profileImage->getClientOriginalName();
+            $profileImage->storeAs('uploads/contractor_profile', $profileImageName);
+            $contractor->profile_image         = $profileImageName ? 'uploads/contractor_profile/' . $profileImageName : null;
+
+        }
+        if ($request->has('password')) {
+            $contractor->password = bcrypt($request->password);
+        }
+
+        $contractor->save();
+
+        return redirect()->back()->with('success', 'Profile updated successfully.');
+    } else {
+        return response()->json(['error' => 'Contractor not found'], 404);
+    }
+}
+
+
+public function customerprofileView(){
+
+    return view('layouts.front.customer-profile');
+
+}
+
+
+public function customerprofileUpdate(Request $request){
+
+    $validator = Validator::make($request->all(), [
+        'user_id' => 'required|exists:users,id',
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'contactnumber' => 'required|string|max:20',
+        'zipcode' => 'required|string|max:10',
+        'customer_profile' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Assuming it's an image upload
+
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+    $user = User::find($request->user_id);
+
+    if ($user) {
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->contact_number = $request->contactnumber;
+        $user->zip_code = $request->zipcode;
+
+        $storagePath = 'customer_profile/';
+        if (!File::exists($storagePath)) {
+            File::makeDirectory($storagePath, 0755, true);
+        }
+        if ($request->hasFile('customer_profile')) {
+            $image = $request->file('customer_profile');
+            $imageName = \Str::random(3).time() . '.' . $image->getClientOriginalExtension();
+            Storage::putFileAs($storagePath, $image, $imageName);
+            $user->profile_image = $storagePath . $imageName;
+        
+        }
+
+
+        if ($request->has('password')) {
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->save();
+
+        return redirect()->back()->with('success', 'Profile updated successfully.');
+    } else {
+        return response()->json(['error' => 'The Customer not found'], 404);
+    }
+}
+
 
 }
 
