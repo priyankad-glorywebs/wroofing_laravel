@@ -23,7 +23,6 @@ class ChangePasswordController extends Controller
             'mpassword' => 'required',
             'cfmpassword' => 'required',
         ]);
-
         try {
             if(!empty($userId) && !empty($request->cpassword) && !empty($request->mpassword) && !empty($request->cfmpassword)){
                 if($request->mpassword == $request->cfmpassword){
@@ -34,24 +33,36 @@ class ChangePasswordController extends Controller
                     $contractor = Contractor::find($userId);
                     if ($user) {
                         $auth = User::where('id', $userId)->first();
-                        if (Hash::check($request->cpassword, $auth->password)) {
-                            $auth->password =  Hash::make($request->mpassword);
-                            $auth->update();
-                            // make sure to re-login the user
-                            Auth::login($auth);
+                        if(isset($auth->password)){
+                            if (Hash::check($request->cpassword, $auth->password)) {
+                                $auth->password =  Hash::make($request->mpassword);
+                                $auth->update();
+                                // make sure to re-login the user
+                                Auth::login($auth);
+                            }else{
+                                return redirect()->back()->with('error', 'current password not matched.');
+                            }
                         }else{
-                            return redirect()->back()->with('error', 'current password not matched.');
+                            if($auth->facebook_id != null || $auth->google_id != null){
+                                return redirect()->back()->with('error', 'Unable to change password; currently logged in via social account.');
+                            }
                         }
                     }elseif($contractor) {
                         $auth = Contractor::where('id', $userId)->first();
-                        if (Hash::check($request->cpassword, $auth->password)) {
-                            $auth->password =  Hash::make($request->mpassword);
-                            $auth->update();
-                            // make sure to re-login the user
-                            Auth::login($auth);
+                        if(isset($auth->password)){
+                            if (Hash::check($request->cpassword, $auth->password)) {
+                                $auth->password =  Hash::make($request->mpassword);
+                                $auth->update();
+                                // make sure to re-login the user
+                                Auth::login($auth);
+                            }else{
+                                return redirect()->back()->with('error', 'current password not matched.');
+                            }
                         }else{
-                            return redirect()->back()->with('error', 'current password not matched.');
-                        }
+                            if($auth->facebook_id != null || $auth->google_id != null){
+                                return redirect()->back()->with('error', 'Unable to change password; currently logged in via social account.');
+                            }
+                        }    
                     }else{
                         return redirect()->back()->with('error', 'current password not matched.');
                     }

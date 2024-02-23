@@ -4,6 +4,7 @@ use App\Http\Controllers\Front\Auth\LoginController;
 use App\Http\Controllers\Front\Auth\RegistrationController;
 use App\Http\Controllers\Front\Auth\ForgotPasswordController;
 use App\Http\Controllers\Front\Auth\ResetPasswordController;
+use App\Http\Controllers\Front\ChangePasswordController;
 use App\Http\Controllers\Front\ProjectController;
 use App\Http\Controllers\Front\ContactusController;
 use App\Http\Controllers\Front\ContractorController;

@@ -12,7 +12,8 @@ class Contractor extends Authenticatable implements MustVerifyEmail
 
     protected $table = "contractors";
     protected $casts = [
-        'contractor_portfolio' => 'array',
+        'contractor_portfolio' => 'array','email_verified_at' => 'datetime',
+
     ];
     
     protected $fillable = [
@@ -20,33 +21,10 @@ class Contractor extends Authenticatable implements MustVerifyEmail
     ];
 
     
-    // public function getAuthIdentifierName()
-    // {
-    //     return 'id';
-    // }
 
-    // public function getAuthIdentifier()
-    // {
-    //     return $this->getKey();
-    // }
 
-    // public function getAuthPassword()
-    // {
-    //     return $this->password;
-    // }
-
-    // public function getRememberToken()
-    // {
-    //     return $this->remember_token;
-    // }
-
-    // public function setRememberToken($value)
-    // {
-    //     $this->remember_token = $value;
-    // }
-
-    // public function getRememberTokenName()
-    // {
-    //     return 'remember_token';
-    // }
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new \App\Notifications\CustomVerifyEmailNotification);
+    }
 }
