@@ -12,9 +12,20 @@
     padding: 30px;
     cursor: pointer;
 	} */
+
+	.custom-video {
+    /* Add your custom styles for video display here */
+    max-width: 150px;
+    height: auto;
+    /* Add any other styles as needed */
+}
+
 	</style>
 @endsection
 @section('content')
+<!-- Add Plyr styles and script -->
+<link rel="stylesheet" href="https://cdn.plyr.io/3.6.4/plyr.css" />
+<script src="https://cdn.plyr.io/3.6.4/plyr.js"></script>
 
 <div class="breadcrumb-title-wrap">
 		<div class="container">
@@ -400,6 +411,7 @@ $(document).ready(function () {
         thumbnailWidth: 200,
         url: "{{ route('test') }}",
         maxFilesize: 20,
+		// createImageThumbnails:true,
         addRemoveLinks: true, 
         acceptedFiles: ".jpeg,.jpg,.png,.gif,.mp4",
         dictRemoveFile: "Remove file",
@@ -460,24 +472,62 @@ $(document).ready(function () {
         });
     });
 
-    function loadExistingImages(dropzoneInstance) {
-        var existingImages = <?php echo json_encode($imageArray); ?> || [];
+		function loadExistingImages(dropzoneInstance) {
+			var existingImages = <?php echo json_encode($imageArray); ?> || [];
 
-        if (existingImages.length > 0) {
-            for (var i = 0; i < existingImages.length; i++) {
-                var file = {
-                    name: existingImages[i],
-                    size: 12345, 
-                    accepted: true,
-                    kind: 'image',
-                    dataURL: "{{ asset('storage/project_images/') }}" + '/' + existingImages[i]
-                };
-                dropzoneInstance.emit('addedfile', file);
-				$('.dz-progress').addClass('d-none');
-                dropzoneInstance.emit('thumbnail', file, "{{ asset('storage/project_images/') }}" + '/' + existingImages[i]);
-            }
-        }
-    }
+			if (existingImages.length > 0) {
+				for (var i = 0; i < existingImages.length; i++) {
+					var file = {
+						name: existingImages[i],
+						size: 12345, 
+						accepted: true,
+						kind: 'image',
+		                dataURL: "{{ asset('storage/project_images/') }}" + '/' + existingImages[i]
+					};
+					dropzoneInstance.emit('addedfile', file);
+					$('.dz-progress').addClass('d-none');
+					dropzoneInstance.emit('thumbnail', file, "{{ asset('storage/project_images/') }}" + '/' + existingImages[i]);
+				}
+			}
+		}
+
+
+		// function loadExistingImages(dropzoneInstance) {
+		//     var existingImages = <?php //echo json_encode($imageArray); ?> || [];
+
+		//     if (existingImages.length > 0) {
+		//         for (var i = 0; i < existingImages.length; i++) {
+		//             var fileExtension = existingImages[i].split('.').pop().toLowerCase();
+		//             var isVideo = ['mp4'].indexOf(fileExtension) > -1;
+
+		//             var file = {
+		//                 name: existingImages[i],
+		//                 size: 12345,
+		//                 accepted: true,
+		//                 kind: isVideo ? 'video' : 'image',
+		//                 dataURL: "{{ asset('storage/project_images/') }}" + '/' + existingImages[i]
+		//             };
+
+		//             dropzoneInstance.emit('addedfile', file);
+		//             $('.dz-progress').addClass('d-none');
+
+		//             if (isVideo) {
+		//                 // Display video tag for .mp4 files
+		//                 var videoContainer = document.createElement('div');
+		//                 videoContainer.classList.add('video-container');
+		//                 dropzoneInstance.element.appendChild(videoContainer);
+
+		//                 videoContainer.innerHTML = '<video class="custom-video" controls><source src="' + file.dataURL + '" type="video/mp4"></video>';
+		//             } else {
+		//                 // Display image preview for other file types
+		//                 dropzoneInstance.emit('thumbnail', file, file.dataURL);
+		//             }
+		//         }
+		//     }
+		// }
+
+
+
 
     function removeImageFromServer(fileName) {
         $.ajax({

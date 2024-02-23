@@ -24,7 +24,7 @@
 						<div class="login-form-title text-center">Forgot Password</div>
 						<div class="form-wrp">
 							<div class="login-form-subname-inner text-lg-center">Please login using your email address and password.</div>
-							<form id="loginform" method="POST" action="{{ route('send.reset.link') }}" enctype="multipart/form-data">
+							<form id="loginform" method="POST" action="{{ route('contractor.send.reset.link') }}" enctype="multipart/form-data">
 								@csrf
 	
 
@@ -53,7 +53,7 @@
 								</div>
 							</form>
 
-							<div class="backto-login text-center"><a href="{{route('login')}}"><svg width="5" height="9" viewBox="0 0 5 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.13654 8L1.25522 5.11869C0.914945 4.77841 0.914945 4.22159 1.25522 3.88131L4.13654 1" stroke="#0A84FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg> Back to login</a></div>
+							<div class="backto-login text-center"><a href="{{route('contractor.login')}}"><svg width="5" height="9" viewBox="0 0 5 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.13654 8L1.25522 5.11869C0.914945 4.77841 0.914945 4.22159 1.25522 3.88131L4.13654 1" stroke="#0A84FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg> Back to login</a></div>
 
 							<div class="create-account text-center"><a href="#">Terms</a> | <a href="#">Contact Us</a></div>
 						</div>

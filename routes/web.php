@@ -8,6 +8,7 @@ use App\Http\Controllers\Front\ChangePasswordController;
 use App\Http\Controllers\Front\ProjectController;
 use App\Http\Controllers\Front\ContactusController;
 use App\Http\Controllers\Front\ContractorController;
+use App\Http\Contractors\Front\ProfileContaroller;
 //use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\CustomVerificationController;
 use App\Http\Controllers\DropzoneController;
@@ -17,9 +18,15 @@ use App\Http\Controllers\SocialGoogleController;
 /* end google / facebook */
 use Illuminate\Support\Facades\Artisan;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+use App\Http\Controllers\Front\Auth\ContractorLoginContraoller;
+use App\Http\Controllers\Front\Auth\ContractorForgotPasswordController;
+use App\Http\Controllers\Front\Auth\ContractorResetPasswordController;
+
+
+Route::get('/', function () {
+    // return view('welcome');
+    return redirect()->route('login');
+});
 Route::get('/clear-cache', function () {
     Artisan::call('cache:clear');
     Artisan::call('config:clear');
@@ -48,29 +55,44 @@ Route::get('/contact-us',[ContactusController::class,'contactus'])->name('contac
 Route::post('contact/store',[ContactusController::class,'store'])->name('contact.submit');
 Route::get('terms-and-conditions',[ContactusController::class,'term'])->name('term.and.condition');
 
+Route::get('/register', [RegistrationController::class, 'registerStepOne'])->name('register.one');
+Route::post('/register', [RegistrationController::class, 'register'])->name('register');
+
+
+Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
+
+Route::get('/test', [RegistrationController::class, 'test']);
+
+
+Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
+
+   Route::get('/email/custom-verify/{id}', [CustomVerificationController::class, 'customVerify'])->name('verification.customVerify')->middleware('signed');
+
+
+    //update profile page customer
+    Route::get('/update/customer/profile',[ProjectController::class,'customerprofileView'])->name('customer.profile');
+    Route::post('/update/customer/profile/post',[ProjectController::class,'customerprofileUpdate'])->name('customer.profile.update');
+
+
+
+
 // change password
 Route::get('change-password',[ChangePasswordController::class,'index'])->name('front.password.index');
 Route::post('front-update-password',[ChangePasswordController::class,'changePassword'])->name('front.password.update');
 
 /*********************************************************/
-//   -------------Authentication Routes ----------------
+//   -------------Authentication customer  Routes ----------------
 /*********************************************************/
-Route::group(['namespace' => 'Front\Auth'], function () {
+Route::group(['namespace' => 'Front\Auth','prefix'=>'customer'], function () {
     // custom authentication routes
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
     // Route::post('/logout',[LoginController::class,'logout'])->name('logout');
-    Route::get('/register', [RegistrationController::class, 'registerStepOne'])->name('register.one');
-    Route::post('/register', [RegistrationController::class, 'register'])->name('register');
-
-    Route::get('/test', [RegistrationController::class, 'test']);
-
     Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
    // Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
-   Route::get('/email/custom-verify/{id}', [CustomVerificationController::class, 'customVerify'])->name('verification.customVerify')->middleware('signed');
+//    Route::get('/email/custom-verify/{id}', [CustomVerificationController::class, 'customVerify'])->name('verification.customVerify')->middleware('signed');
 
-   Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
-
+//    Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/forgot/password', [ForgotPasswordController::class, 'forgotPassword'])->name('forgot.password');
     Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('send.reset.link');
@@ -78,10 +100,52 @@ Route::group(['namespace' => 'Front\Auth'], function () {
     Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
     Route::post('/reset-password', [ResetPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
+
+
 });
+
 /************************************************************/
 //   ------------- END Authentication Routes ----------------
 /************************************************************/
+
+
+
+/*********************************************************/
+//   -------------Authentication contarctor  Routes ----------------
+/*********************************************************/
+Route::group(['namespace' => 'Front\Auth','prefix'=>'contractor'], function () {
+    // custom authentication routes
+    Route::get('/login', [ContractorLoginContraoller::class, 'ContractorshowLoginForm'])->name('contractor.login');
+    Route::post('/login', [ContractorLoginContraoller::class, 'Contractorlogin']);
+    // Route::post('/logout',[LoginController::class,'logout'])->name('logout');
+    // Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
+   // Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
+//    Route::get('/email/custom-verify/{id}', [CustomVerificationController::class, 'customVerify'])->name('verification.customVerify')->middleware('signed');
+
+//    Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
+
+    Route::get('/forgot/password', [ContractorForgotPasswordController::class, 'contractorforgotPassword'])->name('contractor.forgot.password');
+    Route::post('/forgot-password', [ContractorForgotPasswordController::class, 'contractorsendResetLinkEmail'])->name('contractor.send.reset.link');
+
+    Route::get('/reset-password/{token}', [ContractorResetPasswordController::class, 'contractorshowResetPasswordForm'])->name('contractor.reset.password.get');
+    Route::post('/reset-password', [ContractorResetPasswordController::class, 'contractorsubmitResetPasswordForm'])->name('contractor.reset.password.post');
+
+    //update profile page customer
+    // Route::get('/update/customer/profile',[ProjectController::class,'customerprofileView'])->name('customer.profile');
+    // Route::post('/update/customer/profile/post',[ProjectController::class,'customerprofileUpdate'])->name('customer.profile.update');
+
+});
+
+/************************************************************/
+//   ------------- END Authentication Routes ----------------
+/************************************************************/
+
+
+
+
+
+
+
 
 // Route::controller(DropzoneController::class)->group(function(){
 //     Route::get('dropzone', 'index');
@@ -97,6 +161,9 @@ Route::group(['middleware' => 'contractor.middleware:contractor','namespace' => 
     Route::get('contractor/project/details/{project_id}',[ProjectController::class,'projectDetailsContractor']);
     //download a file 
     Route::get('/{filename}', [ProjectController::class, 'download'])->name('download.file');
+    //update profile page contractor
+    Route::get('/update/profile',[ProjectController::class,'profileView'])->name('contractor.profile');
+    Route::post('/update/profile/post',[ProjectController::class,'profileUpdate'])->name('contractor.profile.update');
 });
 /*********************************************************/
 //   -------------End Contractor Routes ----------------

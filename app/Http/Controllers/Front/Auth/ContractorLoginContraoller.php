@@ -4,43 +4,28 @@ namespace App\Http\Controllers\Front\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use App\Http\Requests\LoginRequest;
-use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon; 
-use App\Models\User; 
+use App\Http\Requests\ContractorLoginRequest;
 use Hash;
+use Auth;
 
-
-class LoginController extends Controller
+class ContractorLoginContraoller extends Controller
 {
-    // Display a Login form 
-    public function showLoginForm() {
-        return view('layouts.front.auth.login');
+    public function ContractorshowLoginForm(){
+        return view('layouts.front.auth.contractor.contarctorlogin');
     }
-    // post request for login form
-    public function login(LoginRequest $request)
-    {
+
+    public function Contractorlogin(ContractorLoginRequest $request){
         $credentials = $request->only('email', 'password');
-
-        // if($request->areyoua == 'customer'){
-            if (Auth::attempt($credentials, $request->has('remember'))) {
-                return redirect()->route('project.list');
-            }
-        // }
-
-// if($request->areyoua == 'contractor'){
         $contractor = \App\Models\Contractor::where('email', $credentials['email'])->first();
-
     if ($contractor && Hash::check($credentials['password'], $contractor->password)) {
         Auth::guard('contractor')->login($contractor, $request->has('remember'));
-        //return view('layouts.front.projects.contractor.contractor-project-list');
          return redirect()->route('contractor.dashboard');
-  }
-// }
+  }else{
     return redirect()->back()->withInput()->with(['error' => 'Invalid email or password.']);
-}
 
+  }
+
+    }
 
     public function logout(Request $request)
     {
@@ -51,7 +36,5 @@ class LoginController extends Controller
         return redirect()->route('login')
             ->withSuccess('You have logged out successfully!');;
     }  
- 
 
 }
-

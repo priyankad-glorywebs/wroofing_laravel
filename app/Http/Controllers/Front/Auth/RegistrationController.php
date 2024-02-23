@@ -28,7 +28,7 @@ public function registerStepOne(Request $request){
 }
 
 
-    public function register(RegisterRequest $request)
+    public function register(Request $request)
     {
         $user                  = new User;
         $user->name            = $request->name;
@@ -55,7 +55,7 @@ public function registerStepOne(Request $request){
 
         } 
         if ($request->areyoua === "contractor") {
-        $profileImageName = null; 
+        $profileImageName = null;
 
         if ($request->hasFile('profile_image')) {
             $profileImage = $request->file('profile_image');
