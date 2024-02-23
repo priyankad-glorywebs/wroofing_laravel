@@ -30,7 +30,6 @@ public function registerStepOne(Request $request){
 
     public function register(RegisterRequest $request)
     {
-
         $user                  = new User;
         $user->name            = $request->name;
         $user->email           = $request->email;
@@ -83,6 +82,9 @@ public function registerStepOne(Request $request){
         $contractor->profile_image         = $profileImageName ? 'uploads/contractor_profile/' . $profileImageName : null;
         $contractor->contractor_portfolio  = $portfolioPaths;
         $contractor->save();
+
+        $contractor->sendEmailVerificationNotification();
+
         }
         
         return view("layouts.front.Auth.register-thankyou");

@@ -74,12 +74,11 @@
 					</div>
 					<div class="profile-detail">
 						<div class="profile-username">Hello, {{$user->name}}</div>
-						@if($contractor)
+						{{-- @if($contractor)
 						<div class="viewprofile-link"><a href="{{route('contractor.profile')}}">View profile</a></div>
 						@elseif($user)
 						<div class="viewprofile-link"><a href="{{route('customer.profile')}}">View profile </a></div>
-
-						@endif
+						@endif --}}
 					</div>
 				</div>
 				
@@ -120,6 +119,12 @@
 						<li class="nav-item">
 							<a class="nav-link" href="#">Documentation</a>
 						</li>--}}
+						@endif
+
+						@if(isset($user) && isset(Auth::user()->password))
+						<li class="nav-item">
+							<a class="nav-link" href="{{route('front.password.index')}}">Change Password</a>
+						</li>
 						@endif
 						<li class="nav-item">
 							<a class="nav-link" href="#">Reviews</a>

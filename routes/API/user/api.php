@@ -20,9 +20,9 @@ Route::get('/projectlist ', [ProjectListController::class, 'list'])->name('proje
 Route::get('/projectlist/{id}', [ProjectListController::class, 'listshowid'])->name('project.show');
 
 // userGeneralInformation
-Route::post('/Customergeneralinformation    ', [GeneralInformationController::class, 'Customergeneralinformation'])->name('Customer.information');
-Route::get('/Customergeneralinformationlist ', [GeneralInformationController::class, 'list'])->name('Customer.list');
-Route::put('/Customergeneralinformationupdat ', [GeneralInformationController::class, 'Customergeneralinformationupdat'])->name('Customergeneralinformation.updat');
+Route::post('/Customergeneralinformation', [GeneralInformationController::class, 'Customergeneralinformation'])->name('Customer.information');
+Route::get('/Customergeneralinformationlist', [GeneralInformationController::class, 'list'])->name('Customer.list');
+Route::put('/Customergeneralinformationupdat', [GeneralInformationController::class, 'Customergeneralinformationupdat'])->name('Customergeneralinformation.updat');
 
 // userdocuments
 
