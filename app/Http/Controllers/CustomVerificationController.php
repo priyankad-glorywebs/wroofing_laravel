@@ -22,13 +22,13 @@ class CustomVerificationController extends Controller
                     $user->markEmailAsVerified();
                 }
                 $request->session()->flash('success', 'Your email verification is successful. You can now log in.');
-                return redirect('/login');
+                return redirect('customer/login');
             }elseif($contractor) {
                 if (!$contractor->hasVerifiedEmail()) {
                     $contractor->markEmailAsVerified();
                 }
                 $request->session()->flash('success', 'Your email verification is successful. You can now log in.');
-                return redirect('/login');
+                return redirect('contractor/login');
             }
         } catch (\Exception $ex) {
             $request->session()->flash('error', 'An unexpected error occurred.');

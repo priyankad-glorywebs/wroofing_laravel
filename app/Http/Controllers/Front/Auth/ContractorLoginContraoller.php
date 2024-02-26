@@ -14,16 +14,16 @@ class ContractorLoginContraoller extends Controller
         return view('layouts.front.auth.contractor.contarctorlogin');
     }
 
-    public function Contractorlogin(ContractorLoginRequest $request){
+    public function Contractorlogin(Request $request){
         $credentials = $request->only('email', 'password');
         $contractor = \App\Models\Contractor::where('email', $credentials['email'])->first();
-    if ($contractor && Hash::check($credentials['password'], $contractor->password)) {
-        Auth::guard('contractor')->login($contractor, $request->has('remember'));
-         return redirect()->route('contractor.dashboard');
-  }else{
-    return redirect()->back()->withInput()->with(['error' => 'Invalid email or password.']);
-
-  }
+        
+        if (Hash::check($credentials['password'], $contractor->password)) {
+            Auth::guard('contractor')->login($contractor, $request->has('remember'));
+            return redirect()->route('contractor.dashboard');
+        }else{
+            return redirect()->back()->withInput()->with(['error' => 'Invalid email or password.']);
+        }
 
     }
 

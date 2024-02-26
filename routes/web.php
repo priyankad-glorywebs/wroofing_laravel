@@ -66,7 +66,7 @@ Route::get('/test', [RegistrationController::class, 'test']);
 
 Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
 
-   Route::get('/email/custom-verify/{id}', [CustomVerificationController::class, 'customVerify'])->name('verification.customVerify')->middleware('signed');
+//    Route::get('/email/custom-verify/{id}', [CustomVerificationController::class, 'customVerify'])->name('verification.customVerify')->middleware('signed');
 
 
     //update profile page customer
@@ -90,7 +90,7 @@ Route::group(['namespace' => 'Front\Auth','prefix'=>'customer'], function () {
     // Route::post('/logout',[LoginController::class,'logout'])->name('logout');
     Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
    // Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
-//    Route::get('/email/custom-verify/{id}', [CustomVerificationController::class, 'customVerify'])->name('verification.customVerify')->middleware('signed');
+   Route::get('/email/custom-verify/{id}', [CustomVerificationController::class, 'customVerify'])->name('verification.customVerify')->middleware('signed');
 
 //    Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
 
@@ -120,7 +120,7 @@ Route::group(['namespace' => 'Front\Auth','prefix'=>'contractor'], function () {
     // Route::post('/logout',[LoginController::class,'logout'])->name('logout');
     // Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
    // Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
-//    Route::get('/email/custom-verify/{id}', [CustomVerificationController::class, 'customVerify'])->name('verification.customVerify')->middleware('signed');
+   Route::get('/email/custom-verify/{id}', [CustomVerificationController::class, 'customVerify'])->name('verification.customVerify')->middleware('signed');
 
 //    Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
 

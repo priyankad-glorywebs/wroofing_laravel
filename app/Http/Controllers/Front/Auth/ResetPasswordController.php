@@ -20,7 +20,6 @@ class ResetPasswordController extends Controller
     public function showResetPasswordForm($token) { 
        try{
         $data =  PasswordReset::where('token',$token)->first();
-        
         return view('layouts.front.Auth.resetpassword', ['data' => $data]);
         }catch (\Exception $exception) {
             return redirect()->route('error.page')->with('error', 'An unexpected error occurred.');
@@ -30,12 +29,12 @@ class ResetPasswordController extends Controller
 //  public function submitResetPasswordForm(ResetPasswordRequest $request)
 public function submitResetPasswordForm(Request $request)
  {
-    $user = User::where('email',$request->email)->first();
-    // dd($user);
-    $contractor = Contractor::where('email',$request->email)->first();
-    // dd($contractor);
+    // $user = User::where('email',$request->email)->first();
+    // // dd($user);
+    // $contractor = Contractor::where('email',$request->email)->first();
+    // // dd($contractor);
 
-    if(isset($contractor) || isset($user) || $contractor !== ''  || $user !== '' || $contractor !== NULL || $user !== NULL ){
+    // if(isset($contractor) || isset($user) || $contractor !== ''  || $user !== '' || $contractor !== NULL || $user !== NULL ){
     $passwordReset = DB::table('password_resets')
          ->where('email', $request->email)
          ->where('token', $request->token)
@@ -45,24 +44,24 @@ public function submitResetPasswordForm(Request $request)
          return back()->withInput()->with('error', 'Invalid or expired token!');
      }
  
-     if($user){
-     User::where('email', $user->email)
+    //  if($user){
+     User::where('email', $request->email)
          ->update(['password' => Hash::make($request->password)]);
-     }
+    //  }
 
-     if($contractor){
-     Contractor::where('email',$contractor->email)
-                 ->update(['password' => Hash::make($request->password)]);
+    //  if($contractor){
+    //  Contractor::where('email',$contractor->email)
+    //              ->update(['password' => Hash::make($request->password)]);
 
-     }
+    //  }
      //dd($this->getRouter()->getCurrentRoute()->getPrefix());
 
      DB::table('password_resets')->where('email', $request->email)->delete();
  
      return redirect('customer/login')->with('message', 'Your password has been changed!');
-    }else {
-        return back()->with('error','something went wrong');
-    }
+    // }else {
+    //     return back()->with('error','something went wrong');
+    // }
  }
  
  
