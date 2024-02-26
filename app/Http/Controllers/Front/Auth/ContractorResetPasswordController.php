@@ -35,11 +35,6 @@ class ContractorResetPasswordController extends Controller
  //  public function submitResetPasswordForm(ResetPasswordRequest $request)
  public function contractorsubmitResetPasswordForm(ContractorResetPasswordRequest $request)
   {
-     $user = User::where('email',$request->email)->first();
-     
-     $contractor = Contractor::where('email',$request->email)->first();
- 
-     if(isset($contractor) || isset($user) || $contractor !== ''  || $user !== '' || $contractor !== NULL || $user !== NULL ){
      $passwordReset = DB::table('password_resets')
           ->where('email', $request->email)
           ->where('token', $request->token)
@@ -49,24 +44,14 @@ class ContractorResetPasswordController extends Controller
           return back()->withInput()->with('error', 'Invalid or expired token!');
       }
   
-      if($user){
-      User::where('email', $user->email)
-          ->update(['password' => Hash::make($request->password)]);
-      }
- 
-      if($contractor){
-      Contractor::where('email',$contractor->email)
+        Contractor::where('email',$request->email)
                   ->update(['password' => Hash::make($request->password)]);
  
-      }
-      //dd($this->getRouter()->getCurrentRoute()->getPrefix());
- 
-      DB::table('password_resets')->where('email', $request->email)->delete();
+      
+         DB::table('password_resets')->where('email', $request->email)->delete();
   
-      return redirect('contractor/login')->with('message', 'Your password has been changed!');
-     }else {
-         return back()->with('error','something went wrong');
-     }
+         return redirect('contractor/login')->with('success', 'Your password has been changed!');
+     
   }
   
   
