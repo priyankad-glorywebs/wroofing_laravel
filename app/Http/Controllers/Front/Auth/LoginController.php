@@ -23,22 +23,10 @@ class LoginController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        // if($request->areyoua == 'customer'){
             if (Auth::attempt($credentials, $request->has('remember'))) {
                 return redirect()->route('project.list');
             }
-        // }
-
-// if($request->areyoua == 'contractor'){
-        $contractor = \App\Models\Contractor::where('email', $credentials['email'])->first();
-
-    if ($contractor && Hash::check($credentials['password'], $contractor->password)) {
-        Auth::guard('contractor')->login($contractor, $request->has('remember'));
-        //return view('layouts.front.projects.contractor.contractor-project-list');
-         return redirect()->route('contractor.dashboard');
-  }
-// }
-    return redirect()->back()->withInput()->with(['error' => 'Invalid email or password.']);
+            return redirect()->back()->withInput()->with(['error' => 'Invalid email or password.']);
 }
 
 
