@@ -60,6 +60,8 @@
 			<div class="row">
 				<div class="col-12">
 					<div class="studio-stepform-wrap">
+						
+						
 					<form id="documentform_step3" name="documentform_step3" method="POST" enctype="multipart/form-data">
 							@csrf
 	
