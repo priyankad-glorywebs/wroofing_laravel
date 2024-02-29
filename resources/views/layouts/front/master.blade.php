@@ -30,7 +30,8 @@
 	<!-- Custom CSS -->
 	<link rel="stylesheet" type="text/css" href="{{asset('frontend-assets/css/style.css')}}">
 
-		
+		 <!-- jQuery JS -->
+	<script src="{{asset('frontend-assets/js/jquery-3.7.1.min.js')}}"></script>
     <!-- Allow child views to include additional CSS -->
     @yield('css')
 </head>
@@ -162,8 +163,7 @@
     </footer>
 
     <!-- Include your common script files -->
-    <!-- jQuery JS -->
-	<script src="{{asset('frontend-assets/js/jquery-3.7.1.min.js')}}"></script>
+   
 	{{-- Validation JS  --}}
 	<script src="{{asset('frontend-assets/js/jquery.validate.min.js')}}"></script>
 	<!-- Bootstrap JS -->

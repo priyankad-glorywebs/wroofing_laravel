@@ -195,6 +195,8 @@ Route::post('/general/info/{project_id}',[ProjectController::class,'generalInfor
 //step 3 
 Route::get('/documentation/{project_id}',[ProjectController::class,'documentation'])->name('documentation');
 Route::post('/documentation/{project_id}',[ProjectController::class,'documentationStore'])->name('documentation.store');
+
+Route::post('/upload/document/{project_id}',[ProjectController::class,'uploadDocuments'])->name('document.upload');
 //remove document
 
 Route::post('remove/documents',[ProjectController::class,'removeDocuments'])->name('remove.document');

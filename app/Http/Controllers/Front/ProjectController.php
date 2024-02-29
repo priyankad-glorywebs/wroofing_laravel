@@ -43,6 +43,58 @@ public function __construct(ProjectRepository $projectRepository)
         return view( "layouts.front.projects.project-details",compact("project_id"));
     }
 
+    
+
+    public function uploadDocuments(Request $request, $project_id)
+    {
+        try {
+            $project_id = base64_decode($project_id);
+            if (!$project_id) {
+                return redirect()->back()->withInput()->withErrors(["error" => "Project ID not found."]);
+            }
+            if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                $fileName = $request->file('file')->getClientOriginalName();
+                // Now you have the file name in $fileName variable
+                $directory = "project_documents_laststage";
+                $publicDirectory = public_path($directory);
+                if (!file_exists($publicDirectory)) {
+                    mkdir($publicDirectory, 0755, true);
+                }
+                $originalFileName = \Str::random(3) . time() . $fileName;
+                $file->move($publicDirectory, $originalFileName);
+                $existingDocument = ProjectDocument::where('project_id', $project_id)
+                ->where('document_name', 'documents')
+                ->first();
+
+                if ($existingDocument) {
+                    $oldFilePath = public_path($existingDocument->document_file);
+                    if (file_exists($oldFilePath)) {
+                        unlink($oldFilePath);
+                    }
+                    $existingDocument->update([
+                        "document_file" => $directory . '/' . $originalFileName,
+                        "updated_by" => auth()->id(),
+                    ]);
+                } else {
+                    ProjectDocument::create([
+                        "project_id" => $project_id,
+                        "document_name" => 'documents',
+                        "document_file" => $directory . '/' . $originalFileName,
+                        "created_by" => auth()->id(),
+                        "updated_by" => auth()->id(),
+                    ]);
+                }
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                "success" => false,
+                "message" => "something went wrong",
+                "error" => $e->getMessage(),
+            ]);
+        }
+    }
+
     // public function addProject(Request $request)
     // {
     //   // here i need a unique projectname user specific not for whole table 
@@ -275,6 +327,7 @@ public function __construct(ProjectRepository $projectRepository)
 
 public function documentationStore(Request $request, $project_id)
 {
+    dd($request->file('documents'));
     try {
         $project_id = base64_decode($project_id);
 
