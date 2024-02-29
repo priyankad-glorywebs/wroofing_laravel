@@ -219,23 +219,16 @@ public function __construct(ProjectRepository $projectRepository)
     {
         $project_id = base64_decode($project_id);
         $project    = Project::findOrFail($project_id);
-
-        $projectImages = [];
-
         if ($request->hasFile("file")) {
             $existingImages = json_decode($project->project_image, true) ?? [];
-
             foreach ($request->file("file") as $file) {
                 $filename = time() . "_" .\Str::random(3).'_'.$file->getClientOriginalName();
                 $file->storeAs("project_images", $filename, "public");
                 $existingImages[] = $filename;
             }
-
             $project->update(["project_image" => json_encode($existingImages)]);
         }
-
         $project_id = base64_encode($project_id);
-
         return response()->json([
             "success" => "Files uploaded successfully",
             "project_id" => $project_id,
@@ -327,62 +320,53 @@ public function __construct(ProjectRepository $projectRepository)
 
 public function documentationStore(Request $request, $project_id)
 {
-    dd($request->file('documents'));
     try {
         $project_id = base64_decode($project_id);
-
         if (!$project_id) {
             return redirect()->back()->withInput()->withErrors(["error" => "Project ID not found."]);
         }
 
         $project = Project::find($project_id);
-
         $documentTypes = ["documents", "insurancedocuments", "mortgagedocuments", "contractordocuments"];
 
         foreach ($documentTypes as $documentType) {
             if ($request->hasFile($documentType)) {
-                $file = $request->file($documentType);
+                $files = $request->file($documentType);
                 $directory = "project_documents_laststage";
-
                 $publicDirectory = public_path($directory);
                 if (!file_exists($publicDirectory)) {
                     mkdir($publicDirectory, 0755, true);
                 }
 
-                $originalFileName = \Str::random(3) . time() . $file->getClientOriginalName();
-
-                $file->move($publicDirectory, $originalFileName);
-
-                $existingDocument = ProjectDocument::where('project_id', $project->id)
-                    ->where('document_name', $documentType)
-                    ->first();
-
-                if ($existingDocument) {
-                    $oldFilePath = public_path($existingDocument->document_file);
-                    if (file_exists($oldFilePath)) {
-                        unlink($oldFilePath);
+                $filePaths = []; // Array to store file paths
+                foreach ($files as $file) {
+                    if(!empty($file)){
+                        $originalFileName = \Str::random(3) . time() . $file->getClientOriginalName();
+                        $file->move($publicDirectory, $originalFileName);
+                        $filePaths[] = $directory . '/' . $originalFileName; // Add file path to array
                     }
+                }
 
-                    $existingDocument->update([
-                        "document_file" => $directory . '/' . $originalFileName,
-                        "updated_by" => auth()->id(),
-                    ]);
-                } else {
+                if (!empty($filePaths)) {
+                    // Encode file paths array to JSON
+                    $filePathsJson = json_encode($filePaths);
+
+                    // Create a new document entry with JSON encoded file paths
                     ProjectDocument::create([
                         "project_id" => $project->id,
                         "document_name" => $documentType,
-                        "document_file" => $directory . '/' . $originalFileName,
+                        "document_file" => $filePathsJson,
                         "created_by" => auth()->id(),
                         "updated_by" => auth()->id(),
                     ]);
                 }
             }
         }
+        return redirect()->back()->with("success", "Documents uploaded successfully.");
     } catch (\Exception $e) {
         \Log::error($e->getMessage());
         return redirect()->back()->withInput()->withErrors(["error" => "An error occurred while processing the request."]);
     }
-
     return redirect()->route("project.list");
 }
 

@@ -84,7 +84,7 @@
 																</div>
 															</label>
 															<button class="file-selector">Browse Files</button>
-															<input type="file" class="file-selector-input" name="documents[]" multiple onchange="previewFiles(event)" />
+															<input type="file" class="file-selector-input" name="documents[]" multiple onchange="previewFiles(event, 'main_documents')" />
 														</div>
 														<div class="col">
 															<div class="drop-here">Drop Here</div>
@@ -107,154 +107,26 @@
 									</div>
 									<!-- END UPLOAD YOUR DOCUMNETS -->
 
-                                    <div class="form-group col-12 col-md-6">
-                                        	<div class="field-wrap">
-                                            	<div class="form-element">
-                                                	<div class="upload-img-wrap">
-                                                    	<input id="documents" type="file" name="documents" accept="image/jpg, image/jpeg, image/png">
-														<label for="documents">
-															<div class="upload-img-icon">
-																@if (!isset($documents))
-																	<img src="{{ asset('frontend-assets/images/receive-square.svg') }}"
-																		alt="img-icon" width="30" height="30">
-																@else
-																	<a href="#" class="remove-document">Remove</a>
-																@endif
-															</div>
-															@if (isset($documents))
-																<div class="upload-img-text">{{ $documents['basename'] }}</div>
-																<input type="hidden" name="documents_hidden"
-																	id="documents_hidden"
-																	value="{{ $documents['basename'] }}" />
-															@else
-																<div class="upload-img-text">Your Documents</div>
-															@endif
-															<div class="upload-img-formate">(Third party agreement, signed
-																contract and warranty from manufacturer)</div>
-														</label>
-                                                	</div>
-                                           		</div>
-                                        	</div>
-                                    </div>
-                                    <div class="form-group col-12 col-md-6">
-                                        <div class="field-wrap">
-                                            <div class="form-element">
-                                                <div class="upload-img-wrap">
-                                                    <input id="insurancedocuments" type="file" name="insurancedocuments"
-                                                        accept="image/jpg, image/jpeg, image/png">
-                                                    <label for="insurancedocuments">
-                                                        <div class="upload-img-icon">
-                                                            @if (!isset($insurancedocuments))
-                                                                <img src="{{ asset('frontend-assets/images/receive-square.svg') }}"
-                                                                    alt="img-icon" width="30" height="30">
-                                                            @else
-                                                                <a href="#" class="remove-document">Remove</a>
-                                                            @endif
-                                                        </div>
-                                                        @php
-                                                        @endphp
-                                                        @if (isset($insurancedocuments))
-                                                            <div class="upload-img-text">
-                                                                {{ $insurancedocuments['basename'] }}</div>
-                                                            <input type="hidden" name="insurancedocuments_hidden"
-                                                                id="insurancedocuments_hidden"
-                                                                value="{{ $insurancedocuments['basename'] }}" />
-                                                        @else
-                                                            <div class="upload-img-text">Insurance Documents</div>
-                                                        @endif
-                                                        <div class="upload-img-formate">(Insurance Scope, final invoice and
-                                                            completion doc)</div>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-12 col-md-6">
-                                        <div class="field-wrap">
-                                            <div class="form-element">
-                                                <div class="upload-img-wrap">
-                                                    <input id="mortgagedocuments" type="file" name="mortgagedocuments"
-                                                        accept="image/jpg, image/jpeg, image/png">
-                                                    <label for="mortgagedocuments">
-                                                        <div class="upload-img-icon">
-                                                            @if (!isset($mortgagedocuments))
-                                                                <img src="{{ asset('frontend-assets/images/receive-square.svg') }}"
-                                                                    alt="img-icon" width="30" height="30">
-                                                            @else
-                                                                <a href="" class="remove-document">Remove</a>
-                                                            @endif
-                                                        </div>
-                                                        @if (isset($mortgagedocuments))
-                                                            <div class="upload-img-text">
-                                                                {{ $mortgagedocuments['basename'] }}</div>
-                                                            <input type="hidden" name="mortgagedocuments_hidden"
-                                                                id="mortgagedocuments_hidden"
-                                                                value="{{ $mortgagedocuments['basename'] }}" />
-                                                        @else
-                                                            <div class="upload-img-text">Mortgage Documents</div>
-                                                        @endif
-                                                        <div class="upload-img-formate">(Loss Draft Package ready for HO to
-                                                            sign)</div>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-12 col-md-6">
-                                        <div class="field-wrap">
-                                            <div class="form-element">
-                                                <div class="upload-img-wrap">
-                                                    <input id="contractordocuments" type="file"
-                                                        name="contractordocuments"
-                                                        accept="image/jpg, image/jpeg, image/png">
-                                                    <label for="contractordocuments">
-                                                        <div class="upload-img-icon">
-                                                            @if (!isset($contractordocuments))
-                                                                <img src="{{ asset('frontend-assets/images/receive-square.svg') }}"
-                                                                    alt="img-icon" width="30" height="30">
-                                                            @else
-                                                                <a href="" class="remove-document">Remove</a>
-                                                            @endif
-                                                        </div>
-                                                        @if (isset($contractordocuments))
-                                                            <div class="upload-img-text">
-                                                                {{ $contractordocuments['basename'] }}</div>
-                                                            <input type="hidden" name="contractordocuments_hidden"
-                                                                id="contractordocuments_hidden"
-                                                                value="{{ $contractordocuments['basename'] }}" />
-                                                        @else
-                                                            <div class="upload-img-text">Contractor Documents</div>
-                                                        @endif
-                                                        <div class="upload-img-formate">(Estimate and final invoice and
-                                                            warranty)</div>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="form-group button-wrap col-md-12">
-                                        <div class="field-wrap text-center">
-                                            <button type="submit" class="btn btn-primary">Get started now</button>
-                                            <!-- <a href="project-list.html" class="btn btn-primary">Get started now</a> -->
-                                        </div>
-                                    </div>
-                                    <!-- <div class="backto-login text-center"><a href="javascript:void(0)"><svg width="5" height="9" viewBox="0 0 5 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.13654 8L1.25522 5.11869C0.914945 4.77841 0.914945 4.22159 1.25522 3.88131L4.13654 1" stroke="#0A84FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</a></div> -->
-                                    <div class="backto-login text-center"><a
-                                            href="{{ route('design.studio', ['project_id' => base64_encode($project_id)]) }}"><svg
-                                                width="5" height="9" viewBox="0 0 5 9" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M4.13654 8L1.25522 5.11869C0.914945 4.77841 0.914945 4.22159 1.25522 3.88131L4.13654 1"
-                                                    stroke="#0A84FF" stroke-width="1.5" stroke-miterlimit="10"
-                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg> Back</a></div>
-                                </div>
-                            </div>
+									<div class="row">
+										<div class="form-group button-wrap col-md-12">
+											<div class="field-wrap text-center">
+												<button type="submit" class="btn btn-primary">Get started now</button>
+												<!-- <a href="project-list.html" class="btn btn-primary">Get started now</a> -->
+											</div>
+										</div>
+										<!-- <div class="backto-login text-center"><a href="javascript:void(0)"><svg width="5" height="9" viewBox="0 0 5 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.13654 8L1.25522 5.11869C0.914945 4.77841 0.914945 4.22159 1.25522 3.88131L4.13654 1" stroke="#0A84FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</a></div> -->
+										<div class="backto-login text-center"><a
+											href="{{ route('design.studio', ['project_id' => base64_encode($project_id)]) }}"><svg
+												width="5" height="9" viewBox="0 0 5 9" fill="none"
+												xmlns="http://www.w3.org/2000/svg">
+												<path
+													d="M4.13654 8L1.25522 5.11869C0.914945 4.77841 0.914945 4.22159 1.25522 3.88131L4.13654 1"
+													stroke="#0A84FF" stroke-width="1.5" stroke-miterlimit="10"
+													stroke-linecap="round" stroke-linejoin="round" />
+											</svg> Back</a>
+										</div>
+									</div>
+                            	</div>
                         </form>
                     </div>
                 </div>
@@ -471,12 +343,13 @@
 			});
 		});
 
-		function previewFiles(event) {
-			var filePreview = document.getElementById('listsection');
+		function previewFiles(event, sectionId) {
+			// var filePreview = document.getElementById('listsection');
+			var filePreview = $('#' + sectionId + ' .listsection');
 			jQuery(filePreview).show();
-			var fileInfo = document.getElementById('listsection');
-			filePreview.innerHTML = '';
-			fileInfo.innerHTML = '';
+			var fileInfo = $('#' + sectionId + ' .listsection');
+			filePreview.html('');
+    		fileInfo.html('');
 			var files = event.target.files;
 
 			for (let i = 0; i < files.length; i++) { // Changed var to let
@@ -484,12 +357,10 @@
 				let reader = new FileReader();
 				reader.onload = (function(file) {
 					return function(e) {
-						var fileItem = document.createElement('div');
+						var fileItem = $('<div>').addClass('fileInfoItem');
 						fileItem.className = 'fileInfoItem';
 
-						var li = document.createElement('li')
-						li.classList.add('in-prog')
-						li.innerHTML = `
+						var li = $('<li>').addClass('in-prog').html(`
 							<div class="col">
 								<img src="{{URL('/')}}/icons/${iconSelector(file.type)}" alt="">
 							</div>
@@ -502,13 +373,10 @@
 							<div class="col">
 								<svg xmlns="http://www.w3.org/2000/svg" class="tick" height="20" width="20"><path d="m8.229 14.438-3.896-3.917 1.438-1.438 2.458 2.459 6-6L15.667 7Z"/></svg>
 							</div>
-						`;
+						`);
 							
-						fileItem.appendChild(li);
-
-						// var fileName = document.createTextNode(file.name + " (" + formatBytes(file.size) + ")");
-						// fileItem.appendChild(fileName);
-						fileInfo.appendChild(fileItem);
+						fileItem.append(li);
+						fileInfo.append(fileItem);
 					};
 				})(file);
 				reader.readAsDataURL(file);
