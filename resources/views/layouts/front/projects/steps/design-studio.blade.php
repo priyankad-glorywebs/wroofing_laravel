@@ -2,30 +2,94 @@
 @section('title', 'Design Studio')
  
 @section('css')
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
 <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script> -->
+
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+
+<!-- <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" /> -->
 <style>
-	/* #image-upload{
-		border-radius: 7px;
+.btn-gallery-filter{border-radius: 50px;
+    background-color: #EFEFEF;
+    font-size: 14px;
+    color: #48484A;
+    padding: 10px 15px;
+    border: none;
+    box-shadow: none;
+    margin-right: 10px;
+}
+.design-studio-img-items {
+    background-color: #fff;
+    border-radius: 10px;
+    filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.15));
+    display: inline-block;
+    margin: 0 10px 10px 0;
+	width: 150px;
+    height: 150px;
+	overflow: hidden;
+}
+.design-studio-img-items img {
+	object-fit: cover;
+    object-position: center center;
+    width: 100%;
+    height: 100%;
+}
+.remove-img {
+	border: none;
+    box-shadow: none;
+    background: #0A84FF;
+    opacity: 1;
+    display: inline-block;
+    font-size: 10px;
+    color: #fff;
+    border-radius: 50px;
+    max-width: 20px;
+    max-height: 20px;
+    line-height: 1;
+    text-align: center;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+	width:20px;
+	height:20px;
+}
+.image-upload-time {
+	position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    background-color: rgba(255, 255, 255, .6);
+    padding: 3px 5px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.studio-stepform-wrap h6 {
+	margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    border-bottom: 1px solid #E0E0E0;
+    padding-bottom: 10px;
+}
+#image-upload {
+	width: 100%;
+    text-align: center;
+    border-radius: 7px;
     border: 1px dashed rgba(10, 132, 255, 0.50);
     background: #F5FBFF;
     box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.25);
     padding: 30px;
     cursor: pointer;
-	} */
-
-	.custom-video {
-    /* Add your custom styles for video display here */
-    max-width: 150px;
-    height: auto;
-    /* Add any other styles as needed */
 }
 
 	</style>
+
+<link rel="stylesheet" href="https://cdn.plyr.io/3.6.4/plyr.css" />
 @endsection
 @section('content')
 <!-- Add Plyr styles and script -->
-<link rel="stylesheet" href="https://cdn.plyr.io/3.6.4/plyr.css" />
-<script src="https://cdn.plyr.io/3.6.4/plyr.js"></script>
 
 <div class="breadcrumb-title-wrap">
 		<div class="container">
@@ -45,16 +109,15 @@
 				<div class="col-12 col-lg-7">
 					<div class="breadcrumb-addproject-step-1">
 						<div class="section-title">Design Studio</div>
-						<div class="section-subtitle d-none d-lg-block">Select your style, please be sure to check with your HOA before installation</div>
-					</div>
-					<!-- <div class="breadcrumb-addproject-title-wrap breadcrumb-addproject-step-2">
-						<div class="section-title">General Information</div>
-						<div class="section-subtitle d-none d-lg-block">Please fill out the below details</div>
-					</div>
-					<div class="breadcrumb-addproject-title-wrap breadcrumb-addproject-step-3">
-						<div class="section-title">Documentation</div>
-						<div class="section-subtitle d-none d-lg-block">Please upload all below documents</div>
-					</div> -->
+						<!-- <div class="section-subtitle d-none d-lg-block">Select your style, please be sure to check with your HOA before installation</div> -->
+						<div class="mt-3">
+							<a href="{{route('general.info', ['project_id' => $project_id])}}" ><button class="btn-gallery-filter" >General Info</button></a>
+							<a class="project-list-item-link" href="{{ route('design.studio', ['project_id' => $project_id]) }}"><button class="btn-gallery-filter">Design studio</button></a>
+							<a class="project-list-item-link" href="{{route('documentation', ['project_id' => $project_id])}}"><button class="btn-gallery-filter">Documents</button></a>
+							<a class="project-list-item-link" href="{{route('contractor.list')}}"><button class="btn-gallery-filter">Contractor Portal</button></a>
+						</div>
+                </div>
+					
 				</div>
 				<div class="col-12 col-lg-5 text-end">
 					<div class="step-count">
@@ -65,6 +128,11 @@
 							<span></span>
 						</div>
 					</div>
+                    <!-- <button class="btn-primary btn-sm" id="add-designstudio">Add</button> -->
+                    <a class="btn-primary mt-3" href="#" data-bs-toggle="modal" data-bs-target="#sendquotepopup">Add</a>
+
+
+
 					<div class="breadcrumb-addproject-step-1">
 						<div class="section-subtitle d-lg-none">Select your style, please be sure to check with your HOA before installation</div>
 					</div>
@@ -80,399 +148,270 @@
 	</div>
 <?php
 if(isset($projectId)){
-	// dd($project_id);
 	$data = \App\Models\Project::where('id',$projectId)->first();
+	
 }
 
 ?>
+
 
 
 	<section class="studio-stepform-sec">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-					<div class="studio-stepform-wrap">
-						{{--$project_id--}}
-						{{--<form id="design_studio_step1" enctype="multipart/form-data" method="post" name="design_studio_step1">
-								@csrf
-								<input type="hidden" name="project_id" value="{{$project_id}}" id="project_id">
-							<div class="studio-step-1">
-								<div class="row">
-									<div class="form-group col-12">
-										<div class="field-wrap">
-											<div class="form-element">
-												<!-- <div class="upload-img-wrap">
-													<input id="uploadimage" type="file" name="project_image" accept="image/jpg, image/jpeg, image/png">
-													<label for="uploadimage">
-														<div class="upload-img-icon">
-															 @if(!isset($data))
-															<img src="{{asset('frontend-assets/images/img-icon.svg')}}" alt="img-icon" width="30" height="30">
-															@else
-															<img src="{{ asset('storage/'.$data->project_image) }}" alt="img-icon" width="30" height="30">
-															@endif 
-														</div>
-														<div class="upload-img-text">Upload your roof photos and Videos</div>
-														<div class="upload-img-formate">(PNG or JPGE file accepted)</div>
-													</label>
-												</div> -->
-												<div class="upload-img-wrap">
-												<input id="uploadimage" type="file" name="project_image" accept="image/jpg, image/jpeg, image/png">
-												<label for="uploadimage">
-													<div class="upload-img-icon">
-														@if(isset($data->project_image))
-															<img src="{{ asset('storage/'.$data->project_image) }}" alt="img-icon" width="30" height="30">
-														@else
-															<img src="{{ asset('frontend-assets/images/img-icon.svg') }}" alt="img-icon" width="30" height="30">
-														@endif 
-													</div>
-													<div class="upload-img-text">Upload your roof photos and Videos</div>
-													<div class="upload-img-formate">(PNG or JPGE file accepted)</div>
-												</label>
+				<?php
+	$projectImageData = \App\Models\ProjectImagesData::where('project_id',base64_decode($project_id))
+	->orderBy('date', 'desc')
+	->get();
+	$groupedData = $projectImageData->groupBy('date');
+?>
+					
+						<div class="row">
+								<div class="col-12">
+									<form id="filterForm" action="" method="get">
+											@csrf
+											<div class="row">
+											
+											<div class="col-md-4">
+												<label for="design-filter">Filter By Date:</label>
+												<input type="text" id="design-filter" name="design-filter" placeholder="Select Date" required>
 											</div>
+											<div class="col-md-2">
+												<br/>
+												<input type="button" class="btn-primary" value="Filter" id="dsfilterButton">
+											</div>
+											<div class="col-md-2">
+												<br/>
+												<input type="button" class="btn-primary" value="Reset Filter" id="dsresetFilterButton">
+											</div>
+		                                       <div class="col-md-1 col-sm-2 text-end">
+												<br/>
+											</div>
+										</div>
+										<br/>
+									</form>
+							    <div>
+							</div>
 
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="form-group col-6">
-										<div class="field-wrap">
-											<div class="form-element">
-												<div class="upload-studio-img-item">
-													<input id="uploadstudioimg1" type="file"  name="roofandgutterdesign" accept="image/jpg, image/jpeg, image/png">
-													<label for="uploadstudioimg1">
-														<div class="upload-studio-img-icon">
-														@if(!isset($data->roofandgutterdesign))	
-														<img class="d-none d-lg-block" src="{{asset('frontend-assets/images/upload-img.png')}}" alt="img-icon" width="130" height="100">
-														<img class="d-lg-none" src="{{asset('frontend-assets/images/upload-img-1.png')}}" alt="img-icon" width="157" height="145">
-														@else
-														<img class="" src="{{asset('storage/'.$data->roofandgutterdesign)}}" alt="img-icon" width="157" height="145">
+					<div class="studio-stepform-wrap" id="testData">
+				
+	                    {{--No images or videos found--}}
 
-														@endif
-														</div>
-														<div class="upload-studio-img-text-wrap d-flex align-items-center justify-content-between">
-															<div class="upload-studio-img-text">Roof and gutter designer</div>
-															<div class="upload-studio-img-text-icon"><svg width="9" height="17" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 16L7.43043 9.82576C8.18986 9.09659 8.18986 7.90341 7.43043 7.17424L1 1" stroke="#0A84FF" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-														</div>
-													</label>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="form-group col-6">
-										<div class="field-wrap">
-											<div class="form-element">
-												<div class="upload-studio-img-item">
-													<input id="uploadstudioimg1" type="file" name="rooftypeandrating" accept="image/jpg, image/jpeg, image/png">
-													<label for="uploadstudioimg1">
-														<div class="upload-studio-img-icon">
-														@if(!isset($data->rooftypeandrating))	
-														<img class="d-none d-lg-block" src="{{asset('frontend-assets/images/upload-img.png')}}" alt="img-icon" width="130" height="100">
-															<img class="d-lg-none" src="{{asset('frontend-assets/images/upload-img-1.png')}}" alt="img-icon" width="157" height="145">
-														@else
-														<img class="" src="{{asset('storage/'.$data->rooftypeandrating)}}" alt="img-icon" width="157" height="145">
-														@endif
-														</div>
-														<div class="upload-studio-img-text-wrap d-flex align-items-center justify-content-between">
-															<div class="upload-studio-img-text">Roof types and ratings</div>
-															<div class="upload-studio-img-text-icon"><svg width="9" height="17" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 16L7.43043 9.82576C8.18986 9.09659 8.18986 7.90341 7.43043 7.17424L1 1" stroke="#0A84FF" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-														</div>
-													</label>
-												</div>
-											</div>
-										</div>
-									</div>
+						@foreach($groupedData as $date => $mediaItems)
+							<h6>{{ $date }}</h6>
+						@foreach($mediaItems as $mediaItem)
+							{{--@if($mediaItem->project_image == 'image') --}}
+							<div class="design-studio-img-items">
+								<button type="button" class="remove-img" data-media-item-id="{{ $mediaItem->id }}">X</button>
 
-									<div class="form-group col-6">
-										<div class="field-wrap">
-											<div class="form-element">
-												<div class="upload-studio-img-item">
-													<input id="uploadstudioimg1" type="file" name="guttertypeaccessories" accept="image/jpg, image/jpeg, image/png">
-													<label for="uploadstudioimg1">
-														<div class="upload-studio-img-icon">
-															@if(!isset($data->guttertypeaccessories))
-															<img class="d-none d-lg-block" src="{{asset('frontend-assets/images/upload-img.png')}}" alt="img-icon" width="130" height="100">
-															<img class="d-lg-none" src="{{asset('frontend-assets/images/upload-img-1.png')}}" alt="img-icon" width="157" height="145">
-															@else
-															<img class="" src="{{asset('storage/'.$data->guttertypeaccessories)}}" alt="img-icon" width="157" height="145">
-															@endif
-														</div>
-														<div class="upload-studio-img-text-wrap d-flex align-items-center justify-content-between">
-															<div class="upload-studio-img-text">Gutter types and accessories</div>
-															<div class="upload-studio-img-text-icon"><svg width="9" height="17" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 16L7.43043 9.82576C8.18986 9.09659 8.18986 7.90341 7.43043 7.17424L1 1" stroke="#0A84FF" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-														</div>
-													</label>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="form-group col-6">
-										<div class="field-wrap">
-											<div class="form-element">
-												<div class="upload-studio-img-item">
-													<input id="uploadstudioimg1" type="file" name="guttertypeaccessories1" accept="image/jpg, image/jpeg, image/png">
-													<label for="uploadstudioimg1">
-														<div class="upload-studio-img-icon">
-														@if(!isset($data->guttertypeaccessories1))		
-														<img class="d-none d-lg-block" src="{{asset('frontend-assets/images/upload-img.png')}}" alt="img-icon" width="130" height="100">
-															<img class="d-lg-none" src="{{asset('frontend-assets/images/upload-img-1.png')}}" alt="img-icon" width="157" height="145">
-															@else
-															<img class="" src="{{asset('storage/'.$data->guttertypeaccessories1)}}" alt="img-icon" width="157" height="145">
-														
-														@endif
-														</div>
-														<div class="upload-studio-img-text-wrap d-flex align-items-center justify-content-between">
-														
-															<div class="upload-studio-img-text">Gutter types and accessories</div>
-															<div class="upload-studio-img-text-icon"><svg width="9" height="17" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 16L7.43043 9.82576C8.18986 9.09659 8.18986 7.90341 7.43043 7.17424L1 1" stroke="#0A84FF" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-														
-														</div>
-													</label>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="form-group button-wrap col-md-12">
-										<div class="field-wrap text-center">
-											<button type="submit" class="btn btn-primary btn-studio-step-1">Submit and continue</button>
-										</div>
-									</div>
-									<div class="backto-login text-center"><a href="#"><svg width="5" height="9" viewBox="0 0 5 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.13654 8L1.25522 5.11869C0.914945 4.77841 0.914945 4.22159 1.25522 3.88131L4.13654 1" stroke="#0A84FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</a></div>
+										<img src="{{ asset('storage/project_images/'.$mediaItem->project_image)  }}" alt="Image">
+									<span class="image-upload-time">{{$mediaItem->time}}</span>
+							{{-- @if($mediaItem->media_type == 'video') --}}
+									<video width="320" height="240" controls>
+										<source src="{{ asset('storage/project_images/'.$mediaItem->media_url) }}" type="video/mp4">
+										Your browser does not support the video tag.
+									</video>
+							{{--  @endif --}}
+							</div>
+							@endforeach
+						@endforeach
+						
+
+                    </div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+    <!-- Quote Modal -->
+	<!-- <div class="modal fade sendquotepopup" id="sendquotepopup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabeltitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="modal-title" id="staticBackdropLabeltitle">Design Studio</div>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+				</div>
+				<div class="modal-body">
+					<form id="addproject" action="thankyou.html" novalidate="novalidate">
+						<div class="row">
+							<div class="form-group col-12 col-md-6">
+							<form method="post" enctype="multipart/form-data" id="image-upload" class="dropzone">
+				<input type="hidden" name="project_id" value="{{$project_id}}" id="project_id"> 
+				@csrf <div></div>
+				</form>
+				 <span id="errorMessage" style="color: red;"></span> 
+				<span id="error-message" style="color: red;"></span>
+
+
+				<div id="uploaded-images"> <?php
+					//$projectData = \App\Models\Project::findOrFail(base64_decode($project_id));
+					//$imageArray = json_decode($projectData->project_image, true);
+				?> 
+				</div>
+				<br />
+				<br />
+			</div>
+							
+						</div>
+						<div class="row justify-content-center">
+							<div class="form-group button-wrap col-md-5">
+								<div class="field-wrap text-center">
+								<button type="submit" align="center" id="submit-all" class="btn btn-primary btn-studio-step-1">Submit and continue</button>
+
+									 <button type="submit" class="btn btn-primary d-block w-100">Submit and continue</button> 
 								</div>
 							</div>
-						</form>--}}
-
-							{{--dropzone--}}
-
-					{{--<form id="my-dropzone" enctype="multipart/form-data" class="dropzone" method="post" name="design_studio_step1">
-					<input type="hidden" name="project_id" value="{{$project_id}}" id="project_id">
-
-													@csrf
-												<button type="button">Submit and continue</button>
-
-											</form>--}}
-
-				{{--<form name="dropzoneForm" class="dropzone" enctype="multipart/form-data" action="{{route('design.studio.post', ['project_id' => $project_id])}}">
-			@csrf		
-			</form>
-					<div align="center">
-						<br/>
-					<button type="submit" id="submit-all" class="btn btn-primary btn-studio-step-1">Submit and continue</button>
-														</div>
---}}
-<form method="post" enctype="multipart/form-data" id="image-upload" class="dropzone">
-  <input type="hidden" name="project_id" value="{{$project_id}}" id="project_id"> @csrf <div></div>
-</form>
-<!-- <span id="errorMessage" style="color: red;"></span> -->
-<span id="error-message" style="color: red;"></span>
-
-
-<div id="uploaded-images"> <?php
-	$projectData = \App\Models\Project::findOrFail(base64_decode($project_id));
-    $imageArray = json_decode($projectData->project_image, true);
-?> 
-  {{-- <div id="existing-images">
-		@if (is_array($imageArray)) @foreach ($imageArray as $image) 
-		<img src="{{ asset('storage/project_images/' . $image) }}" alt="Image"> 
-		@endforeach @else <p>No images found</p> 
-		@endif 
-	</div>--}}
-</div>
-<br />
-<br />
-<div class="row">
-			<div class="form-group col-6">
-				<div class="field-wrap">
-					<div class="form-element">
-						<div class="upload-studio-img-item">
-							<input id="uploadstudioimg1" type="file"  name="roofandgutterdesign" accept="image/jpg, image/jpeg, image/png">
-							<label for="uploadstudioimg1">
-								<div class="upload-studio-img-icon">
-								@if(!isset($data->roofandgutterdesign))	
-								<img class="d-none d-lg-block" src="{{asset('frontend-assets/images/upload-img.png')}}" alt="img-icon" width="130" height="100">
-								<img class="d-lg-none" src="{{asset('frontend-assets/images/upload-img-1.png')}}" alt="img-icon" width="157" height="145">
-								@else
-								<img class="" src="{{asset('storage/'.$data->roofandgutterdesign)}}" alt="img-icon" width="157" height="145">
-
-								@endif
-								</div>
-								<div class="upload-studio-img-text-wrap d-flex align-items-center justify-content-between">
-									<div class="upload-studio-img-text">Roof and gutter designer</div>
-									<div class="upload-studio-img-text-icon"><svg width="9" height="17" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 16L7.43043 9.82576C8.18986 9.09659 8.18986 7.90341 7.43043 7.17424L1 1" stroke="#0A84FF" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-								</div>
-							</label>
 						</div>
-					</div>
-				</div>
-			</div>
-			<div class="form-group col-6">
-				<div class="field-wrap">
-					<div class="form-element">
-						<div class="upload-studio-img-item">
-							<input id="uploadstudioimg1" type="file" name="rooftypeandrating" accept="image/jpg, image/jpeg, image/png" multiple>
-							<label for="uploadstudioimg1">
-								<div class="upload-studio-img-icon">
-								@if(!isset($data->rooftypeandrating))	
-								<img class="d-none d-lg-block" src="{{asset('frontend-assets/images/upload-img.png')}}" alt="img-icon" width="130" height="100">
-									<img class="d-lg-none" src="{{asset('frontend-assets/images/upload-img-1.png')}}" alt="img-icon" width="157" height="145">
-								@else
-								<img class="" src="{{asset('storage/'.$data->rooftypeandrating)}}" alt="img-icon" width="157" height="145">
-								@endif
-								</div>
-								<div class="upload-studio-img-text-wrap d-flex align-items-center justify-content-between">
-									<div class="upload-studio-img-text">Roof types and ratings</div>
-									<div class="upload-studio-img-text-icon"><svg width="9" height="17" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 16L7.43043 9.82576C8.18986 9.09659 8.18986 7.90341 7.43043 7.17424L1 1" stroke="#0A84FF" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-								</div>
-							</label>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="form-group col-6">
-				<div class="field-wrap">
-					<div class="form-element">
-						<div class="upload-studio-img-item">
-							<input id="uploadstudioimg1" type="file" name="guttertypeaccessories" accept="image/jpg, image/jpeg, image/png">
-							<label for="uploadstudioimg1">
-								<div class="upload-studio-img-icon">
-									@if(!isset($data->guttertypeaccessories))
-									<img class="d-none d-lg-block" src="{{asset('frontend-assets/images/upload-img.png')}}" alt="img-icon" width="130" height="100">
-									<img class="d-lg-none" src="{{asset('frontend-assets/images/upload-img-1.png')}}" alt="img-icon" width="157" height="145">
-									@else
-									<img class="" src="{{asset('storage/'.$data->guttertypeaccessories)}}" alt="img-icon" width="157" height="145">
-									@endif
-								</div>
-								<div class="upload-studio-img-text-wrap d-flex align-items-center justify-content-between">
-									<div class="upload-studio-img-text">Gutter types and accessories</div>
-									<div class="upload-studio-img-text-icon"><svg width="9" height="17" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 16L7.43043 9.82576C8.18986 9.09659 8.18986 7.90341 7.43043 7.17424L1 1" stroke="#0A84FF" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-								</div>
-							</label>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="form-group col-6">
-				<div class="field-wrap">
-					<div class="form-element">
-						<div class="upload-studio-img-item">
-							<input id="uploadstudioimg1" type="file" name="guttertypeaccessories1" accept="image/jpg, image/jpeg, image/png">
-							<label for="uploadstudioimg1">
-								<div class="upload-studio-img-icon">
-								@if(!isset($data->guttertypeaccessories1))		
-								<img class="d-none d-lg-block" src="{{asset('frontend-assets/images/upload-img.png')}}" alt="img-icon" width="130" height="100">
-									<img class="d-lg-none" src="{{asset('frontend-assets/images/upload-img-1.png')}}" alt="img-icon" width="157" height="145">
-									@else
-									<img class="" src="{{asset('storage/'.$data->guttertypeaccessories1)}}" alt="img-icon" width="157" height="145">
-								
-								@endif
-								</div>
-								<div class="upload-studio-img-text-wrap d-flex align-items-center justify-content-between">
-								
-									<div class="upload-studio-img-text">Gutter types and accessories</div>
-									<div class="upload-studio-img-text-icon"><svg width="9" height="17" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 16L7.43043 9.82576C8.18986 9.09659 8.18986 7.90341 7.43043 7.17424L1 1" stroke="#0A84FF" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-								
-								</div>
-							</label>
-						</div>
-					</div>
+					</form>
 				</div>
 			</div>
 		</div>
-<br />
-<div align="center">
-  <button type="submit" align="center" id="submit-all" class="btn btn-primary btn-studio-step-1">Submit and continue</button>
-<br/><br/>
-  <div class="backto-login text-center"><a href="{{ route('general.info',['project_id' => $project_id])}}"><svg width="5" height="9" viewBox="0 0 5 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.13654 8L1.25522 5.11869C0.914945 4.77841 0.914945 4.22159 1.25522 3.88131L4.13654 1" stroke="#0A84FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</a></div>
+	</div> -->
 
+<!-- Quote Modal -->
+<div class="modal fade sendquotepopup" id="sendquotepopup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabeltitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="staticBackdropLabeltitle">Design Studio</div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+            </div>
+            <div class="modal-body">
+			<form method="post" enctype="multipart/form-data" id="image-upload" class="dropzone">
+					
+                    <!-- Other form fields... -->
+					<div class="row">
+                        <div class="form-group col-12 col-md-12">
+                            <!-- Move the image-upload form outside of the main form -->
+                            <!-- <div id="image-upload" class="dropzone"> -->
+                                <input type="hidden" name="project_id" value="{{$project_id}}" id="project_id">
+                                @csrf
+                            </div>
+                        </div>
+						</form>
+                            <span id="error-message" style="color: red;"></span>
+                            <div id="uploaded-images">
+                                <?php
+                                $projectData = \App\Models\Project::findOrFail(base64_decode($project_id));
+                                $imageArray = json_decode($projectData->project_image, true);
+                                ?>
+
+
+
+                            </div>
+                            <br />
+                            <br />
+                        </div>
+                    <!-- </div> -->
+
+                    <!-- Other form fields... -->
+					 <div class="row justify-content-center">
+                        <div class="form-group button-wrap col-md-5">
+                            <div class="field-wrap text-center">
+                                <button type="submit" align="center" id="submit-all" class="btn btn-primary btn-studio-step-1">Submit and continue</button>
+                            </div>
+                        </div>
+                    </div>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
 </div>
+@endsection
+@section('scripts')
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	@endsection
-
-	@section('scripts')
 <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<!-- Add this script to initialize Dropzone -->
 
-
-<script type="text/javascript">
-Dropzone.autoDiscover = false;
+<script>
+	Dropzone.autoDiscover = false;
 
 $(document).ready(function () {
+
     var project_id = $('#project_id').val();
-
-    // Initialize Dropzone
-    var dropzone = new Dropzone('#image-upload', {
-        thumbnailWidth: 200,
-        url: "{{ route('test') }}",
-        maxFilesize: 20,
-		// createImageThumbnails:true,
-        addRemoveLinks: true, 
-        acceptedFiles: ".jpeg,.jpg,.png,.gif,.mp4",
-        dictRemoveFile: "Remove file",
-		uploadMultiple: true,
-        init: function () {
-            loadExistingImages(this);
-
-            this.on("removedfile", function (file) {
-                if (confirm("Are you sure you want to delete this image?")) {
-                    var fileName = file.name;
-                    removeImageFromServer(fileName);
-                }
-            });
-        }
-    });
-
-    $('#submit-all').click(function () {
-        var files = dropzone.getAcceptedFiles();
-          // Check if no files are selected
-		//   if (files.length === 0 || existingImages.length === 0) {
-        //     alert("Please select at least one image before submitting.");
-        //     return;
-        // }
-
-		var formData = new FormData();
+	var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
 
-        for (var i = 0; i < files.length; i++) {
-            formData.append('file[]', files[i]);
-        }
+		// Initialize Dropzone
+		var dropzone = new Dropzone('#image-upload', {
+			thumbnailWidth: 200,
+			url: "{{ route('test') }}",
+			maxFilesize: 20,
+			// createImageThumbnails:true,
+			addRemoveLinks: true, 
+			acceptedFiles: ".jpeg,.jpg,.png,.gif,.mp4",
+			dictRemoveFile: "Remove file",
+			uploadMultiple: true,
+			headers: {
+					'X-CSRF-TOKEN': csrfToken
+				},
 
-        var existingImages = <?php echo json_encode($imageArray); ?> || [];
-        for (var i = 0; i < existingImages.length; i++) {
-            formData.append('existing_images[]', existingImages[i]);
-        }
+			init: function () {
+				loadExistingImages(this);
+
+				this.on("removedfile", function (file) {
+					if (confirm("Are you sure you want to delete this image?")) {
+						var fileName = file.name;
+						removeImageFromServer(fileName);
+					}
+				});
+			}
+		});
 
 
-		if (files.length === 0 && existingImages.length === 0) {
-        displayErrorMessage("Please select at least one image before submitting.");
-        return;
-    }
-        formData.append('_token', '{{ csrf_token() }}');
+		$('#submit-all').click(function () {
+			var files = dropzone.getAcceptedFiles();
+			console.log(files);
+			// Check if no files are selected
+			//   if (files.length === 0 || existingImages.length === 0) {
+			//     alert("Please select at least one image before submitting.");
+			//     return;
+			// }
 
-        $.ajax({
-            type: 'POST',
-            url: "{{ route('design.studio.post', ['project_id' => '__project_id__']) }}".replace('__project_id__', project_id),
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-                var project_id = response.project_id;
+			var formData = new FormData();
 
-                window.location.href = "{{ route('documentation', ['project_id' => '__project_id__']) }}".replace('__project_id__', project_id);
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-    });
 
-		function loadExistingImages(dropzoneInstance) {
+			for (var i = 0; i < files.length; i++) {
+				formData.append('file[]', files[i]);
+			}
+
+			var existingImages = <?php echo json_encode($imageArray); ?> || [];
+			for (var i = 0; i < existingImages.length; i++) {
+				formData.append('existing_images[]', existingImages[i]);
+			}
+
+
+			if (files.length === 0 && existingImages.length === 0) {
+			displayErrorMessage("Please select at least one image before submitting.");
+			return;
+		     }
+			formData.append('_token', '{{ csrf_token() }}');
+
+			$.ajax({
+				type: 'POST',
+				url: "{{ route('design.studio.post', ['project_id' => '__project_id__']) }}".replace('__project_id__', project_id),
+				data: formData,
+				processData: false,
+				contentType: false,
+				success: function (response) {
+					var project_id = response.project_id;
+					console.log(response.designstudio);
+					$('#sendquotepopup').modal('hide');
+
+					$('#testData').html(response.designstudio);
+					// window.location.href = "{{ route('documentation', ['project_id' => '__project_id__']) }}".replace('__project_id__', project_id);
+				},
+				error: function (error) {
+					console.log(error);
+				}
+			});
+   		 });
+
+
+        function loadExistingImages(dropzoneInstance) {
 			var existingImages = <?php echo json_encode($imageArray); ?> || [];
 
 			if (existingImages.length > 0) {
@@ -492,63 +431,99 @@ $(document).ready(function () {
 		}
 
 
-		// function loadExistingImages(dropzoneInstance) {
-		//     var existingImages = <?php //echo json_encode($imageArray); ?> || [];
-
-		//     if (existingImages.length > 0) {
-		//         for (var i = 0; i < existingImages.length; i++) {
-		//             var fileExtension = existingImages[i].split('.').pop().toLowerCase();
-		//             var isVideo = ['mp4'].indexOf(fileExtension) > -1;
-
-		//             var file = {
-		//                 name: existingImages[i],
-		//                 size: 12345,
-		//                 accepted: true,
-		//                 kind: isVideo ? 'video' : 'image',
-		//                 dataURL: "{{ asset('storage/project_images/') }}" + '/' + existingImages[i]
-		//             };
-
-		//             dropzoneInstance.emit('addedfile', file);
-		//             $('.dz-progress').addClass('d-none');
-
-		//             if (isVideo) {
-		//                 // Display video tag for .mp4 files
-		//                 var videoContainer = document.createElement('div');
-		//                 videoContainer.classList.add('video-container');
-		//                 dropzoneInstance.element.appendChild(videoContainer);
-
-		//                 videoContainer.innerHTML = '<video class="custom-video" controls><source src="' + file.dataURL + '" type="video/mp4"></video>';
-		//             } else {
-		//                 // Display image preview for other file types
-		//                 dropzoneInstance.emit('thumbnail', file, file.dataURL);
-		//             }
-		//         }
-		//     }
-		// }
 
 
+		function removeImageFromServer(fileName) {
+			$.ajax({
+				type: 'POST',
+				url: "{{ route('remove.image') }}",
+				data: { file_name: fileName, project_id: project_id, _token: '{{ csrf_token() }}' },
+				success: function (response) {
+					// console.log(response); 
+				},
+				error: function (error) {
+					// console.log(error); 
+				}
+			});
+        }
 
 
-    function removeImageFromServer(fileName) {
-        $.ajax({
-            type: 'POST',
-            url: "{{ route('remove.image') }}",
-            data: { file_name: fileName, project_id: project_id, _token: '{{ csrf_token() }}' },
+	
+
+		$('.remove-img').on('click', function (e) {
+			// alert("in");
+			e.preventDefault();
+    	var project_id = $('#project_id').val();
+		var file = $(this).data('media-item-id'); 
+		console.log(file);
+    var isConfirmed = confirm('Are you sure you want to remove this file?');
+
+            if (isConfirmed) {
+				$.ajax({
+            url: '/delete-image/' + project_id + '/' + file,
+            type: 'post',
+			data:{_token:'{{ csrf_token() }}'},
             success: function (response) {
-                // console.log(response); 
+
+				var file = $(this).closest('media-item-id'); 
+                alert("File deleted");
             },
             error: function (error) {
-                // console.log(error); 
+                console.error('Error deleting file:', error);
             }
         });
-    }
+ 		  }else{
+				alert("out")
+			}
+        });
 
-	function displayErrorMessage(message) {
-		$('#error-message').text(message);
 
-}
+
+
+
+
+	$('#design-filter').datepicker({
+		dateFormat: 'yy-mm-dd', 
+		onSelect: function (dateText, inst) {
+		}
+	});
+
+
+	$('#dsfilterButton').on('click', function (e) {
+		e.preventDefault();
+    	var project_id = $('#project_id').val();
+		// alert(project_id)
+
+			var designfilter = $('#design-filter').val();
+          
+            $.ajax({
+                url: '/design/studio/'+project_id, 
+                type: 'GET',
+                data: { designfilter: designfilter },
+                success: function (data) {
+					$('#testData').html(data.filterdata);
+                    //$('#test').html(data.html);
+                },
+                error: function (xhr, status, error) {
+                    //console.error(error);
+                }
+            });
+        });
+
+    $('#dsresetFilterButton').on('click', function () {
+           window.location.reload();
+	});
 
 });
 
+// });
+
+
+
+
 </script>
+
+
+<!-- <script src="https://cdn.plyr.io/3.6.4/plyr.js"></script> -->
 @endsection
+

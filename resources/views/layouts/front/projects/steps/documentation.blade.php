@@ -1,6 +1,20 @@
 @extends('layouts.front.master')
 @section('title', 'Documentation')
  
+@section('css')
+<style>
+.btn-gallery-filter{
+border-radius: 50px;
+    background-color: #EFEFEF;
+    font-size: 14px;
+    color: #48484A;
+    padding: 10px 15px;
+    border: none;
+    box-shadow: none;
+    margin-right: 10px;
+}
+</style>
+@endsection
 @section('content')
 
 <div class="breadcrumb-title-wrap">
@@ -15,6 +29,13 @@
 					@endphp
 						<li class="breadcrumb-item"><a href="{{ route('design.studio',['project_id' => base64_encode($project_id)])}}"><svg width="5" height="9" viewBox="0 0 5 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.13654 8L1.25522 5.11869C0.914945 4.77841 0.914945 4.22159 1.25522 3.88131L4.13654 1" stroke="#0A84FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</a></li>
 					</ol>
+					<div class="btn-gallery-filter-wrap">
+					<a href="{{route('general.info', ['project_id' => base64_encode($project_id)])}}" ><button class="btn-gallery-filter" >General Info</button></a>
+        <a class="project-list-item-link" href="{{ route('design.studio', ['project_id' => base64_encode($project_id)]) }}"><button class="btn-gallery-filter">Design studio</button></a>
+        <a class="project-list-item-link" href="{{route('documentation', ['project_id' => base64_encode($project_id)])}}"><button class="btn-gallery-filter">Documents</button></a>
+		<a class="project-list-item-link" href="{{route('contractor.list')}}"><button class="btn-gallery-filter">Contractor Portal</button></a>
+                
+	</div>
 				</div>
 			</div>
 			<div class="row d-lg-none mt-4">
@@ -62,9 +83,8 @@
 					<div class="studio-stepform-wrap">
 					<form id="documentform_step3" name="documentform_step3" method="POST" enctype="multipart/form-data">
 							@csrf
-	
 							<input type="hidden" name="project_id" id="project_id" value="{{$project_id}}" />
-						<div class="studio-step-3">
+						 <div class="studio-step-3">
 								<div class="row">
 									<div class="form-group col-12 col-md-6">
 										<div class="field-wrap">	
@@ -203,7 +223,6 @@ $(document).ready(function () {
             var fileInput = link.closest('.upload-img-wrap').find('input[type="file"]');
             var hiddenInput = link.closest('.upload-img-wrap').find('input[type="hidden"]');
 			var project_id = $('#project_id').val();
-			// alert(project_id);
             var isConfirmed = confirm('Are you sure you want to remove this document?');
             
             if (isConfirmed) {

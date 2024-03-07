@@ -11,10 +11,14 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
+
+
 use App\Models\Project; // model
 use App\Models\ProjectDocument; //model
 use App\Models\Contractor; //Model
-use App\Models\User; //Model
+use App\Models\User; //Model 
+use App\Models\ProjectImagesData;
 
 use App\Repositories\ProjectRepository;
 
@@ -139,9 +143,19 @@ public function __construct(ProjectRepository $projectRepository)
     }
 
 
-    public function designStudio($project_id)
+    public function designStudio($project_id,Request $request)
     {
-        return view("layouts.front.projects.steps.design-studio",compact("project_id"));
+        if ($request->ajax()  && $request->designfilter) {
+            $filterData = ProjectImagesData::where('project_id',base64_decode($project_id))
+            ->whereDate('date', '=', $request->designfilter)
+            ->get();
+            $groupedData = $filterData->groupBy('date');
+               $dsview = view('layouts.front.projects.steps.filterdata-design-studio', compact('groupedData'))->render();
+                return response()->json(['filterdata' => $dsview]);
+        }else{
+            return view("layouts.front.projects.steps.design-studio",compact("project_id"));
+   
+        }
     }
 
     public function test(){}
@@ -168,26 +182,75 @@ public function __construct(ProjectRepository $projectRepository)
         $project_id = base64_decode($project_id);
         $project    = Project::findOrFail($project_id);
 
+
         $projectImages = [];
 
-        if ($request->hasFile("file")) {
-            $existingImages = json_decode($project->project_image, true) ?? [];
-
+        if($request->hasFile("file")){
             foreach ($request->file("file") as $file) {
-                $filename = time() . "_" .\Str::random(3).'_'.$file->getClientOriginalName();
-                $file->storeAs("project_images", $filename, "public");
-                $existingImages[] = $filename;
+               $filename = time() . "_" .\Str::random(3).'_'.$file->getClientOriginalName();
+
+          //  media type after check the exitension  it is video or image file
+               $file->storeAs("project_images", $filename, "public");
+               $projectImageData = new  ProjectImagesData;
+               $projectImageData->project_id = $project_id;
+               $projectImageData->project_image =  $filename;
+               $projectImageData->date = Carbon::now()->toDateString();
+               $timeFormatted = Carbon::now('Asia/Kolkata')->format('h:i A');
+               $projectImageData->time = $timeFormatted;
+               $projectImageData->save();
+                
             }
 
-            $project->update(["project_image" => json_encode($existingImages)]);
-        }
 
-        $project_id = base64_encode($project_id);
+      $projectImageData = ProjectImagesData::where('project_id', $project_id)
+         ->orderBy('date', 'desc')
+        ->get();
+
+
+$project_id = base64_encode($project_id);
+$groupedData = $projectImageData->groupBy('date');
+
+
+        // $projectImageData = ProjectImagesData::where('project_id',$project_id)
+        // ->orderBy('date', 'desc') 
+        //  ->get();
+        // $project_id = base64_encode($project_id);
+        // $groupedData = $projectImageData->groupBy('date');
+    
+    
+        $view = view('layouts.front.projects.steps.work-gallery', compact('project','groupedData'))->render();
+           
 
         return response()->json([
             "success" => "Files uploaded successfully",
             "project_id" => $project_id,
+            //"projectImage" => $projectImageData,
+            'designstudio'=> $view
         ]);
+
+                    
+        }
+
+
+        // if ($request->hasFile("file")) {
+        //     // $existingImages = json_decode($project->project_image, true) ?? [];
+
+        //     foreach ($request->file("file") as $file) {
+        //         $filename = time() . "_" .\Str::random(3).'_'.$file->getClientOriginalName();
+        //         $file->storeAs("project_images", $filename, "public");
+        //         $existingImages[] = $filename;
+        //     }
+
+        // //     $project->update(["project_image" => json_encode($existingImages)]);
+        // }
+
+        // $project_id = base64_encode($project_id);
+
+        // return response()->json([
+        //     "success" => "Files uploaded successfully",
+        //     "project_id" => $project_id,
+        // ]);
+
     }
 
     public function generalInformation($project_id)
@@ -375,10 +438,70 @@ public function removeDocuments(Request $request)
 }
 
 
-public function contractorProjectList(){
-    $projects = Project::get();
-    return view('layouts.front.projects.contractor.contractor-project-list',compact('projects'));
-}
+    // public function contractorProjectList(Request $request){
+    //     if($request->from_date != NULL  && $request->to_date != NULL){
+    //         $query = Project::query();
+    //         if ($request->to_date) {
+    //             $query->whereDate('created_at', '<=', $request->to_date);
+    //         }
+    //         if ($request->from_date) {
+    //             $query->whereDate('created_at', '>=', $request->from_date);
+    //         }
+
+    //         if($request->title){
+
+    //             $query->orwhere('title','LIKE','%'.$request->title.'%')
+    //             ->orwhere('project_status','LIKE','%'.$request->title.'%');
+
+    //         }
+    //         if ($request->ajax() && $request->to_date || $request->from_date){
+    //             $projects = $query->orderBy('id','DESC')->get();
+    //             $view = view('layouts.front.projects.contractor.contractordashboard',compact('projects'))->render();
+    //             return response()->json(['html' => $view]);
+    //         }
+    //     }else{
+    //         $currentMonth = Carbon::now()->month;
+    //         $projects = Project::whereMonth('created_at', $currentMonth)->orderBy('id','DESC')->get();
+    //     }
+    //     return view('layouts.front.projects.contractor.contractor-project-list',compact('projects'));
+    // }
+
+
+// public function contractorProjectList(Request $request){
+//     if($request->from_date != NULL  && $request->to_date != NULL){
+//         $query = Project::query()->leftJoin('users', 'projects.user_id', '=', 'users.id');
+//         if ($request->to_date) {
+//             $query->whereDate('projects.created_at', '<=', $request->to_date);
+//         }
+//         if ($request->from_date) {
+//             $query->whereDate('projects.created_at', '>=', $request->from_date);
+//         }
+
+//         if($request->title){
+//             $query->where(function($subQuery) use ($request) {
+//                 $subQuery->where('projects.title', 'LIKE', '%'.$request->title.'%')
+//                     ->orWhere('projects.project_status', 'LIKE', '%'.$request->title.'%')
+//                     ->orWhere('users.name', 'LIKE', '%'.$request->title.'%')
+//                     ->orwhere('projects.id','LIKE','%'.$request->title.'%')
+//                     ->orWhere('users.email', 'LIKE', '%'.$request->title.'%')
+//                     ->orWhere('users.contact_number', 'LIKE', '%'.$request->title.'%');
+//             });
+
+//         }
+
+//         if ($request->ajax() && ($request->to_date || $request->from_date)){
+//             $projects = $query->orderBy('projects.id','DESC')->get();
+//             $view = view('layouts.front.projects.contractor.contractordashboard', compact('projects'))->render();
+//             return response()->json(['html' => $view]);
+//         }
+//     } else {
+//         $currentMonth = Carbon::now()->month;
+//         $projects = Project::whereMonth('projects.created_at', $currentMonth)->orderBy('projects.id', 'DESC')->get();
+//     }
+
+//     return view('layouts.front.projects.contractor.contractor-project-list', compact('projects'));
+// }
+
 
 public function projectDetailsContractor(Request $request, $project_id)
 {
@@ -424,7 +547,6 @@ public function projectDetailsContractor(Request $request, $project_id)
 public function download($filename)
 {
     $filePath = storage_path('app/public/' . $filename);
-
     if (file_exists($filePath)) {
         $headers = [
             'Content-Type' => 'image/*',
@@ -432,7 +554,7 @@ public function download($filename)
         return response()->download($filePath, $filename, $headers);
     } else {
         abort(404, 'File not found');
-}
+    }
 }
 
 //update contractor profile
@@ -442,6 +564,7 @@ public function profileView(){
 
 public function profileUpdate(Request $request)
 {
+
     $validator = Validator::make($request->all(), [
         'contarctorId' => 'required|exists:contractors,id',
         'name' => 'required|string|max:255',
@@ -449,16 +572,25 @@ public function profileUpdate(Request $request)
         'contactnumber' => 'required|string|max:20',
         'zipcode' => 'required|string|max:10',
         'customer_profile' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Assuming it's an image upload
+        //'banner_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Assuming it's an image upload
+
 
     ]);
+
+    // dd($request->banner_image);
+
 
     if ($validator->fails()) {
         return redirect()->back()->withErrors($validator)->withInput();
     }
 
+
+
+
     $contractor = Contractor::find($request->contarctorId);
 
     if ($contractor) {
+
         $contractor->name = $request->name;
         $contractor->email = $request->email;
         $contractor->contact_number = $request->contactnumber;
@@ -476,6 +608,30 @@ public function profileUpdate(Request $request)
         //     $contractor->profile_image = $imageName;
         // }
 
+
+        $bannerImageName = null;
+
+        if ($request->hasFile('banner_image')) {
+            
+            $bannerImage = $request->file('banner_image');
+    
+            $bannerImageName = time() . '_' . $bannerImage->getClientOriginalName();
+            // $bannerImage->storeAs($bannerImageName);
+            //dd($bannerImage);
+
+
+            $directory = "contractor_banner";
+
+                $publicDirectory = public_path($directory);
+                if (!file_exists($publicDirectory)) {
+                    mkdir($publicDirectory, 0755, true);
+                }
+                $originalFileName = \Str::random(3) . time() . $bannerImage->getClientOriginalName();
+                $bannerImage->move($publicDirectory, $originalFileName);
+                $contractor->banner_image = $bannerImageName;
+        }
+    
+
         $profileImageName = null; 
 
         if ($request->hasFile('profile_image')) {
@@ -485,11 +641,26 @@ public function profileUpdate(Request $request)
             $contractor->profile_image         = $profileImageName ? 'uploads/contractor_profile/' . $profileImageName : null;
 
         }
+
+        // $bannerImaxgeName = null;
+
+// if ($request->hasFile('banner_image')) {
+//     // dd("in");
+//     $bannerImage = $request->file('banner_image');
+//     dd($bannerImage);
+//     $bannerImageName = time() . '_' . $bannerImage->getClientOriginalName();
+//     $bannerImage->storeAs('uploads/contractor_banner', $bannerImageName);
+//     $contractor->banner_image = $bannerImageName ? 'uploads/contractor_banner/' . $bannerImageName : null;
+// }
+
+
         if ($request->has('password')) {
             $contractor->password = bcrypt($request->password);
         }
 
+
         $contractor->save();
+        // dd($contractor);
 
         return redirect()->back()->with('success', 'Profile updated successfully.');
     } else {
@@ -513,7 +684,7 @@ public function customerprofileUpdate(Request $request){
         'email' => 'required|email|max:255',
         'contactnumber' => 'required|string|max:20',
         'zipcode' => 'required|string|max:10',
-        'customer_profile' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Assuming it's an image upload
+        'customer_profile' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
 
     ]);
 
@@ -553,6 +724,27 @@ public function customerprofileUpdate(Request $request){
         return response()->json(['error' => 'The Customer not found'], 404);
     }
 }
+
+
+// public function deleteImages(Request $request,$projectId,$filePath){
+//     dd($filePath);
+// }
+
+public function deleteImages($project_id, $media_item_id)
+    {
+        $mediaItem = ProjectImagesData::find($media_item_id);
+
+        if (!$mediaItem) {
+            return response()->json(['message' => 'Media item not found.'], 404);
+        }
+
+        Storage::delete('project_images/' . $mediaItem->project_image);
+
+        $mediaItem->delete();
+
+        return response()->json(['message' => 'File deleted successfully.']);
+    }
+
 
 
 }

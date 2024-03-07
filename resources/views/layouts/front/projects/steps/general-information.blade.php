@@ -1,6 +1,20 @@
 @extends('layouts.front.master')
 @section('title', 'General Information')
  
+
+@section('css')
+<style>
+.btn-gallery-filter{border-radius: 50px;
+    background-color: #EFEFEF;
+    font-size: 14px;
+    color: #48484A;
+    padding: 10px 15px;
+    border: none;
+    box-shadow: none;
+    margin-right: 10px;
+}
+</style>
+@endsection
 @section('content')
 	{{--$project_id--}}
 <?PHP
@@ -18,7 +32,12 @@ if(isset($project_id)){
 						<!-- <li class="breadcrumb-item"><a href="login.html"><svg width="5" height="9" viewBox="0 0 5 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.13654 8L1.25522 5.11869C0.914945 4.77841 0.914945 4.22159 1.25522 3.88131L4.13654 1" stroke="#0A84FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</a></li> -->
 						<li class="breadcrumb-item"><a href="{{URL::to('add/project/'.base64_encode($project_id))}}"><svg width="5" height="9" viewBox="0 0 5 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.13654 8L1.25522 5.11869C0.914945 4.77841 0.914945 4.22159 1.25522 3.88131L4.13654 1" stroke="#0A84FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</a></li>
 					</ol>
-				</div>
+		<a href="{{route('general.info', ['project_id' => base64_encode($project_id)])}}" ><button class="btn-gallery-filter" >General Info</button></a>
+        <a class="project-list-item-link" href="{{ route('design.studio', ['project_id' => base64_encode($project_id)]) }}"><button class="btn-gallery-filter">Design studio</button></a>
+        <a class="project-list-item-link" href="{{route('documentation', ['project_id' => base64_encode($project_id)])}}"><button class="btn-gallery-filter">Documents</button></a>
+		<a class="project-list-item-link" href="{{route('contractor.list')}}"><button class="btn-gallery-filter">Contractor Portal</button></a>
+                </div>
+				
 			</div>
 			<div class="row d-lg-none mt-4">
 				<div class="col-12">

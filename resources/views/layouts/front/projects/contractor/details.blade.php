@@ -35,13 +35,14 @@
 			<div class="row breadcrumb-title">
 				<div class="col-12 col-lg-8">
 					<div class="section-title">{{$projectinfo->title??Projects}}</div>
-					<div class="section-subtitle d-none d-lg-block">The contractors on this list are held to the highest standards and are local to your exact area. <br class="d-none d-lg-block">
-					We only partner with the top contractors in your area and will back their warranty if anything ever happens.</div>
+					{{--<div class="section-subtitle d-none d-lg-block">The contractors on this list are held to the highest standards and are local to your exact area. <br class="d-none d-lg-block">
+					We only partner with the top contractors in your area and will back their warranty if anything ever happens.</div>--}}
 				</div>
-				<div class="col-12 col-lg-4 text-end">
+				
+				{{--<div class="col-12 col-lg-4 text-end">
 					<div class="section-subtitle d-lg-none">The contractors on this list are held to the highest standards and are local to your exact area. <br class="d-none d-lg-block">
 					We only partner with the top contractors in your area and will back their warranty if anything ever happens.</div>
-				</div>
+				</div>--}}
 			</div>
 
 			<div class="row">
@@ -50,9 +51,9 @@
 						<li class="nav-item" role="presentation">
 							<button class="nav-link active" id="contractor-list-tab" data-bs-toggle="tab" data-bs-target="#contractor-list-tab-pane" type="button" role="tab" aria-controls="contractor-list-tab-pane" aria-selected="true">Projects list</button>
 						</li>
-						<li class="nav-item" role="presentation">
+						{{--<li class="nav-item" role="presentation">
 							<button class="nav-link" id="view-quotes-tab" data-bs-toggle="tab" data-bs-target="#view-quotes-tab-pane" type="button" role="tab" aria-controls="view-quotes-tab-pane" aria-selected="false">View quotes</button>
-						</li>
+						</li>--}}
 					</ul>
 				</div>
 			</div>
@@ -78,9 +79,9 @@
 										<div class="tab-content" id="project-detail-nav">
 											<div class="tab-pane fade" id="nav-design-studio" role="tabpanel" aria-labelledby="nav-design-studio-tab" tabindex="0">
 												<div class="row">
-													<div class="col-12">
+													{{--<div class="col-12">
 														<div class="section-subtitle mb-4">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</div>
-													</div>
+													</div>--}}
 												</div>
 												<div class="row">
 													<div class="col-12 col-md-6 col-lg-4">
@@ -198,9 +199,9 @@
 											</div>
 											<div class="tab-pane fade show active" id="nav-general-info" role="tabpanel" aria-labelledby="nav-general-info-tab" tabindex="0">
 												<div class="row">
-													<div class="col-12">
+													{{--<div class="col-12">
 														<div class="section-subtitle mb-4">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</div>
-													</div>
+													</div>--}}
 												</div>
 												<div class="row">
 													<div class="col-12">
@@ -237,12 +238,13 @@
 														<a class="btn-primary d-block" id="generalinfotab" href="javascript:void(0)">Next</a>
 													</div>
 												</div>
+												
 											</div>
 											<div class="tab-pane fade" id="nav-documentation" role="tabpanel" aria-labelledby="nav-documentation-tab" tabindex="0">
 												<div class="row">
-													<div class="col-12">
+													{{--<div class="col-12">
 														<div class="section-subtitle mb-4">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</div>
-													</div>
+													</div>--}}
 												</div>
 												<div class="row">
 													<div class="col-12 col-lg-6">

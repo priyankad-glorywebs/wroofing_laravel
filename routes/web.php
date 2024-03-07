@@ -38,6 +38,9 @@ Route::get('/clear-cache', function () {
     echo '</pre>';
 });
 
+
+
+
 /*********************************************************/
 //   -------------Authentication Google Sign In -----------
 /*********************************************************/
@@ -90,9 +93,9 @@ Route::group(['namespace' => 'Front\Auth','prefix'=>'customer'], function () {
     // Route::post('/logout',[LoginController::class,'logout'])->name('logout');
     Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
    // Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
-   Route::get('/email/custom-verify/{id}', [CustomVerificationController::class, 'customVerify'])->name('verification.customVerify')->middleware('signed');
+    Route::get('/email/custom-verify/{id}', [CustomVerificationController::class, 'customVerify'])->name('verification.customVerify')->middleware('signed');
 
-//    Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
+     //Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/forgot/password', [ForgotPasswordController::class, 'forgotPassword'])->name('forgot.password');
     Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('send.reset.link');
@@ -131,8 +134,8 @@ Route::group(['namespace' => 'Front\Auth','prefix'=>'contractor'], function () {
     Route::post('/reset-password', [ContractorResetPasswordController::class, 'contractorsubmitResetPasswordForm'])->name('contractor.reset.password.post');
 
     //update profile page customer
-    // Route::get('/update/customer/profile',[ProjectController::class,'customerprofileView'])->name('customer.profile');
-    // Route::post('/update/customer/profile/post',[ProjectController::class,'customerprofileUpdate'])->name('customer.profile.update');
+    Route::get('/update/customer/profile',[ProjectController::class,'customerprofileView'])->name('customer.profile');
+    Route::post('/update/customer/profile/post',[ProjectController::class,'customerprofileUpdate'])->name('customer.profile.update');
 
 });
 
@@ -157,7 +160,7 @@ Route::group(['namespace' => 'Front\Auth','prefix'=>'contractor'], function () {
 /*********************************************************/
 Route::group(['middleware' => 'contractor.middleware:contractor','namespace' => 'Front\Auth'], function () {
      //contractor dashboard
-    Route::get('contractor/dashboard',[ProjectController::class,'contractorProjectList'])->name('contractor.dashboard');
+    Route::get('contractor/dashboard',[ContractorController::class,'contractorProjectList'])->name('contractor.dashboard');
     Route::get('contractor/project/details/{project_id}',[ProjectController::class,'projectDetailsContractor']);
     //download a file 
     Route::get('/{filename}', [ProjectController::class, 'download'])->name('download.file');
@@ -203,6 +206,9 @@ Route::post('remove/documents',[ProjectController::class,'removeDocuments'])->na
 Route::get('contractor/list',[ContractorController::class,'index'])->name('contractor.list');
 
 //project details page for contractor projects  details page 
+
+
+Route::POST('/delete-image/{project_id}/{file}',[ProjectController::class,'deleteImages']);
 
 
 
