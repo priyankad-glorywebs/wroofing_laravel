@@ -16,23 +16,25 @@
 						<div class="login-form-title text-center">Welcome to StructR</div>
 						<div class="form-wrp">
 						@if ($message = Session::get('error'))
-							<div class="alert alert-danger alert-block">
-								<strong>{{ $message }}</strong>
-							</div>
-						@endif
+							<!-- <div class="alert alert-danger alert-block">
+								<strong> $message </strong>
+							</div> -->
+							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<strong>{{$message}}</strong>
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							</div>						
+							@endif
 						@if(session('success'))
-							<div class="alert alert-success">
-								{{ session('success') }}
+							<!-- <div class="alert alert-success">
+								
+							</div> -->
+							<div class="alert alert-success alert-dismissible fade show" role="alert">
+							{{ session('success') }}
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 							</div>
 						@endif
-
-
 							<form id="loginform" method="POST" action="{{route('login')}}" enctype="multipart/form-data">
 								@csrf
-							
-
-
-								
 								<div class="row">
 									<div class="form-group col-12">
 										<div class="field-wrap">

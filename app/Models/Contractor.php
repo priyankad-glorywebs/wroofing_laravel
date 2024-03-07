@@ -17,7 +17,7 @@ class Contractor extends Authenticatable implements MustVerifyEmail
     ];
     
     protected $fillable = [
-        'name', 'email', 'password', 'contact_no', 'zipcode', 'profile_image', 'contractor_portfolio','company_name'
+        'name', 'email', 'password', 'contact_no', 'zipcode', 'profile_image', 'contractor_portfolio','company_name','banner_image'
     ];
 
     

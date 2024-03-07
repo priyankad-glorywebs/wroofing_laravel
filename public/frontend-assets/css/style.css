@@ -6,6 +6,7 @@ Description: Bootstrap5, HTML5, CSS3 and Fully Responsive Website.
 Author: Glorywebs Team*/
 /***** Project detail End *****/
 
+
 html {scroll-behavior: smooth; }
 body {padding: 0px; margin: 0px; font-size: 16px; font-weight: 400; line-height: 1.3; font-family: 'Plus Jakarta Sans', sans-serif; color: #2C2C2E; overflow-x: hidden; background-color: #F8F8F8;}
 img {max-width: 100%; height: auto; width: auto;}
@@ -98,7 +99,7 @@ input:focus + .input-icon svg path {stroke: #0A84FF;}
 .site-header .navbar-collapse {position: fixed; top: 0; left: -320px; bottom: 0; width: 100%; height: 100vh !important; max-width: 320px; z-index: 1025; background-color: #53B746; display: block !important; transition: all 0.35s; padding: 30px; overflow-x: auto;}
 .site-header .navbar-collapse.show {left: 0;}
 .site-header .navbar-nav {display: block; margin-bottom: 30px;}
-.site-header .hamburger-menu {position: relative; width: 8px; height: 26px; transition: .5s ease-in-out; cursor: pointer; margin-left: 30px;}
+.site-header .hamburger-menu {position: relative; width: 20px; height: 26px; transition: .5s ease-in-out; cursor: pointer; margin-left: 30px;}
 .site-header .hamburger-menu span {display: block; position: absolute; height: 4px; width: 4px; background: #53B746; border-radius: 50px; opacity: 1; left: calc(50% - 2px); transition: .25s ease-in-out;}
 .site-header .hamburger-menu span:nth-child(1) {top: 0px;}
 .site-header .hamburger-menu span:nth-child(2), 
@@ -254,7 +255,7 @@ input:focus + .input-icon svg path {stroke: #0A84FF;}
 .contractor-sec .accordion-item {border: none;}
 .contractor-sec .contractor-title-img {width: 61px; height: 61px; margin-top: -15px; margin-right: 20px;}
 .contractor-sec .contractor-title-img img {border-radius: 50px; border: 6px solid #fff; text-align: center; height: 100%;width: 100%;object-fit: cover;object-position: center center;}
-.contractor-sec .contractor-img-icon {width: 35px; height: 35px; background-color: #fff; padding: 7px; border-radius: 7px; position: absolute; bottom: 20px; right: 20px; cursor: pointer;}
+.contractor-sec .contractor-img-icon {width: 35px; height: 35px; background-color: #fff; padding: 7px; border-radius: 7px; position: absolute; bottom: 20px; right: 20px; cursor: pointer;z-index: 2;}
 .contractor-sec .contractor-img-icon img {vertical-align: unset;}
 .contractor-sec .contractor-title {font-weight: 600;}
 .contractor-sec .quotes-detail-item {margin-bottom: 10px;}
@@ -370,7 +371,35 @@ input:focus + .input-icon svg path {stroke: #0A84FF;}
 .thank-you-sec .section-title span {color: #4eac44;}
 /***** Terms Conditions Page End *****/
 
+.contractor-sec .btn-primary.btn-change-view, .contractor-sec .btn-primary.btn-change-view:focus {background-color: #0A84FF; border-color: #0A84FF; padding: 9px;}
+.contractor-sec .btn-primary.btn-change-view:hover {background-color: #2C2C2E; border-color: #2C2C2E;}
+.contractor-sec .list-view-main-title {display: none;}
+.contractor-sec .list-view .list-view-main-title {display: block;}
+.contractor-sec .list-view .contractor-img-wrap {display: none;}
+/*.contractor-sec .list-view .contractor-title-img {margin-top: 0;width: 55px; height: 55px;}*/
+.contractor-sec .list-view .contractor-title-img img {border: none; border-radius: 6px; object-fit: cover; object-position: center center; width: 100%; height: 100%;}
+.contractor-sec .list-view .contractor-detail-title-wrap {align-items: center;}
+.contractor-sec .list-view #test.row > * {flex: 0 0 auto; width: 100%;}
 
+.contractor-sec .list-view .project-detail-item {width: 25%; padding: 0 5px;}
+.contractor-sec .list-view .contractor-title-main {display: flex; width: calc(100% - 80px);}
+.contractor-sec .list-view .contractor-detail-title-wrap {width: 100%;}
+.contractor-sec .list-view .project-detail-item-title, 
+.contractor-sec .list-view .project-title {font-weight: 600;}
+.contractor-sec .list-view .accordion-collapse {display: none;}
+
+.contractor-sec .list-view .list-view-detial-item .contractor-title-img {width: 60px; height: 60px; margin-top: 0;}
+
+.contractor-sec .list-view-detial-item {display: none;}
+.contractor-sec .list-view .list-view-detial-item {display: block;}
+.contractor-sec .list-view button.accordion-button {display: block;}
+.contractor-sec .list-view button.accordion-button {display: none;}
+.list-view-detial-item:after {content: none;}
+/* .list-view-detial-item {display: none;} */
+
+body .dropzone .dz-preview .dz-remove {font-size: 14px; text-align: center; display: block; cursor: pointer; border: none; position: absolute; bottom: 0;z-index: 99; color: red; background-color: rgba(255, 255, 255, 0.6); width: 100%; padding: 3px;}
+body .dropzone .dz-preview .dz-image {border-radius: 6px; height: 100px; width: 100px;}
+.dropzone .dz-preview .dz-image img {object-fit: cover; object-position: center center; width: 100%; height: 100%;}
 
 /***** Media Start *****/
 @media (min-width: 992px) {

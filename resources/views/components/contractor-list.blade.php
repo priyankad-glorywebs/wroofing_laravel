@@ -57,7 +57,13 @@
 									<div class="contractor-list-item">
 										<div class="contractor-img-wrap">
 											<div class="contractor-img">
+												
+												@if(isset($contractorList->banner_image))
+												<img src="{{asset('contractor_banner/'.$contractorList->banner_image)}}" alt="Contractor Banner">
+
+												@else
 												<img src="{{asset('frontend-assets/images/contractor-1.png')}}" alt="contractor" width="370" height="200">
+												@endif
 											</div>
 											<div class="contractor-pin">Recommended</div>
 											{{--<div class="contractor-review d-flex align-items-center">
@@ -81,8 +87,8 @@
 														<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 															<div class="contractor-detail-title-wrap d-flex">
 																<div class="contractor-title-img">
-                                                                    @if(isset($contractorList->profile_image))
-                                                                    <img src="{{asset($contractorList->profile_image)}}" onerror="setDefaultImage(this)" alt="contractor-img" width="55" height="">
+                                                            	    @if(isset($contractorList->profile_image))
+																	<img src="{{asset($contractorList->profile_image)}}" onerror="setDefaultImage(this)" alt="contractor-img" width="55" height="">
                                                                     @else
 																	<img src="{{asset('frontend-assets/images/Ellipse 15.svg')}}" alt="contractor-img" width="55" height="">
                                                                     @endif
