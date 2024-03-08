@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Project;
+use App\Models\User;
 
 class ContractorController extends Controller
 {
@@ -16,7 +17,7 @@ class ContractorController extends Controller
     //filter
     public function contractorProjectList(Request $request){
         if($request->from_date != NULL  && $request->to_date != NULL){
-            $query = Project::query()->leftJoin('users', 'projects.user_id', '=', 'users.id');
+            $query = User::query()->Join('projects', 'users.id', '=', 'projects.user_id');
             if ($request->to_date) {
                 $query->whereDate('projects.created_at', '<=', $request->to_date);
             }

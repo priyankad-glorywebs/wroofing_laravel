@@ -81,10 +81,10 @@
 										<div class="contractor-title-main">
 											<div class="project-detail-item project-title">{{$project->title??''}}
 												@if($project->id)
-											<div class="contractor-location-text">#{{$project->id??''}}</div>
-												@endif
+												<div class="contractor-location-text">#{{$project->id??''}}</div>
+													@endif
 
-											</div>
+                                           </div>
 											
 											<div class="project-detail-item d-flex">
 												<div class="project-detail-item-detail"><a href="">{{$userinfo->name??''}}</a></div>
@@ -143,7 +143,7 @@
 											<div class="quotes-detail-item-content"><a href="mailto:jon.doe4@gmail.com">{{$userinfo->email??''}}</a></div>
 										</div>
 										<div class="quotes-request-btn-wrap">
-											<a class="btn-primary d-block" href="#">View More</a>
+											<a class="btn-primary d-block" href="{{URL::to('contractor/project/details/'.base64_encode($project->id))}}">View More</a>
 										</div>
 									</div>
 								</div>
