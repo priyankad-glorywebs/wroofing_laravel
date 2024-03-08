@@ -543,7 +543,7 @@
 						@endforeach
 					@endif
 
-					initialize the magnificPopup js for this images and videos 
+					<!-- initialize the magnificPopup js for this images and videos  -->
 
 
 							{{--<div class="item" data-category="images">
