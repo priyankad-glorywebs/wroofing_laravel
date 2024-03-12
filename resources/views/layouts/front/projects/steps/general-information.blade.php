@@ -60,14 +60,14 @@ if(isset($project_id)){
 					</div> -->
 				</div>
 				<div class="col-12 col-lg-5 text-end">
-					<div class="step-count">
+					{{--<div class="step-count">
 						<div class="step-count-title">Step 1 out of 3</div>
 						<div class="step-count-progress current-step-1">
 							<span></span>
 							<span></span>
 							<span></span>
 						</div>
-					</div>
+					</div>--}}
 					<div class="breadcrumb-addproject-step-1">
 						<div class="section-subtitle d-lg-none">Select your style, please be sure to check with your HOA before installation</div>
 					</div>

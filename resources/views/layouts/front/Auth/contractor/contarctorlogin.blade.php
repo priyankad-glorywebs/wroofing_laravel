@@ -27,13 +27,9 @@
 						@endif
 
 
-							<form id="loginform" method="POST" action="{{route('contractor.login')}}" enctype="multipart/form-data">
+							<form id="logincontractor" method="POST" action="{{route('contractor.login')}}" enctype="multipart/form-data">
 								@csrf
-							
-
-
-								
-								<div class="row">
+							<div class="row">
 									<div class="form-group col-12">
 										<div class="field-wrap">
 											<div class="form-label">

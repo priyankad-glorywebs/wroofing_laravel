@@ -5,7 +5,7 @@
 @section('css')
 
 <style>
-	.contractor-sec .project-detail-tabs .project-detail-photos-item-img {height:100%;}
+	/* .contractor-sec .project-detail-tabs .project-detail-photos-item-img {height:100%;}
     .contractor-sec .project-detail-tabs .project-detail-photos-item-img img {height: 100%; width: 100%; object-fit: cover; object-position: center center;}
 	.contractor-sec .project-detail-tabs .project-detail-photos-item .image-gallery-popup, 
 	.contractor-sec .project-detail-tabs .video_container,
@@ -13,7 +13,84 @@
 	.contractor-sec .project-detail-tabs .project-detail-photos-item .lightbox {height:200px;}
 	.contractor-sec .project-detail-tabs .project-detail-photos-item video {background-color:#000;}
 	
-    .contractor-sec{padding :14px 0;}
+    .contractor-sec{padding :14px 0;} */
+
+	.design-studio-img-items .lightbox{
+		width:100%;
+		height:100%;
+	}
+
+.contractor-sec .project-detail-tabs .project-detail-photos-item-img.design-studio-img-items {
+    background-color: #fff;
+    border-radius: 10px;
+    filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.15));
+    display: inline-block;
+    margin: 0 10px 10px 0;
+	width: 150px;
+    height: 150px;
+	overflow: hidden;
+	padding: 0;
+	min-height:unset;
+}
+.contractor-sec .project-detail-tabs .project-detail-photos-item-img img {
+	object-fit: cover;
+    object-position: center center;
+    width: 100%;
+    height: 100%;
+}
+.contractor-sec .project-detail-tabs .project-detail-photos-item-img .remove-img {
+	border: none;
+    box-shadow: none;
+    background: #0A84FF;
+    opacity: 1;
+    display: inline-block;
+    font-size: 10px;
+    color: #fff;
+    border-radius: 50px;
+    max-width: 20px;
+    max-height: 20px;
+    line-height: 1;
+    text-align: center;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+	width:20px;
+	height:20px;
+}
+.contractor-sec .project-detail-tabs .project-detail-photos-item-img .image-upload-time {
+	position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    background-color: rgba(255, 255, 255, .6);
+    padding: 3px 5px;
+    font-size: 12px;
+    font-weight: 500;
+}
+.contractor-sec .project-detail-tabs .project-detail-photos-item-img .studio-stepform-wrap h6 {
+	margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    border-bottom: 1px solid #E0E0E0;
+    padding-bottom: 10px;
+}
+.contractor-sec .project-detail-tabs .project-detail-photos-item-img #image-upload {
+	width: 100%;
+    text-align: center;
+    border-radius: 7px;
+    border: 1px dashed rgba(10, 132, 255, 0.50);
+    background: #F5FBFF;
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.25);
+    padding: 30px;
+    cursor: pointer;
+}
+
+/* .contractor-sec .project-detail-tabs .project-detail-photos-item-img  video {
+	background-color:#2C2C2E;
+	max-width: 100%;
+} */
+
+
 </style>
 @endsection
 
@@ -125,8 +202,59 @@
 															@endif
 												</div>--}}
 
-												<div class="row">
-        												@if(isset($images) && is_array($images) && count($images) > 0)
+						<div class="row studio-stepform-wrap">
+							<!-- added -->
+							        {{--No images or videos found--}}
+											<?php
+												$projectImageData = \App\Models\ProjectImagesData::where('project_id',$projectinfo->id)
+												->orderBy('date', 'desc')
+												->get();
+												$groupedData = $projectImageData->groupBy('date');
+											?>
+										@if($groupedData)
+										@foreach($groupedData as $date => $mediaItems)
+											<h6>{{ $date }}</h6>
+										@foreach($mediaItems as $mediaItem)
+										@if($mediaItem->media_type == 'image') 
+											<div class="design-studio-img-items project-detail-photos-item-img gallery_container">
+											@php
+											$authuser = \Auth::user()->id;
+										
+											@endphp 
+
+										    @if($authuser == $mediaItem->created_by??'')
+											<button type="button" class="remove-img" data-media-item-id="{{ $mediaItem->id }}">X</button>
+											@endif	
+											<a class="lightbox" href="{{ asset('storage/project_images/'.$mediaItem->project_image)  }}">
+													<img src="{{ asset('storage/project_images/'.$mediaItem->project_image)  }}" alt="Image">
+												</a>
+												<span class="image-upload-time">{{$mediaItem->time}}</span>
+											</div>
+											@elseif($mediaItem->media_type == 'video')
+											<div class="design-studio-img-items project-detail-photos-item-img video_container ">
+											
+											@php
+											$authuser = \Auth::user()->id;
+											@endphp 
+											@if($authuser == $mediaItem->created_by??'')
+   												<button type="button" class="remove-img" data-media-item-id="{{ $mediaItem->id }}">X</button>
+											@endif  
+											<a class="image-gallery-popup video_model" href="{{ asset('storage/project_images/'.$mediaItem->project_image) }}">
+													<video width="150" height="150" controls>
+														<source src="{{ asset('storage/project_images/'.$mediaItem->project_image) }}" type="video/mp4">
+														Your browser does not support the video tag.
+													</video>
+												</a>
+												<span class="image-upload-time">{{$mediaItem->time}}</span>
+											</div>
+											@endif 
+											@endforeach
+										@endforeach
+										@endif
+												</div>
+		             	<!-- added -->
+
+  												       {{-- old code @if(isset($images) && is_array($images) && count($images) > 0)
         												@foreach($images as $img)
         												<div class="col-6 col-md-4 col-lg-3">
         													<div class="project-detail-photos-item">
@@ -151,8 +279,7 @@
         													</div>
         												</div>
         												@endforeach
-        												@endif
-    												</div>
+        												@endif --}}
 												
 
 											

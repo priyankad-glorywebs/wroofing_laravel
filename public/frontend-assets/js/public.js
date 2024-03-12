@@ -721,4 +721,110 @@ $("#register input[type='submit']").click(function () {
 		}
 	});
 
+
+	//login form customer
+
+	$("#loginform button[type='submit']").click(function () {
+		var form = $("#loginform");
+		form.validate({
+			errorElement: 'span',
+			errorClass: 'help-block',
+			rules: {
+				
+				email: {
+					required: true,
+					email: true
+				},
+				password:{
+					required: true,
+					password: true
+
+				}
+				
+			},
+		});
+	});
+
+	//customer forgot password
+
+	$("#forgotpassword button[type='submit']").click(function () {
+		var form = $("#forgotpassword");
+		form.validate({
+			errorElement: 'span',
+			errorClass: 'help-block',
+			rules: {
+
+				email: {
+					required: true,
+					email: true
+				},
+
+			},
+		});
+	});
+
+	//customer reset passoword
+	// $("#resetpasswordform button[type='submit']").click(function () {
+	// 	var form = $("#resetpasswordform");
+	// 	form.validate({
+	// 		errorElement: 'span',
+	// 		errorClass: 'help-block',
+	// 		rules: {
+	// 			password:{
+	// 				required: true,
+	// 				password: true
+
+	// 			},
+    //             password_confirmation: {
+	// 				required: true,
+	// 				equalTo: "#password"
+					
+	// 			},
+	// 		},
+	// 	});
+	// });
+
+
+
+	//contractor login form 
+	$("#logincontractor button[type='submit']").click(function () {
+		var form = $("#logincontractor");
+		form.validate({
+			errorElement: 'span',
+			errorClass: 'help-block',
+			rules: {
+				
+				email: {
+					required: true,
+					email: true
+				},
+				password:{
+					required: true,
+					password: true
+
+				}
+				
+			},
+		});
+	});
+
+	//contractor forgot password
+
+	$("#forgotpasswordcontractor button[type='submit']").click(function () {
+		var form = $("#forgotpasswordcontractor");
+		form.validate({
+			errorElement: 'span',
+			errorClass: 'help-block',
+			rules: {
+
+				email: {
+					required: true,
+					email: true
+				},
+
+			},
+		});
+	});
+
+
 });

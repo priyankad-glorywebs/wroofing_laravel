@@ -143,20 +143,57 @@ public function __construct(ProjectRepository $projectRepository)
     }
 
 
-    public function designStudio($project_id,Request $request)
-    {
-        if ($request->ajax()  && $request->designfilter) {
-            $filterData = ProjectImagesData::where('project_id',base64_decode($project_id))
-            ->whereDate('date', '=', $request->designfilter)
-            ->get();
-            $groupedData = $filterData->groupBy('date');
-               $dsview = view('layouts.front.projects.steps.filterdata-design-studio', compact('groupedData'))->render();
-                return response()->json(['filterdata' => $dsview]);
-        }else{
-            return view("layouts.front.projects.steps.design-studio",compact("project_id"));
+    // public function designStudio($project_id,Request $request)
+    // {
+    //     if($request->designfilter_todate != NULL && $request->designfilter_fromdate != NULL){ 
+    //         $filterData = ProjectImagesData::where('project_id',base64_decode($project_id));
+    //         if ($request->designfilter_todate) {
+    //             $filterData->whereDate('date', '>=', $request->designfilter_todate);
+    //         }
+    //         if ($request->designfilter_fromdate) {
+    //             $filterData->whereDate('date', '<=', $request->designfilter_fromdate);
+    //         }
+           
+    //         $filterData->get();    
+    //         // $filterData = ProjectImagesData::where('project_id',base64_decode($project_id))
+    //         // ->whereDate('date', '<=', $request->designfilter_todate)
+    //         // ->whereDate('date','>=',$request->designfilter_fromdate)
+    //         // ->get();
+    //         $groupedData = $filterData->groupBy('date');
+    //            $dsview = view('layouts.front.projects.steps.filterdata-design-studio', compact('groupedData'))->render();
+    //             return response()->json(['filterdata' => $dsview]);
+    //     }else{
+    //         return view("layouts.front.projects.steps.design-studio",compact("project_id"));
    
+    //     }
+    // }
+
+
+        public function designStudio($project_id, Request $request)
+        {
+            if ($request->designfilter_todate != null && $request->designfilter_fromdate != null) {
+                $filterData = ProjectImagesData::where('project_id', base64_decode($project_id));
+
+                if ($request->designfilter_todate) {
+                    $filterData->whereDate('date', '>=', $request->designfilter_todate);
+                }
+
+                if ($request->designfilter_fromdate) {
+                    $filterData->whereDate('date', '<=', $request->designfilter_fromdate);
+                }
+                // if($request->designfilter_todate  || $request->designfilter_fromdate){
+                //      $filterData->whereBetween('date', [$request->designfilter_todate, $request->designfilter_fromdate]);
+                // }
+
+                $groupedData = $filterData->get()->groupBy('date');
+                $dsview = view('layouts.front.projects.steps.filterdata-design-studio', compact('groupedData'))->render();
+
+                return response()->json(['filterdata' => $dsview]);
+            } else {
+                return view("layouts.front.projects.steps.design-studio", compact("project_id"));
+            }
         }
-    }
+
 
     public function test(){}
 
@@ -187,9 +224,9 @@ public function __construct(ProjectRepository $projectRepository)
 
         if($request->hasFile("file")){
             foreach ($request->file("file") as $file) {
+               $user_id =  \Auth::user();
                $filename = time() . "_" .\Str::random(3).'_'.$file->getClientOriginalName();
-
-          //  media type after check the exitension  it is video or image file
+               $mediaType = explode('/', $file->getMimeType())[0]; 
                $file->storeAs("project_images", $filename, "public");
                $projectImageData = new  ProjectImagesData;
                $projectImageData->project_id = $project_id;
@@ -197,6 +234,8 @@ public function __construct(ProjectRepository $projectRepository)
                $projectImageData->date = Carbon::now()->toDateString();
                $timeFormatted = Carbon::now('Asia/Kolkata')->format('h:i A');
                $projectImageData->time = $timeFormatted;
+               $projectImageData->media_type = $mediaType; 
+               $projectImageData->created_by = $user_id->id;
                $projectImageData->save();
                 
             }
@@ -207,8 +246,8 @@ public function __construct(ProjectRepository $projectRepository)
         ->get();
 
 
-$project_id = base64_encode($project_id);
-$groupedData = $projectImageData->groupBy('date');
+        $project_id = base64_encode($project_id);
+        $groupedData = $projectImageData->groupBy('date');
 
 
         // $projectImageData = ProjectImagesData::where('project_id',$project_id)

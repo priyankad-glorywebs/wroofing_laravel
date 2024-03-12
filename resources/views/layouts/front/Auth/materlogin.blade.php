@@ -247,6 +247,10 @@
 	<script src="{{ asset('frontend-assets/js/bootstrap.bundle.min.js')}}"></script>
 	<!-- Owl Carousel JS -->
 	<script src="{{ asset('frontend-assets/js/owl.carousel.min.js')}}"></script>
+	<script src="{{asset('frontend-assets/js/jquery.validate.min.js')}}"></script>
+
+
+
 	<!-- Custom JS -->
 	<script src="{{ asset('frontend-assets/js/public.js')}}"></script>	
 </body>
