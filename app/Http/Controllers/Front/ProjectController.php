@@ -185,7 +185,8 @@ public function __construct(ProjectRepository $projectRepository)
                 //      $filterData->whereBetween('date', [$request->designfilter_todate, $request->designfilter_fromdate]);
                 // }
 
-                $groupedData = $filterData->get()->groupBy('date');
+                $groupedData = $filterData->orderBy('date', 'desc')
+                ->get()->groupBy('date');
                 $dsview = view('layouts.front.projects.steps.filterdata-design-studio', compact('groupedData'))->render();
 
                 return response()->json(['filterdata' => $dsview]);

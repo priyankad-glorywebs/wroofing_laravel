@@ -208,7 +208,7 @@ Route::get('contractor/list',[ContractorController::class,'index'])->name('contr
 //project details page for contractor projects  details page 
 
 
-Route::POST('/delete-image/{project_id}/{file}',[ProjectController::class,'deleteImages']);
+Route::POST('/delete-image/{project_id}/{file}',[ProjectController::class,'deleteImages'])->name('delete.image.designstudio');
 
 
 
