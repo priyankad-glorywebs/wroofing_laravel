@@ -397,9 +397,6 @@ jQuery(document).ready(function ($) {
 Dropzone.autoDiscover = false;
 
 
-$('#add-images-popup').on("click",function(){
-$('#image-upload .dz-preview dz-processing dz-success dz-complete dz-image-preview').val('');
-});
 
 $(document).ready(function () {
 
@@ -530,8 +527,12 @@ $(document).ready(function () {
         var isConfirmed = confirm('Are you sure you want to remove this file?');
 
             if (isConfirmed) {
-				$.ajax({
-            url: '/delete-image/' + project_id + '/' + file,
+			$.ajax({
+           // url: '/delete-image/' + project_id + '/' + file,
+		   url: "{{ route('delete.image.designstudio', ['project_id' => ':project_id', 'file' => ':file']) }}"
+                .replace(':project_id', project_id)
+                .replace(':file', file),
+
             type: 'post',
 			data:{_token:'{{ csrf_token() }}'},
             success: function (response) {

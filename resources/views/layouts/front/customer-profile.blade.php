@@ -25,14 +25,23 @@
 					<div class="section-subtitle">Let’s know a little more about you...</div>
 				</div>
 				<div class="col-12">
+			
 				    <form id="updateprofile-customerform" action="{{route('customer.profile.update')}}" method="post" enctype="multipart/form-data">
 					 @csrf
+						
                         @php
                         $user= auth()->user();
                         @endphp
                         <input type="hidden" id="user_id"  name="user_id" value="{{$user->id??''}}">
 						<div class="step-2" style="">
 							<div class="row">
+							@if(session('success'))
+							<div class="alert alert-success alert-dismissible fade show">
+								{{ session('success') }}
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							</div>
+							@endif
+						
 								<div class="form-group col-12">
 									<div class="field-wrap">
 										<div class="form-label">
@@ -62,6 +71,7 @@
 
 
 								<div class="form-group col-12">
+									
 									<div class="field-wrap">
 										<div class="form-element">
 											<div class="upload-img-wrap">

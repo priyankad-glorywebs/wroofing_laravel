@@ -33,6 +33,12 @@
                         <input type="hidden" id="contarctorId"  name="contarctorId" value="{{$contractor->id??''}}">
 						<div class="step-2" style="">
 							<div class="row">
+							@if(session('success'))
+							<div class="alert alert-success alert-dismissible fade show">
+								{{ session('success') }}
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							</div>
+							@endif
 								<div class="form-group col-12">
 									<div class="field-wrap">
 										<div class="form-label">
