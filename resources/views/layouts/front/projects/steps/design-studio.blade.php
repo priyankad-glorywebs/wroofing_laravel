@@ -12,6 +12,22 @@
 
 <!-- <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" /> -->
 <style>
+	/* .contractor-sec .project-detail-tabs .project-detail-photos-item-img {height:100%;} */
+     /* img {height: 100%; width: 100%; object-fit: cover; object-position: center center;}
+.image-gallery-popup, 
+ .video_container,
+	.video {width: 100%; height: 100%;
+	}
+	 .lightbox {height:200px;}
+	video {background-color:#000;}
+	 */
+    /* .contractor-sec{padding :14px 0;} */
+
+	.design-studio-img-items .lightbox{
+		width:100%;
+		height:100%;
+	}
+
 .btn-gallery-filter{border-radius: 50px;
     background-color: #EFEFEF;
     font-size: 14px;
@@ -120,16 +136,16 @@
 					
 				</div>
 				<div class="col-12 col-lg-5 text-end">
-					<div class="step-count">
+					{{--<div class="step-count">
 						<div class="step-count-title">Step 1 out of 2</div>
 						<div class="step-count-progress current-step-2">
 							<span></span>
 							<span></span>
 							<span></span>
 						</div>
-					</div>
+					</div>--}}
                     <!-- <button class="btn-primary btn-sm" id="add-designstudio">Add</button> -->
-                    <a class="btn-primary mt-3" href="#" data-bs-toggle="modal" data-bs-target="#sendquotepopup">Add</a>
+                    <a class="btn-primary mt-3" href="#" data-bs-toggle="modal" data-bs-target="#sendquotepopup"><img src="{{asset('frontend-assets/images/upload_photos.webp')}}" style="width:30px;"/>Add</a>
 
 
 
@@ -149,7 +165,6 @@
 <?php
 if(isset($projectId)){
 	$data = \App\Models\Project::where('id',$projectId)->first();
-	
 }
 
 ?>
@@ -173,9 +188,13 @@ if(isset($projectId)){
 											@csrf
 											<div class="row">
 											
-											<div class="col-md-4">
-												<label for="design-filter">Filter By Date:</label>
-												<input type="text" id="design-filter" name="design-filter" placeholder="Select Date" required>
+											<div class="col-md-3">
+												<label for="design-filter">To Date:</label>
+												<input type="text" id="design-filter_todate" name="design-filter" placeholder="Select Date" required>
+											</div>
+											<div class="col-md-3">
+												<label for="design-filter">From Date:</label>
+												<input type="text" id="design-filter_fromdate" name="design-filter" placeholder="Select Date" required>
 											</div>
 											<div class="col-md-2">
 												<br/>
@@ -194,31 +213,41 @@ if(isset($projectId)){
 							    <div>
 							</div>
 
-					<div class="studio-stepform-wrap" id="testData">
-				
-	                    {{--No images or videos found--}}
-
-						@foreach($groupedData as $date => $mediaItems)
+<div class="studio-stepform-wrap" id="testData">
+						 	@if($groupedData)
+							@foreach($groupedData as $date => $mediaItems)
 							<h6>{{ $date }}</h6>
-						@foreach($mediaItems as $mediaItem)
-							{{--@if($mediaItem->project_image == 'image') --}}
-							<div class="design-studio-img-items">
-								<button type="button" class="remove-img" data-media-item-id="{{ $mediaItem->id }}">X</button>
-
-										<img src="{{ asset('storage/project_images/'.$mediaItem->project_image)  }}" alt="Image">
+							@foreach($mediaItems as $mediaItem)
+							@if($mediaItem->media_type == 'image') 
+								<div class="design-studio-img-items gallery_container">
+									<button type="button" class="remove-img" data-media-item-id="{{ $mediaItem->id }}">X</button>
+									<a class="lightbox" href="{{ asset('storage/project_images/'.$mediaItem->project_image)  }}">
+									<img src="{{ asset('storage/project_images/'.$mediaItem->project_image)  }}" alt="Image">
+									</a>
 									<span class="image-upload-time">{{$mediaItem->time}}</span>
-							{{-- @if($mediaItem->media_type == 'video') --}}
-									<video width="320" height="240" controls>
-										<source src="{{ asset('storage/project_images/'.$mediaItem->media_url) }}" type="video/mp4">
-										Your browser does not support the video tag.
-									</video>
-							{{--  @endif --}}
-							</div>
-							@endforeach
-						@endforeach
-						
+								</div>
+								@elseif($mediaItem->media_type == 'video')
+								<!-- <div class="video-container"> -->
+								<div class="design-studio-img-items video-container">
+									<button type="button" class="remove-img" data-media-item-id="{{ $mediaItem->id }}">X</button>
 
-                    </div>
+									<a class="image-gallery-popup video_model " href="{{ asset('storage/project_images/'.$mediaItem->project_image) }}">
+										<video width="150" height="150" controls>
+											<source src="{{ asset('storage/project_images/'.$mediaItem->project_image) }}" type="video/mp4">
+											Your browser does not support the video tag.
+										</video>
+									</a>
+									<span class="image-upload-time">{{$mediaItem->time}}</span>
+								</div>	
+							@endif 
+								<!-- </div> -->
+								@endforeach
+								@endforeach
+							@endif
+								{{--<button type="submit" id="submit-all" class="btn btn-primary btn-studio-step-1">Submit and continue</button>--}}
+							</div>
+
+					
 			</div>
 		</div>
 	</div>
@@ -297,10 +326,7 @@ if(isset($projectId)){
                                 $projectData = \App\Models\Project::findOrFail(base64_decode($project_id));
                                 $imageArray = json_decode($projectData->project_image, true);
                                 ?>
-
-
-
-                            </div>
+						     </div>
                             <br />
                             <br />
                         </div>
@@ -327,19 +353,64 @@ if(isset($projectId)){
 <!-- Add this script to initialize Dropzone -->
 
 <script>
-	Dropzone.autoDiscover = false;
+
+/* Video Popup*/
+jQuery(document).ready(function ($) {
+  // Define App Namespace
+  var popup = {
+    // Initializer
+    init: function() {
+      popup.popupVideo();
+    },
+    popupVideo : function() {
+
+    $('.video_model').magnificPopup({
+    type: 'iframe',
+    mainClass: 'mfp-fade',
+    removalDelay: 160,
+    preloader: false,
+    fixedContentPos: false,
+    gallery: {
+          enabled:true
+        }
+  });
+
+/* Image Popup*/ 
+ $('.gallery_container').magnificPopup({
+      delegate: 'a',
+    type: 'image',
+    mainClass: 'mfp-fade',
+    removalDelay: 160,
+    preloader: false,
+    fixedContentPos: false,
+    gallery: {
+          enabled:true
+        }
+  });
+
+   }
+  };
+  popup.init($);
+});
+
+
+Dropzone.autoDiscover = false;
+
+
+$('#add-images-popup').on("click",function(){
+$('#image-upload .dz-preview dz-processing dz-success dz-complete dz-image-preview').val('');
+});
 
 $(document).ready(function () {
 
     var project_id = $('#project_id').val();
 	var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-
-		// Initialize Dropzone
+ 
+	// Initialize Dropzone
 		var dropzone = new Dropzone('#image-upload', {
 			thumbnailWidth: 200,
 			url: "{{ route('test') }}",
-			maxFilesize: 20,
+			maxFilesize: 200,
 			// createImageThumbnails:true,
 			addRemoveLinks: true, 
 			acceptedFiles: ".jpeg,.jpg,.png,.gif,.mp4",
@@ -359,6 +430,7 @@ $(document).ready(function () {
 					}
 				});
 			}
+			
 		});
 
 
@@ -400,8 +472,7 @@ $(document).ready(function () {
 					var project_id = response.project_id;
 					console.log(response.designstudio);
 					$('#sendquotepopup').modal('hide');
-
-					$('#testData').html(response.designstudio);
+				    $('#testData').html(response.designstudio);
 					// window.location.href = "{{ route('documentation', ['project_id' => '__project_id__']) }}".replace('__project_id__', project_id);
 				},
 				error: function (error) {
@@ -451,12 +522,12 @@ $(document).ready(function () {
 	
 
 		$('.remove-img').on('click', function (e) {
-			// alert("in");
 			e.preventDefault();
     	var project_id = $('#project_id').val();
 		var file = $(this).data('media-item-id'); 
 		console.log(file);
-    var isConfirmed = confirm('Are you sure you want to remove this file?');
+		currentButton = $(this);
+        var isConfirmed = confirm('Are you sure you want to remove this file?');
 
             if (isConfirmed) {
 				$.ajax({
@@ -466,14 +537,17 @@ $(document).ready(function () {
             success: function (response) {
 
 				var file = $(this).closest('media-item-id'); 
-                alert("File deleted");
+
+				currentButton.closest('.design-studio-img-items').remove();
+
+               // alert("File deleted");
             },
             error: function (error) {
                 console.error('Error deleting file:', error);
             }
         });
  		  }else{
-				alert("out")
+				//alert("out")
 			}
         });
 
@@ -482,7 +556,14 @@ $(document).ready(function () {
 
 
 
-	$('#design-filter').datepicker({
+	$('#design-filter_todate').datepicker({
+		dateFormat: 'yy-mm-dd', 
+		onSelect: function (dateText, inst) {
+		}
+	});
+
+
+	$('#design-filter_fromdate').datepicker({
 		dateFormat: 'yy-mm-dd', 
 		onSelect: function (dateText, inst) {
 		}
@@ -494,12 +575,17 @@ $(document).ready(function () {
     	var project_id = $('#project_id').val();
 		// alert(project_id)
 
-			var designfilter = $('#design-filter').val();
+			var designfilter_todate = $('#design-filter_todate').val();
+			var designfilter_fromdate = $('#design-filter_fromdate').val();
+
           
             $.ajax({
-                url: '/design/studio/'+project_id, 
+                // url: '/design/studio/'+project_id, 
+				 url:"{{ route('design.studio', ['project_id' => $project_id]) }}",
+
                 type: 'GET',
-                data: { designfilter: designfilter },
+                data: { designfilter_todate: designfilter_todate,
+					designfilter_fromdate:designfilter_fromdate },
                 success: function (data) {
 					$('#testData').html(data.filterdata);
                     //$('#test').html(data.html);

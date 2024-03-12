@@ -27,6 +27,7 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('frontend-assets/css/owl.carousel.min.css')}}">
 		<!-- magnific CSS -->
 		<link rel="stylesheet" type="text/css" href="{{asset('frontend-assets/css/magnific-popup.css')}}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.css" integrity="sha512-f8gN/IhfI+0E9Fc/LKtjVq4ywfhYAVeMGKsECzDUHcFJ5teVwvKTqizm+5a84FINhfrgdvjX8hEJbem2io1iTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<!-- Custom CSS -->
 	<link rel="stylesheet" type="text/css" href="{{asset('frontend-assets/css/style.css')}}">
 
@@ -126,12 +127,12 @@
 							<a class="nav-link" href="{{route('front.password.index')}}">Change Password</a>
 						</li>
 						@endif
-						<li class="nav-item">
+						{{--<li class="nav-item">
 							<a class="nav-link" href="#">Reviews</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="#">Give feedback</a>
-						</li>
+						</li>--}}
 					</ul>
 					<div class="mobile-menu-btn-wrap">
 						<div class="mobile-menu-btn">
@@ -172,6 +173,9 @@
 	<script src="{{asset('frontend-assets/js/owl.carousel.min.js')}}"></script>
 		<!-- Allow child views to include additional scripts -->
 		<script src="{{asset('frontend-assets/js/jquery.magnific-popup.min.js')}}"></script>
+
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-sweetalert/1.0.1/sweetalert.min.js" integrity="sha512-MqEDqB7me8klOYxXXQlB4LaNf9V9S0+sG1i8LtPOYmHqICuEZ9ZLbyV3qIfADg2UJcLyCm4fawNiFvnYbcBJ1w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<!-- Custom JS -->
 	<script src="{{asset('frontend-assets/js/public.js')}}"></script>
 

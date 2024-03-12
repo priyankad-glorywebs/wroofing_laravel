@@ -24,7 +24,7 @@
 						<div class="login-form-title text-center">Forgot Password</div>
 						<div class="form-wrp">
 							<div class="login-form-subname-inner text-lg-center">Please login using your email address and password.</div>
-							<form id="loginform" method="POST" action="{{ route('send.reset.link') }}" enctype="multipart/form-data">
+							<form id="forgotpassword" method="POST" action="{{ route('send.reset.link') }}" enctype="multipart/form-data">
 								@csrf
 	
 

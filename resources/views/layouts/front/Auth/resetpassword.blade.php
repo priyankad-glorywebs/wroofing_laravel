@@ -21,7 +21,7 @@
                     <div class="login-form-title text-center">Reset your Password</div>
                     <div class="form-wrp">
                         <div class="login-form-subname-inner text-lg-center">Please reset your password now</div>
-                        <form id="loginform" method="POST" action="{{route('reset.password.post')}}" enctype="multipart/form-data">
+                        <form id="resetpasswordform" method="POST" action="{{route('reset.password.post')}}" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="token" value="{{ $data->token }}">
                             <input type="hidden" name="email" value="{{ $data->email }}">
