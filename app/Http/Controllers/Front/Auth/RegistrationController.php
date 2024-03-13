@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\ContractorRegisterRequest;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
 use App\Models\Contractor;
 use App\Models\User;  // model
+use Illuminate\Support\Facades\Validator;
 
 
 
@@ -38,6 +40,13 @@ public function registerStepOne(Request $request){
         $user->zip_code        = $request->zip_code;
 
         if ($request->areyoua === "customer") {
+            $validator = Validator::make($request->all(), (new RegisterRequest())->rules());
+
+                if ($validator->fails()) {
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+
+
             $user->save();
             $storagePath = 'customer_profile/';
             if (!File::exists($storagePath)) {
@@ -55,6 +64,13 @@ public function registerStepOne(Request $request){
 
         } 
         if ($request->areyoua === "contractor") {
+            $validator = Validator::make($request->all(), (new ContractorRegisterRequest())->rules());
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+    
+
         $profileImageName = null;
 
         if ($request->hasFile('profile_image')) {
