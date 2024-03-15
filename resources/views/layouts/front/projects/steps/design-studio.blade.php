@@ -278,10 +278,10 @@ $(document).ready(function () {
 				loadExistingImages(this);
 
 				this.on("removedfile", function (file) {
-					if (confirm("Are you sure you want to delete this image?")) {
+					// if (confirm("Are you sure you want to delete this image?")) {
 						var fileName = file.name;
 						removeImageFromServer(fileName);
-					}
+					// }
 				});
 			}
 			
