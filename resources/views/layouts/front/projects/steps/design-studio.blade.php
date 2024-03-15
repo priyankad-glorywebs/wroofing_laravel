@@ -4,8 +4,8 @@
 @section('css')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
-
 <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+<link rel="stylesheet" href="{{asset('frontend-assets/css/custom.css')}}" type="text/css">
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/min/dropzone.min.js"></script> -->
 
 <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -23,82 +23,6 @@
 	 */
     /* .contractor-sec{padding :14px 0;} */
 
-	.design-studio-img-items .lightbox{
-		width:100%;
-		height:100%;
-	}
-
-.btn-gallery-filter{border-radius: 50px;
-    background-color: #EFEFEF;
-    font-size: 14px;
-    color: #48484A;
-    padding: 10px 15px;
-    border: none;
-    box-shadow: none;
-    margin-right: 10px;
-}
-.design-studio-img-items {
-    background-color: #fff;
-    border-radius: 10px;
-    filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.15));
-    display: inline-block;
-    margin: 0 10px 10px 0;
-	width: 150px;
-    height: 150px;
-	overflow: hidden;
-}
-.design-studio-img-items img {
-	object-fit: cover;
-    object-position: center center;
-    width: 100%;
-    height: 100%;
-}
-.remove-img {
-	border: none;
-    box-shadow: none;
-    background: #0A84FF;
-    opacity: 1;
-    display: inline-block;
-    font-size: 10px;
-    color: #fff;
-    border-radius: 50px;
-    max-width: 20px;
-    max-height: 20px;
-    line-height: 1;
-    text-align: center;
-    position: absolute;
-    top: 5px;
-    right: 5px;
-	width:20px;
-	height:20px;
-}
-.image-upload-time {
-	position: absolute;
-    bottom: 0;
-    width: 100%;
-    left: 0;
-    background-color: rgba(255, 255, 255, .6);
-    padding: 3px 5px;
-    font-size: 12px;
-    font-weight: 500;
-}
-.studio-stepform-wrap h6 {
-	margin-top: 15px;
-    margin-bottom: 15px;
-    font-size: 16px;
-    border-bottom: 1px solid #E0E0E0;
-    padding-bottom: 10px;
-}
-#image-upload {
-	width: 100%;
-    text-align: center;
-    border-radius: 7px;
-    border: 1px dashed rgba(10, 132, 255, 0.50);
-    background: #F5FBFF;
-    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.25);
-    padding: 30px;
-    cursor: pointer;
-}
 
 	</style>
 
@@ -127,37 +51,21 @@
 						<div class="section-title">Design Studio</div>
 						<!-- <div class="section-subtitle d-none d-lg-block">Select your style, please be sure to check with your HOA before installation</div> -->
 						<div class="mt-3">
-							<a href="{{route('general.info', ['project_id' => $project_id])}}" ><button class="btn-gallery-filter" >General Info</button></a>
-							<a class="project-list-item-link" href="{{ route('design.studio', ['project_id' => $project_id]) }}"><button class="btn-gallery-filter">Design studio</button></a>
-							<a class="project-list-item-link" href="{{route('documentation', ['project_id' => $project_id])}}"><button class="btn-gallery-filter">Documents</button></a>
-							<a class="project-list-item-link" href="{{route('contractor.list')}}"><button class="btn-gallery-filter">Contractor Portal</button></a>
+							<a class="btn-gallery-filter" href="{{route('general.info', ['project_id' => $project_id])}}" >General Info</a>
+							<a class="btn-gallery-filter project-list-item-link active" href="{{ route('design.studio', ['project_id' => $project_id]) }}">Design studio</a>
+							<a class="btn-gallery-filter btn-gallery-filter project-list-item-link" href="{{route('documentation', ['project_id' => $project_id])}}">Documents</a>
+							<a class="btn-gallery-filter project-list-item-link" href="{{route('contractor.list')}}">Contractor Portal</a>
 						</div>
                 </div>
 					
 				</div>
 				<div class="col-12 col-lg-5 text-end">
-					{{--<div class="step-count">
-						<div class="step-count-title">Step 1 out of 2</div>
-						<div class="step-count-progress current-step-2">
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-					</div>--}}
-                    <!-- <button class="btn-primary btn-sm" id="add-designstudio">Add</button> -->
-                    <a class="btn-primary mt-3" href="#" data-bs-toggle="modal" data-bs-target="#sendquotepopup"><img src="{{asset('frontend-assets/images/upload_photos.webp')}}" style="width:30px;"/>Add</a>
+					<!-- <button class="btn-primary btn-sm" id="add-designstudio">Add</button> -->
+                    <a class="btn-primary mt-3" href="#" data-bs-toggle="modal" data-bs-target="#sendquotepopup">
+						<img class="btn-normal-icon" src="{{asset('frontend-assets/images/upload_photos.webp')}}" style="width:30px;"/> 
+						<img class="btn-hover-icon" src="{{asset('frontend-assets/images/upload_photos-ezgif.gif')}}" style="width:30px;">
+					Add</a>
 
-
-
-					<div class="breadcrumb-addproject-step-1">
-						<div class="section-subtitle d-lg-none">Select your style, please be sure to check with your HOA before installation</div>
-					</div>
-					<div class="breadcrumb-addproject-title-wrap breadcrumb-addproject-step-2">
-						<div class="section-subtitle d-lg-none">Please fill out the below details</div>
-					</div>
-					<div class="breadcrumb-addproject-title-wrap breadcrumb-addproject-step-3">					
-						<div class="section-subtitle d-lg-none">Please upload all below documents</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -182,18 +90,18 @@ if(isset($projectId)){
 	$groupedData = $projectImageData->groupBy('date');
 ?>
 					
-						<div class="row">
+						    <div class="row">
 								<div class="col-12">
 									<form id="filterForm" action="" method="get">
 											@csrf
 											<div class="row">
 											
 											<div class="col-md-3">
-												<label for="design-filter">To Date:</label>
+												<label for="design-filter">From Date:</label>
 												<input type="text" id="design-filter_todate" name="design-filter" placeholder="Select Date" required>
 											</div>
 											<div class="col-md-3">
-												<label for="design-filter">From Date:</label>
+												<label for="design-filter">To Date:</label>
 												<input type="text" id="design-filter_fromdate" name="design-filter" placeholder="Select Date" required>
 											</div>
 											<div class="col-md-2">
@@ -254,51 +162,6 @@ if(isset($projectId)){
 </section>
 
 
-    <!-- Quote Modal -->
-	<!-- <div class="modal fade sendquotepopup" id="sendquotepopup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabeltitle" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-header">
-					<div class="modal-title" id="staticBackdropLabeltitle">Design Studio</div>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
-				</div>
-				<div class="modal-body">
-					<form id="addproject" action="thankyou.html" novalidate="novalidate">
-						<div class="row">
-							<div class="form-group col-12 col-md-6">
-							<form method="post" enctype="multipart/form-data" id="image-upload" class="dropzone">
-				<input type="hidden" name="project_id" value="{{$project_id}}" id="project_id"> 
-				@csrf <div></div>
-				</form>
-				 <span id="errorMessage" style="color: red;"></span> 
-				<span id="error-message" style="color: red;"></span>
-
-
-				<div id="uploaded-images"> <?php
-					//$projectData = \App\Models\Project::findOrFail(base64_decode($project_id));
-					//$imageArray = json_decode($projectData->project_image, true);
-				?> 
-				</div>
-				<br />
-				<br />
-			</div>
-							
-						</div>
-						<div class="row justify-content-center">
-							<div class="form-group button-wrap col-md-5">
-								<div class="field-wrap text-center">
-								<button type="submit" align="center" id="submit-all" class="btn btn-primary btn-studio-step-1">Submit and continue</button>
-
-									 <button type="submit" class="btn btn-primary d-block w-100">Submit and continue</button> 
-								</div>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div> -->
-
 <!-- Quote Modal -->
 <div class="modal fade sendquotepopup" id="sendquotepopup" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabeltitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -308,42 +171,36 @@ if(isset($projectId)){
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
             </div>
             <div class="modal-body">
-			<form method="post" enctype="multipart/form-data" id="image-upload" class="dropzone">
-					
-                    <!-- Other form fields... -->
+				<form method="post" enctype="multipart/form-data" id="image-upload" class="dropzone">
+					<!-- Other form fields... -->
 					<div class="row">
-                        <div class="form-group col-12 col-md-12">
-                            <!-- Move the image-upload form outside of the main form -->
-                            <!-- <div id="image-upload" class="dropzone"> -->
-                                <input type="hidden" name="project_id" value="{{$project_id}}" id="project_id">
-                                @csrf
-                            </div>
-                        </div>
-						</form>
-                            <span id="error-message" style="color: red;"></span>
-                            <div id="uploaded-images">
-                                <?php
-                                $projectData = \App\Models\Project::findOrFail(base64_decode($project_id));
-                                $imageArray = json_decode($projectData->project_image, true);
-                                ?>
-						     </div>
-                            <br />
-                            <br />
-                        </div>
-                    <!-- </div> -->
+						<div class="form-group col-12 col-md-12">
+							<!-- Move the image-upload form outside of the main form -->
+							<!-- <div id="image-upload" class="dropzone"> -->
+							<input type="hidden" name="project_id" value="{{$project_id}}" id="project_id">
+							@csrf
+						</div>
+					</div>
+				</form>
+				<span id="error-message" style="color: red;"></span>
+				<div id="uploaded-images">
+					<?php
+					$projectData = \App\Models\Project::findOrFail(base64_decode($project_id));
+					$imageArray = json_decode($projectData->project_image, true);
+					?>
+				</div>
 
-                    <!-- Other form fields... -->
-					 <div class="row justify-content-center">
-                        <div class="form-group button-wrap col-md-5">
-                            <div class="field-wrap text-center">
-                                <button type="submit" align="center" id="submit-all" class="btn btn-primary btn-studio-step-1">Submit and continue</button>
-                            </div>
-                        </div>
-                    </div>
-                <!-- </form> -->
-            </div>
-        </div>
-    </div>
+				<!-- Other form fields... -->
+				<div class="row justify-content-center mt-4">
+					<div class="form-group button-wrap col-md-5 mb-0">
+						<div class="field-wrap text-center">
+							<button type="submit" align="center" id="submit-all" class="btn btn-primary btn-studio-step-1">Submit and continue</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 @endsection
 @section('scripts')
@@ -470,6 +327,8 @@ $(document).ready(function () {
 					console.log(response.designstudio);
 					$('#sendquotepopup').modal('hide');
 				    $('#testData').html(response.designstudio);
+					dropzone.removeAllFiles();
+
 					// window.location.href = "{{ route('documentation', ['project_id' => '__project_id__']) }}".replace('__project_id__', project_id);
 				},
 				error: function (error) {
@@ -572,9 +431,9 @@ $(document).ready(function () {
 
 
 	$('#dsfilterButton').on('click', function (e) {
-		e.preventDefault();
-    	var project_id = $('#project_id').val();
-		// alert(project_id)
+				e.preventDefault();
+				var project_id = $('#project_id').val();
+		//		alert('in');
 
 			var designfilter_todate = $('#design-filter_todate').val();
 			var designfilter_fromdate = $('#design-filter_fromdate').val();
@@ -600,6 +459,9 @@ $(document).ready(function () {
     $('#dsresetFilterButton').on('click', function () {
            window.location.reload();
 	});
+
+
+	
 
 });
 

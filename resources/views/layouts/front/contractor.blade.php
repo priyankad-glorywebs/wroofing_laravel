@@ -1,6 +1,6 @@
 
 @extends('layouts.front.master')
-@section('title', 'Design Studio')
+@section('title', 'Contractor List')
  
 @section('content')
 <x-contractor-list/>

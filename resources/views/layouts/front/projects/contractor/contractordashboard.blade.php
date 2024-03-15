@@ -155,7 +155,12 @@
 			</div>
 		</div>
 		@endforeach
+		@if($projects !== NULL)
+		{{$projects->links()}}
 		@endif
+		@endif
+
+
 
 	</div>
 

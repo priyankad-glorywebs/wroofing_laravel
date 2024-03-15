@@ -40,6 +40,14 @@ Route::get('/clear-cache', function () {
 
 
 
+Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
+
+Route::post('/test', [ProjectController::class, 'test'])->name('test');
+
+Route::post('design/studio/{project_id}',[ProjectController::class,'designStudioStore'])->name('design.studio.post');
+
+
+
 
 /*********************************************************/
 //   -------------Authentication Google Sign In -----------
@@ -62,9 +70,9 @@ Route::get('/register', [RegistrationController::class, 'registerStepOne'])->nam
 Route::post('/register', [RegistrationController::class, 'register'])->name('register');
 
 
-Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
+// Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
 
-Route::get('/test', [RegistrationController::class, 'test']);
+// Route::get('/test', [RegistrationController::class, 'test']);
 
 
 Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -121,14 +129,17 @@ Route::group(['namespace' => 'Front\Auth','prefix'=>'contractor'], function () {
     Route::get('/login', [ContractorLoginContraoller::class, 'ContractorshowLoginForm'])->name('contractor.login');
     Route::post('/login', [ContractorLoginContraoller::class, 'Contractorlogin']);
     // Route::post('/logout',[LoginController::class,'logout'])->name('logout');
-    // Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
+   // Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
    // Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
    Route::get('/email/custom-verify/{id}', [CustomVerificationController::class, 'customVerify'])->name('verification.customVerify')->middleware('signed');
 
 //    Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
 
+    Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
+
+
     Route::get('/forgot/password', [ContractorForgotPasswordController::class, 'contractorforgotPassword'])->name('contractor.forgot.password');
-    Route::post('/forgot-password', [ContractorForgotPasswordController::class, 'contractorsendResetLinkEmail'])->name('contractor.send.reset.link');
+    Route::post('/forgot-password', [ContractorForgotPasswordController::class, 'contractor sendResetLinkEmail'])->name('contractor.send.reset.link');
 
     Route::get('/reset-password/{token}', [ContractorResetPasswordController::class, 'contractorshowResetPasswordForm'])->name('contractor.reset.password.get');
     Route::post('/reset-password', [ContractorResetPasswordController::class, 'contractorsubmitResetPasswordForm'])->name('contractor.reset.password.post');
@@ -159,14 +170,26 @@ Route::group(['namespace' => 'Front\Auth','prefix'=>'contractor'], function () {
 //   -------------All Contractor Routes ----------------
 /*********************************************************/
 Route::group(['middleware' => 'contractor.middleware:contractor','namespace' => 'Front\Auth'], function () {
-     //contractor dashboard
+     //contractor dashboard and Filter
     Route::get('contractor/dashboard',[ContractorController::class,'contractorProjectList'])->name('contractor.dashboard');
-    Route::get('contractor/project/details/{project_id}',[ProjectController::class,'projectDetailsContractor']);
+
+    Route::get('contractor/project/details/{project_id}',[ContractorController::class,'projectDetailsContractor']);
     //download a file 
     Route::get('/{filename}', [ProjectController::class, 'download'])->name('download.file');
     //update profile page contractor
     Route::get('/update/profile',[ProjectController::class,'profileView'])->name('contractor.profile');
     Route::post('/update/profile/post',[ProjectController::class,'profileUpdate'])->name('contractor.profile.update');
+
+    //  Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
+     Route::post('/remove/image/contractor',[ContractorController::class,'removeImageContractor'])->name('remove.image.contractor');
+
+         Route::POST('/delete-image/contractor/{project_id}/{file}',[ContractorController::class,'deleteImagesContractor'])->name('delete.image.designstudio.contractor');
+// 
+
+     Route::post('design/studio/contractor/{project_id}',[ContractorController::class,'designStudioStoreContractor'])->name('design.studio.post.contractor');
+//Filter design studio contractor 
+Route::post('design/studio/filterdata/{project_id}',[ContractorController::class,'DesignstuidoContractorFilter'])->name('design.studio.filter.contractor');
+    
 });
 /*********************************************************/
 //   -------------End Contractor Routes ----------------
@@ -190,7 +213,7 @@ Route::get('design/studio/{project_id}',[ProjectController::class,'designStudio'
 Route::post('design/studio/{project_id}',[ProjectController::class,'designStudioStore'])->name('design.studio.post');
 
 
-Route::post('test',[ProjectController::class,'test'])->name('test');
+// Route::post('test',[ProjectController::class,'test'])->name('test');
 //step 2
 Route::get('/general/info/{project_id}',[ProjectController::class,'generalInformation'])->name('general.info');
 Route::post('/general/info/{project_id}',[ProjectController::class,'generalInformationPost'])->name('general.info.store');
@@ -210,7 +233,9 @@ Route::get('contractor/list',[ContractorController::class,'index'])->name('contr
 
 Route::POST('/delete-image/{project_id}/{file}',[ProjectController::class,'deleteImages'])->name('delete.image.designstudio');
 
+Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
 
+//design studio
 
 
 Route::get('/home', function () {

@@ -34,7 +34,7 @@
 							</div>
 						@endif
 							<form id="loginform" method="POST" action="{{route('login')}}" enctype="multipart/form-data">
-								@csrf
+							    @csrf
 								<div class="row">
 									<div class="form-group col-12">
 										<div class="field-wrap">
@@ -106,7 +106,9 @@
 
 							
 							<div class="register-now-wrap text-center">You don't have an account then <a href="{{route('register.one')}}">Register</a> now</div>
-						 	<br/>
+							<div class="register-now-wrap text-center">Login As a  <a href="{{route('contractor.login')}}">Contractor </a> </div>
+						 
+							<br/>
 
 							<div class="ordivider-wrap"><span>or sign in with</span></div>
 							<!-- START SELECT USER -->

@@ -1,5 +1,5 @@
 @extends('layouts.front.master')
-@section('title', 'Design Studio')
+@section('title', 'Project Details')
  
 @section('content')
 

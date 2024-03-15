@@ -256,6 +256,9 @@
 									</div>
 								</div>
 								@endforeach
+								@if($projects !== NULL)
+										{{$projects->links()}}
+								@endif
 								@endif
 
 								{{--<div class="col-12 col-md-6 col-lg-4 item" data-category="approved1">
@@ -711,9 +714,12 @@ $('#to_date').val(formattedtoDate);
             onSelect: function (dateText, inst) {
             }
         });
-
+		$('#title').on('keypress',function(e) {
+			if(e.which == 13) {
+				$('#filterButton').click();
+			}
+		});
         $('#filterButton').on('click', function () {
-			// alert("in");
             var fromDate = $('#from_date').val();
             var toDate = $('#to_date').val();
 			var title = $('#title').val();

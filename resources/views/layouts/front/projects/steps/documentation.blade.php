@@ -2,8 +2,10 @@
 @section('title', 'Documentation')
  
 @section('css')
+<link rel="stylesheet" href="{{asset('frontend-assets/css/custom.css')}}" type="text/css">
+
 <style>
-.btn-gallery-filter{
+/* .btn-gallery-filter{
 border-radius: 50px;
     background-color: #EFEFEF;
     font-size: 14px;
@@ -12,7 +14,7 @@ border-radius: 50px;
     border: none;
     box-shadow: none;
     margin-right: 10px;
-}
+} */
 </style>
 @endsection
 @section('content')
@@ -29,11 +31,14 @@ border-radius: 50px;
 					@endphp
 						<li class="breadcrumb-item"><a href="{{ route('design.studio',['project_id' => base64_encode($project_id)])}}"><svg width="5" height="9" viewBox="0 0 5 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4.13654 8L1.25522 5.11869C0.914945 4.77841 0.914945 4.22159 1.25522 3.88131L4.13654 1" stroke="#0A84FF" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</a></li>
 					</ol>
-					<div class="btn-gallery-filter-wrap">
-					<a href="{{route('general.info', ['project_id' => base64_encode($project_id)])}}" ><button class="btn-gallery-filter" >General Info</button></a>
-        <a class="project-list-item-link" href="{{ route('design.studio', ['project_id' => base64_encode($project_id)]) }}"><button class="btn-gallery-filter">Design studio</button></a>
-        <a class="project-list-item-link" href="{{route('documentation', ['project_id' => base64_encode($project_id)])}}"><button class="btn-gallery-filter">Documents</button></a>
-		<a class="project-list-item-link" href="{{route('contractor.list')}}"><button class="btn-gallery-filter">Contractor Portal</button></a>
+					<div class="section-title">Documents</div>
+
+					<div class="mt-3">
+						
+					<a class="btn-gallery-filter project-list-item-link" href="{{route('general.info', ['project_id' => base64_encode($project_id)])}}" >General Info</a>
+        <a class="btn-gallery-filter project-list-item-link" href="{{ route('design.studio', ['project_id' => base64_encode($project_id)]) }}">Design studio</a>
+        <a class="btn-gallery-filter project-list-item-link active" href="{{route('documentation', ['project_id' => base64_encode($project_id)])}}">Documents</a>
+		<a class="btn-gallery-filter project-list-item-link" href="{{route('contractor.list')}}">Contractor Portal</a>
                 
 	</div>
 				</div>

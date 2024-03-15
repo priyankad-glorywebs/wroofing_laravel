@@ -34,6 +34,10 @@ public function __construct(ProjectRepository $projectRepository)
     $this->projectRepository = $projectRepository;
 }
 
+    
+    //******************************************/
+    // Display project list from customer side //
+    //******************************************/
     public function list()
     {
         // $projects = Project::orderBy("id", "desc")
@@ -90,6 +94,9 @@ public function __construct(ProjectRepository $projectRepository)
     //     }
     // }
 
+    //***************************************/
+    // cretea a  project from customer side //
+    //***************************************/
     public function addProject(Request $request)
     {
         try {
@@ -169,6 +176,10 @@ public function __construct(ProjectRepository $projectRepository)
     // }
 
 
+        
+    //************************************************************************/
+    // Design studio Design- customer side //
+    //************************************************************************/
         public function designStudio($project_id, Request $request)
         {
             if ($request->designfilter_todate != null && $request->designfilter_fromdate != null) {
@@ -198,6 +209,10 @@ public function __construct(ProjectRepository $projectRepository)
 
     public function test(){}
 
+    
+    //************************************************************************/
+    // Remove  image and videos inside the project  customer side //
+    //************************************************************************/    
     public function removeImage(Request $request)
     {
         $fileName  = $request->input("file_name");
@@ -220,12 +235,22 @@ public function __construct(ProjectRepository $projectRepository)
         $project_id = base64_decode($project_id);
         $project    = Project::findOrFail($project_id);
 
-
         $projectImages = [];
 
         if($request->hasFile("file")){
             foreach ($request->file("file") as $file) {
-               $user_id =  \Auth::user();
+             //   dd($file);
+             if(Auth::user()){
+
+             $user_id =  \Auth::user();
+             }else{
+               $user_id =  auth()->guard('contractor')->user();
+
+
+             }
+             //dd($user_id->id);
+
+            
                $filename = time() . "_" .\Str::random(3).'_'.$file->getClientOriginalName();
                $mediaType = explode('/', $file->getMimeType())[0]; 
                $file->storeAs("project_images", $filename, "public");
@@ -237,26 +262,19 @@ public function __construct(ProjectRepository $projectRepository)
                $projectImageData->time = $timeFormatted;
                $projectImageData->media_type = $mediaType; 
                $projectImageData->created_by = $user_id->id;
+              // dd($projectImageData);
                $projectImageData->save();
                 
             }
 
 
-      $projectImageData = ProjectImagesData::where('project_id', $project_id)
-         ->orderBy('date', 'desc')
+        $projectImageData = ProjectImagesData::where('project_id', $project_id)
+        ->orderBy('date', 'desc')
         ->get();
 
 
         $project_id = base64_encode($project_id);
         $groupedData = $projectImageData->groupBy('date');
-
-
-        // $projectImageData = ProjectImagesData::where('project_id',$project_id)
-        // ->orderBy('date', 'desc') 
-        //  ->get();
-        // $project_id = base64_encode($project_id);
-        // $groupedData = $projectImageData->groupBy('date');
-    
     
         $view = view('layouts.front.projects.steps.work-gallery', compact('project','groupedData'))->render();
            
@@ -543,34 +561,6 @@ public function removeDocuments(Request $request)
 // }
 
 
-public function projectDetailsContractor(Request $request, $project_id)
-{
-    $projectData       = base64_decode($project_id);
-    $projectinfo       = Project::where('id', $projectData)->first();
-    $project_documents = ProjectDocument::where('project_id', $projectinfo->id)->get();
-
-    $documentdata = '';
-    $contractordocuments = '';
-    $insurancedocuments = '';
-    $mortgagedocuments = '';
-
-    foreach ($project_documents as $document) {
-        if ($document->document_name == "documents") {
-            $documentdata = $document->document_file ?? '';
-        }
-        if ($document->document_name == "contractordocuments") {
-            $contractordocuments = $document->document_file ?? '';
-        }
-        if ($document->document_name == "insurancedocuments") {
-            $insurancedocuments = $document->document_file ?? '';
-        }
-        if ($document->document_name == "mortgagedocuments") {
-            $mortgagedocuments = $document->document_file ?? '';
-        }
-    }
-
-    return view('layouts.front.projects.contractor.details', compact('projectinfo', 'documentdata', 'contractordocuments', 'insurancedocuments', 'mortgagedocuments'));
-}
 
 // public function download($filename)
 // {
@@ -647,7 +637,6 @@ public function profileUpdate(Request $request)
         //     Storage::putFileAs($storagePath, $image, $imageName);
         //     $contractor->profile_image = $imageName;
         // }
-
 
         $bannerImageName = null;
 
