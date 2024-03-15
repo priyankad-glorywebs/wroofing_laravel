@@ -20,6 +20,7 @@
 	@elseif($mediaItem->media_type == 'video')
 	<div class="design-studio-img-items project-detail-photos-item-img video_container ">
 
+	
 	@php
 	$authuser = \Auth::user()->id;
 	@endphp 
