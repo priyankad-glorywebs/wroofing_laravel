@@ -19,9 +19,9 @@
 			<div class="row breadcrumb-title">
 				<div class="col-12 col-lg-8">
 					<div class="section-title">Contractor</div>
-					<div class="section-subtitle d-none d-lg-block">The contractors on this list are held to the highest standards and are local to your exact area. <br class="d-none d-lg-block">
-					We only partner with the top contractors in your area and will back their warranty if anything ever happens.</div>
-				</div>
+							{{--<div class="section-subtitle d-none d-lg-block">The contractors on this list are held to the highest standards and are local to your exact area. <br class="d-none d-lg-block">
+							We only partner with the top contractors in your area and will back their warranty if anything ever happens.</div>
+						</div>--}}
 				<div class="col-12 col-lg-4 text-end">
 					<div class="section-subtitle d-lg-none">The contractors on this list are held to the highest standards and are local to your exact area. <br class="d-none d-lg-block">
 					We only partner with the top contractors in your area and will back their warranty if anything ever happens.</div>

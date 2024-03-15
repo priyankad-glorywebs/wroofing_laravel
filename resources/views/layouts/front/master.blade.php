@@ -144,7 +144,7 @@
 							@endif
 						</div>
 						<div class="mobile-menu-btn">
-							<a class="btn btn-outline-secondary" href="#">Need help? (Contact us)</a>							
+							<a class="btn btn-outline-secondary" href="{{route('contact-us')}}">Need help? (Contact us)</a>							
 						</div>
 					</div>
 				</div>

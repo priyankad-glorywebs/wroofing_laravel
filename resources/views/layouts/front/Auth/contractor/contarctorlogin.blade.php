@@ -100,7 +100,9 @@
 
 							
 							<div class="register-now-wrap text-center">You don't have an account then <a href="{{route('register.one')}}">Register</a> now</div>
-						 	<br/>
+							<div class="register-now-wrap text-center">Login As a  <a href="{{route('login')}}">Customer </a> </div>
+
+							<br/>
 
 							<div class="ordivider-wrap"><span>or sign in with</span></div>
 

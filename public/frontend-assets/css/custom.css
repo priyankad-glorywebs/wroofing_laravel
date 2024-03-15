@@ -1,0 +1,156 @@
+.design-studio-img-items .lightbox{
+    width:100%;
+    height:100%;
+}
+
+.btn-gallery-filter{border-radius: 50px;
+background-color: #EFEFEF;
+font-size: 14px;
+color: #48484A;
+padding: 10px 15px;
+border: none;
+box-shadow: none;
+margin-right: 10px;
+}
+.btn-gallery-filter.active {
+background-color: #D9F1D6;
+color: #53B746;
+}
+.design-studio-img-items {
+background-color: #fff;
+border-radius: 10px;
+filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.15));
+display: inline-block;
+margin: 0 10px 10px 0;
+width: 150px;
+height: 150px;
+overflow: hidden;
+}
+.design-studio-img-items img {
+object-fit: cover;
+object-position: center center;
+width: 100%;
+height: 100%;
+}
+.remove-img {
+border: none;
+box-shadow: none;
+background: #0A84FF;
+opacity: 1;
+display: inline-block;
+font-size: 10px;
+color: #fff;
+border-radius: 50px;
+max-width: 20px;
+max-height: 20px;
+line-height: 1;
+text-align: center;
+position: absolute;
+top: 5px;
+right: 5px;
+width:20px;
+height:20px;
+}
+.image-upload-time {
+position: absolute;
+bottom: 0;
+width: 100%;
+left: 0;
+background-color: rgba(255, 255, 255, .6);
+padding: 3px 5px;
+font-size: 12px;
+font-weight: 500;
+}
+.studio-stepform-wrap h6 {
+margin-top: 15px;
+margin-bottom: 15px;
+font-size: 16px;
+border-bottom: 1px solid #E0E0E0;
+padding-bottom: 10px;
+}
+#image-upload {
+width: 100%;
+text-align: center;
+border-radius: 7px;
+border: 1px dashed rgba(10, 132, 255, 0.50);
+background: #F5FBFF;
+box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.25);
+padding: 30px;
+cursor: pointer;
+}
+
+a .btn-hover-icon {display: none;}
+a:hover .btn-hover-icon, 
+a:focus .btn-hover-icon {display: inline-block;}
+a:hover .btn-normal-icon, 
+a:focus .btn-normal-icon {display: none;}
+
+.design-studio-img-items .lightbox{
+    width:100%;
+    height:100%;
+}
+
+.contractor-sec .project-detail-tabs .project-detail-photos-item-img.design-studio-img-items {
+background-color: #fff;
+border-radius: 10px;
+filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.15));
+display: inline-block;
+margin: 0 10px 10px 0;
+width: 150px;
+height: 150px;
+overflow: hidden;
+padding: 0;
+min-height:unset;
+}
+.contractor-sec .project-detail-tabs .project-detail-photos-item-img img {
+object-fit: cover;
+object-position: center center;
+width: 100%;
+height: 100%;
+}
+.contractor-sec .project-detail-tabs .project-detail-photos-item-img .remove-img {
+border: none;
+box-shadow: none;
+background: #0A84FF;
+opacity: 1;
+display: inline-block;
+font-size: 10px;
+color: #fff;
+border-radius: 50px;
+max-width: 20px;
+max-height: 20px;
+line-height: 1;
+text-align: center;
+position: absolute;
+top: 5px;
+right: 5px;
+width:20px;
+height:20px;
+}
+.contractor-sec .project-detail-tabs .project-detail-photos-item-img .image-upload-time {
+position: absolute;
+bottom: 0;
+width: 100%;
+left: 0;
+background-color: rgba(255, 255, 255, .6);
+padding: 3px 5px;
+font-size: 12px;
+font-weight: 500;
+}
+.contractor-sec .project-detail-tabs .project-detail-photos-item-img .studio-stepform-wrap h6 {
+margin-top: 15px;
+margin-bottom: 15px;
+font-size: 16px;
+border-bottom: 1px solid #E0E0E0;
+padding-bottom: 10px;
+}
+.contractor-sec .project-detail-tabs .project-detail-photos-item-img #image-upload {
+width: 100%;
+text-align: center;
+border-radius: 7px;
+border: 1px dashed rgba(10, 132, 255, 0.50);
+background: #F5FBFF;
+box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.25);
+padding: 30px;
+cursor: pointer;
+}
