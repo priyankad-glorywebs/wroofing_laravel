@@ -10,12 +10,9 @@ use Validator;
 
 class LoginRegisterController extends Controller
 {
-     /**
-     * Register a new user.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+     
+     //Register a new user
+    
     public function register(Request $request)
     {
         $validate = Validator::make($request->all(), [

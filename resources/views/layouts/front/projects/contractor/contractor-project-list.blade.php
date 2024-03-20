@@ -680,6 +680,70 @@
 
    
 <script>
+// $(document).ready(function () {
+
+// var currentDate = new Date();
+
+// var fromDefaultDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+
+// var year = fromDefaultDate.getFullYear();
+// var month = ('0' + (fromDefaultDate.getMonth() + 1)).slice(-2); 
+// var day = ('0' + fromDefaultDate.getDate()).slice(-2);
+
+// var formattedfromDate = year + '-' + month + '-' + day;
+// $('#from_date').val(formattedfromDate);
+
+// var toDefaultDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+
+// var year = toDefaultDate.getFullYear();
+// var month = ('0' + (toDefaultDate.getMonth() + 1)).slice(-2); 
+// var day = ('0' + toDefaultDate.getDate()).slice(-2);
+
+// var formattedtoDate = year + '-' + month + '-' + day;
+// $('#to_date').val(formattedtoDate);
+//   $('#from_date, #to_date').datepicker({
+//             dateFormat: 'yy-mm-dd',
+//             defaultDate: fromDefaultDate, 
+//             onSelect: function (dateText, inst) {
+//             }
+//         });
+
+//         $('#to_date').datepicker({
+//             dateFormat: 'yy-mm-dd',
+//             defaultDate: toDefaultDate, 
+//             onSelect: function (dateText, inst) {
+//             }
+//         });
+		$('#title').on('keypress',function(e) {
+			if(e.which == 13) {
+				$('#filterButton').click();
+			}
+		});
+//         $('#filterButton').on('click', function () {
+//             var fromDate = $('#from_date').val();
+//             var toDate = $('#to_date').val();
+// 			var title = $('#title').val();
+
+//             $.ajax({
+//                 url: '{{-- route("contractor.dashboard")--}}', 
+//                 type: 'GET',
+//                 data: { from_date: fromDate, to_date: toDate,title:title },
+//                 success: function (data) {
+//                     $('#test').html(data.html);
+//                 },
+//                 error: function (xhr, status, error) {
+//                     console.error(error);
+//                 }
+//             });
+//         });
+// 		$('#resetFilterButton').on('click', function () {
+//             $('#from_date').datepicker('setDate', formattedfromDate);
+//             $('#to_date').datepicker('setDate', formattedtoDate);
+// 			window.location.reload();
+// 		 });
+// 	});
+
+
 $(document).ready(function () {
 
 var currentDate = new Date();
@@ -687,7 +751,7 @@ var currentDate = new Date();
 var fromDefaultDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
 
 var year = fromDefaultDate.getFullYear();
-var month = ('0' + (fromDefaultDate.getMonth() + 1)).slice(-2); 
+var month = ('0' + (fromDefaultDate.getMonth() + 1)).slice(-2);
 var day = ('0' + fromDefaultDate.getDate()).slice(-2);
 
 var formattedfromDate = year + '-' + month + '-' + day;
@@ -696,52 +760,65 @@ $('#from_date').val(formattedfromDate);
 var toDefaultDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
 
 var year = toDefaultDate.getFullYear();
-var month = ('0' + (toDefaultDate.getMonth() + 1)).slice(-2); 
+var month = ('0' + (toDefaultDate.getMonth() + 1)).slice(-2);
 var day = ('0' + toDefaultDate.getDate()).slice(-2);
 
 var formattedtoDate = year + '-' + month + '-' + day;
 $('#to_date').val(formattedtoDate);
-  $('#from_date, #to_date').datepicker({
-            dateFormat: 'yy-mm-dd',
-            defaultDate: fromDefaultDate, 
-            onSelect: function (dateText, inst) {
-            }
-        });
 
-        $('#to_date').datepicker({
-            dateFormat: 'yy-mm-dd',
-            defaultDate: toDefaultDate, 
-            onSelect: function (dateText, inst) {
-            }
-        });
-		$('#title').on('keypress',function(e) {
-			if(e.which == 13) {
-				$('#filterButton').click();
+var dateFormat = "yy-mm-dd";
+
+var dates = $("#from_date, #to_date").datepicker({
+	dateFormat: dateFormat, 
+	onSelect: function(selectedDate) {
+		var option = this.id == "from_date" ? "minDate" : "maxDate",
+			instance = $(this).data("datepicker"),
+			date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
+
+		if (this.id === "from_date") {
+			option = "minDate";
+		}
+		else {
+			option = null;
+		}
+
+		dates.not(this).datepicker("option", option, date);
+	},
+	onChangeMonthYear: function(year, month, instance) {
+		var currentMonthStart = new Date(year, month - 1, 1);
+		var currentMonthEnd = new Date(year, month, 0);
+		var formattedCurrentMonthStart = year + '-' + ('0' + month).slice(-2) + '-' + ('0' + currentMonthStart.getDate()).slice(-2);
+		var formattedCurrentMonthEnd = year + '-' + ('0' + (month + 1)).slice(-2) + '-' + ('0' + currentMonthEnd.getDate()).slice(-2);
+
+		$('#from_date').val(formattedCurrentMonthStart);
+		$('#to_date').val(formattedCurrentMonthEnd);
+	}
+});
+
+	$('#filterButton').on('click', function () {
+		var fromDate = $('#from_date').val();
+		var toDate = $('#to_date').val();
+		var title = $('#title').val();
+
+		$.ajax({
+			url: '{{ route("contractor.dashboard")}}',
+			type: 'GET',
+			data: { from_date: fromDate, to_date: toDate,title:title },
+			success: function (data) {
+				$('#test').html(data.html);
+			},
+			error: function (xhr, status, error) {
+				console.error(error);
 			}
 		});
-        $('#filterButton').on('click', function () {
-            var fromDate = $('#from_date').val();
-            var toDate = $('#to_date').val();
-			var title = $('#title').val();
-
-            $.ajax({
-                url: '{{ route("contractor.dashboard")}}', 
-                type: 'GET',
-                data: { from_date: fromDate, to_date: toDate,title:title },
-                success: function (data) {
-                    $('#test').html(data.html);
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                }
-            });
-        });
-		      $('#resetFilterButton').on('click', function () {
-            $('#from_date').datepicker('setDate', formattedfromDate);
-            $('#to_date').datepicker('setDate', formattedtoDate);
-			window.location.reload();
-		 });
 	});
+
+	$('#resetFilterButton').on('click', function () {
+		$('#from_date').datepicker('setDate', formattedfromDate);
+		$('#to_date').datepicker('setDate', formattedtoDate);
+		window.location.reload();
+	});
+});
 
 
 </script>

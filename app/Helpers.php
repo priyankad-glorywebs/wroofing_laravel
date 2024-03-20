@@ -1,5 +1,4 @@
 <?php
-// Add these functions to your helper file or service provider
 
 function is_image($filename)
 {
@@ -13,8 +12,8 @@ function is_video_file($filename)
     return in_array($extension, ['mp4', 'avi', 'mov', 'mkv']);
 }
 
-
-function unique_code($limit)
-{
-  return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit);
-}
+// generate a unique_code for project
+// function unique_code($limit)
+// {
+//   return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit);
+// }

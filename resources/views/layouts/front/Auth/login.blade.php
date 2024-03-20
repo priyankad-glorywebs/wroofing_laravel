@@ -16,18 +16,12 @@
 						<div class="login-form-title text-center">Welcome to StructR</div>
 						<div class="form-wrp">
 						@if ($message = Session::get('error'))
-							<!-- <div class="alert alert-danger alert-block">
-								<strong> $message </strong>
-							</div> -->
 							<div class="alert alert-danger alert-dismissible fade show" role="alert">
 							<strong>{{$message}}</strong>
 							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 							</div>						
 							@endif
 						@if(session('success'))
-							<!-- <div class="alert alert-success">
-								
-							</div> -->
 							<div class="alert alert-success alert-dismissible fade show" role="alert">
 							{{ session('success') }}
 							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -256,7 +250,6 @@
 													</div>
 												</div>
 												
-													<!-- </form> -->
 											</form>
 										</div>
 									</div>
@@ -276,21 +269,14 @@
 							</div>
 							<script>
 								jQuery(document).ready(function($){
-									// Attach change event listener to radio buttons
 									$('#change_user input[name="role"]').change(function() {
-										// Get the selected value of the radio button
 										var userType = $(this).val();
-										// Construct the URL with the updated type parameter
 										var url = "{{ url('login/facebook?type=') }}" + userType;
-										// Update the href attribute of the Facebook login link
 										$('#facebook_login').attr('href', url);
 									});
 									$('#change_user input[name="role"]').change(function() {
-										// Get the selected value of the radio button
 										var userType = $(this).val();
-										// Construct the URL with the updated type parameter
 										var url = "{{ url('login/google?type=') }}" + userType;
-										// Update the href attribute of the Facebook login link
 										$('#google_login').attr('href', url);
 									});
 								});

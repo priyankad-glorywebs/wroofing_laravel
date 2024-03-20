@@ -30,7 +30,6 @@
               thumbnailWidth: 200,
               maxFilesize: 1,
               addRemoveLinks: true,
-            //   acceptedFiles: ".jpeg,.jpg,.png,.gif"
             });
   
 </script>

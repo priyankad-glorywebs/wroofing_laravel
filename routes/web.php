@@ -8,7 +8,6 @@ use App\Http\Controllers\Front\ChangePasswordController;
 use App\Http\Controllers\Front\ProjectController;
 use App\Http\Controllers\Front\ContactusController;
 use App\Http\Controllers\Front\ContractorController;
-use App\Http\Contractors\Front\ProfileContaroller;
 //use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\CustomVerificationController;
 use App\Http\Controllers\DropzoneController;
@@ -70,19 +69,13 @@ Route::get('/register', [RegistrationController::class, 'registerStepOne'])->nam
 Route::post('/register', [RegistrationController::class, 'register'])->name('register');
 
 
-// Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
-
-// Route::get('/test', [RegistrationController::class, 'test']);
-
 
 Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
 
-//    Route::get('/email/custom-verify/{id}', [CustomVerificationController::class, 'customVerify'])->name('verification.customVerify')->middleware('signed');
 
-
-    //update profile page customer
-    Route::get('/update/customer/profile',[ProjectController::class,'customerprofileView'])->name('customer.profile');
-    Route::post('/update/customer/profile/post',[ProjectController::class,'customerprofileUpdate'])->name('customer.profile.update');
+//update profile page customer
+Route::get('/update/customer/profile',[ProjectController::class,'customerprofileView'])->name('customer.profile');
+Route::post('/update/customer/profile/post',[ProjectController::class,'customerprofileUpdate'])->name('customer.profile.update');
 
 
 
@@ -98,12 +91,10 @@ Route::group(['namespace' => 'Front\Auth','prefix'=>'customer'], function () {
     // custom authentication routes
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
-    // Route::post('/logout',[LoginController::class,'logout'])->name('logout');
     Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
-   // Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
+
     Route::get('/email/custom-verify/{id}', [CustomVerificationController::class, 'customVerify'])->name('verification.customVerify')->middleware('signed');
 
-     //Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::get('/forgot/password', [ForgotPasswordController::class, 'forgotPassword'])->name('forgot.password');
     Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('send.reset.link');
@@ -128,12 +119,8 @@ Route::group(['namespace' => 'Front\Auth','prefix'=>'contractor'], function () {
     // custom authentication routes
     Route::get('/login', [ContractorLoginContraoller::class, 'ContractorshowLoginForm'])->name('contractor.login');
     Route::post('/login', [ContractorLoginContraoller::class, 'Contractorlogin']);
-    // Route::post('/logout',[LoginController::class,'logout'])->name('logout');
-   // Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
-   // Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
    Route::get('/email/custom-verify/{id}', [CustomVerificationController::class, 'customVerify'])->name('verification.customVerify')->middleware('signed');
 
-//    Route::any('/logout', [LoginController::class, 'logout'])->name('logout');
 
     Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
 
@@ -155,17 +142,6 @@ Route::group(['namespace' => 'Front\Auth','prefix'=>'contractor'], function () {
 /************************************************************/
 
 
-
-
-
-
-
-
-// Route::controller(DropzoneController::class)->group(function(){
-//     Route::get('dropzone', 'index');
-//     Route::post('dropzone/store', 'store')->name('dropzone.store');
-// });
-
 /*********************************************************/
 //   -------------All Contractor Routes ----------------
 /*********************************************************/
@@ -180,11 +156,10 @@ Route::group(['middleware' => 'contractor.middleware:contractor','namespace' => 
     Route::get('/update/profile',[ProjectController::class,'profileView'])->name('contractor.profile');
     Route::post('/update/profile/post',[ProjectController::class,'profileUpdate'])->name('contractor.profile.update');
 
-    //  Route::post('remove/image',[ProjectController::class,'removeImage'])->name('remove.image');
-     Route::post('/remove/image/contractor',[ContractorController::class,'removeImageContractor'])->name('remove.image.contractor');
+    Route::post('/remove/image/contractor',[ContractorController::class,'removeImageContractor'])->name('remove.image.contractor');
 
-         Route::POST('/delete-image/contractor/{project_id}/{file}',[ContractorController::class,'deleteImagesContractor'])->name('delete.image.designstudio.contractor');
-// 
+    Route::POST('/delete-image/contractor/{project_id}/{file}',[ContractorController::class,'deleteImagesContractor'])->name('delete.image.designstudio.contractor');
+
 
      Route::post('design/studio/contractor/{project_id}',[ContractorController::class,'designStudioStoreContractor'])->name('design.studio.post.contractor');
 //Filter design studio contractor 
@@ -213,7 +188,6 @@ Route::get('design/studio/{project_id}',[ProjectController::class,'designStudio'
 Route::post('design/studio/{project_id}',[ProjectController::class,'designStudioStore'])->name('design.studio.post');
 
 
-// Route::post('test',[ProjectController::class,'test'])->name('test');
 //step 2
 Route::get('/general/info/{project_id}',[ProjectController::class,'generalInformation'])->name('general.info');
 Route::post('/general/info/{project_id}',[ProjectController::class,'generalInformationPost'])->name('general.info.store');
@@ -248,7 +222,6 @@ Route::get('/home', function () {
 /*********************************************************/
 //   ------------- END customer Routes ----------------
 /*********************************************************/
-
 
 
 /*********************************************************/

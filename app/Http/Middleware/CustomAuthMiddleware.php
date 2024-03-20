@@ -7,13 +7,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CustomAuthMiddleware
 {
-    // public function handle($request, Closure $next)
-    // {
-    //     if (Auth::check()) {
-    //         return $next($request);
-    //     }
-    //     return redirect('/login')->with('error', 'Unauthorized. Please log in.');
-    // }
     public function handle($request, Closure $next)
     {
         if (Auth::check()) {

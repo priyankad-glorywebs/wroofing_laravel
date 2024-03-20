@@ -120,7 +120,6 @@
 								<div class="form-group button-wrap col-md-12">
 									<div class="field-wrap">
 										<button type="submit" class="btn btn-primary d-block w-100">Get started</button>
-										<!-- <a href="project-list.html" class="btn btn-primary d-block w-100">Get started</a> -->
 									</div>
 								</div>
 							</div>

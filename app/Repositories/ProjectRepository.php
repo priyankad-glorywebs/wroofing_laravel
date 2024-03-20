@@ -14,9 +14,6 @@ public function createProject($projectData)
         $project->created_by       = $projectData['created_by'];
         $project->updated_by       = $projectData['updated_by'];
         $project->status           = $projectData['status'];
-        // $project->project_status   = 'Requested';
-        // $uniqueCode                = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 9);
-        // $project->uniqprojectcode  = $uniqueCode;
         $project->save();
         return $project;
     } catch (\Exception $e) {

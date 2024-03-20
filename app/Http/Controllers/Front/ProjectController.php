@@ -51,48 +51,6 @@ public function __construct(ProjectRepository $projectRepository)
         return view( "layouts.front.projects.project-details",compact("project_id"));
     }
 
-    // public function addProject(Request $request)
-    // {
-    //   // here i need a unique projectname user specific not for whole table 
-    //     try {
-    //         $validator = Validator::make($request->all(), [
-    //             // "projectname" => "required|string|max:255",
-    //             // "projectname" => "required|string|max:255|unique:projects,name",
-    //             "projectname" => "required|string|max:255|unique:projects,name,NULL,id,user_id," . auth()->id(),
-
-
-    //         ]);
-
-    //         if ($validator->fails()) {
-    //             return response()->json([
-    //                 "success"  => false,
-    //                 "message"  => "Validation failed",
-    //                 "errors"   => $validator->errors(),
-    //             ]);
-    //         }
-
-    //         $project              = new Project();
-    //         $project->name        = $request->projectname;
-    //         $project->title       = $request->projectname;
-    //         $project->user_id     = auth()->id();
-    //         $project->created_by  = auth()->id();
-    //         $project->updated_by  = auth()->id();
-    //         $project->status      = 0;
-    //         $project->save();
-
-    //         return response()->json([
-    //             "success" => true,
-    //             "message" => "Project created successfully",
-    //             "data" => $project->id,
-    //         ]);
-    //     } catch (\Exception $e) {
-    //         return response()->json([
-    //             "success" => false,
-    //             "message" => "something went wrong",
-    //             "error" => $e->getMessage(),
-    //         ]);
-    //     }
-    // }
 
     //***************************************/
     // cretea a  project from customer side //
@@ -149,34 +107,6 @@ public function __construct(ProjectRepository $projectRepository)
         }
     }
 
-
-    // public function designStudio($project_id,Request $request)
-    // {
-    //     if($request->designfilter_todate != NULL && $request->designfilter_fromdate != NULL){ 
-    //         $filterData = ProjectImagesData::where('project_id',base64_decode($project_id));
-    //         if ($request->designfilter_todate) {
-    //             $filterData->whereDate('date', '>=', $request->designfilter_todate);
-    //         }
-    //         if ($request->designfilter_fromdate) {
-    //             $filterData->whereDate('date', '<=', $request->designfilter_fromdate);
-    //         }
-           
-    //         $filterData->get();    
-    //         // $filterData = ProjectImagesData::where('project_id',base64_decode($project_id))
-    //         // ->whereDate('date', '<=', $request->designfilter_todate)
-    //         // ->whereDate('date','>=',$request->designfilter_fromdate)
-    //         // ->get();
-    //         $groupedData = $filterData->groupBy('date');
-    //            $dsview = view('layouts.front.projects.steps.filterdata-design-studio', compact('groupedData'))->render();
-    //             return response()->json(['filterdata' => $dsview]);
-    //     }else{
-    //         return view("layouts.front.projects.steps.design-studio",compact("project_id"));
-   
-    //     }
-    // }
-
-
-        
     //************************************************************************/
     // Design studio Design- customer side //
     //************************************************************************/
@@ -192,9 +122,6 @@ public function __construct(ProjectRepository $projectRepository)
                 if ($request->designfilter_fromdate) {
                     $filterData->whereDate('date', '<=', $request->designfilter_fromdate);
                 }
-                // if($request->designfilter_todate  || $request->designfilter_fromdate){
-                //      $filterData->whereBetween('date', [$request->designfilter_todate, $request->designfilter_fromdate]);
-                // }
 
                 $groupedData = $filterData->orderBy('date', 'desc')
                 ->get()->groupBy('date');
@@ -248,8 +175,6 @@ public function __construct(ProjectRepository $projectRepository)
 
 
              }
-             //dd($user_id->id);
-
             
                $filename = time() . "_" .\Str::random(3).'_'.$file->getClientOriginalName();
                $mediaType = explode('/', $file->getMimeType())[0]; 
@@ -289,25 +214,6 @@ public function __construct(ProjectRepository $projectRepository)
                     
         }
 
-
-        // if ($request->hasFile("file")) {
-        //     // $existingImages = json_decode($project->project_image, true) ?? [];
-
-        //     foreach ($request->file("file") as $file) {
-        //         $filename = time() . "_" .\Str::random(3).'_'.$file->getClientOriginalName();
-        //         $file->storeAs("project_images", $filename, "public");
-        //         $existingImages[] = $filename;
-        //     }
-
-        // //     $project->update(["project_image" => json_encode($existingImages)]);
-        // }
-
-        // $project_id = base64_encode($project_id);
-
-        // return response()->json([
-        //     "success" => "Files uploaded successfully",
-        //     "project_id" => $project_id,
-        // ]);
 
     }
 
@@ -455,28 +361,6 @@ public function documentationStore(Request $request, $project_id)
 }
 
 
-    // private function getFileTypepdf($file)
-    // {
-    //     $allowedExtensions = [
-    //         "pdf",
-    //         "doc",
-    //         "docx",
-    //         "jpg",
-    //         "jpeg",
-    //         "png",
-    //         "gif",
-    //     ];
-
-    //     $fileExtension = strtolower($file->getClientOriginalExtension());
-
-    //     if (in_array($fileExtension, $allowedExtensions)) {
-    //         return "document";
-    //     } else {
-    //         return "unknown";
-    //     }
-    // }
-
-
 
 public function removeDocuments(Request $request)
 {
@@ -495,84 +379,6 @@ public function removeDocuments(Request $request)
     return response()->json(['message' => 'Document removed successfully']);
 }
 
-
-    // public function contractorProjectList(Request $request){
-    //     if($request->from_date != NULL  && $request->to_date != NULL){
-    //         $query = Project::query();
-    //         if ($request->to_date) {
-    //             $query->whereDate('created_at', '<=', $request->to_date);
-    //         }
-    //         if ($request->from_date) {
-    //             $query->whereDate('created_at', '>=', $request->from_date);
-    //         }
-
-    //         if($request->title){
-
-    //             $query->orwhere('title','LIKE','%'.$request->title.'%')
-    //             ->orwhere('project_status','LIKE','%'.$request->title.'%');
-
-    //         }
-    //         if ($request->ajax() && $request->to_date || $request->from_date){
-    //             $projects = $query->orderBy('id','DESC')->get();
-    //             $view = view('layouts.front.projects.contractor.contractordashboard',compact('projects'))->render();
-    //             return response()->json(['html' => $view]);
-    //         }
-    //     }else{
-    //         $currentMonth = Carbon::now()->month;
-    //         $projects = Project::whereMonth('created_at', $currentMonth)->orderBy('id','DESC')->get();
-    //     }
-    //     return view('layouts.front.projects.contractor.contractor-project-list',compact('projects'));
-    // }
-
-
-// public function contractorProjectList(Request $request){
-//     if($request->from_date != NULL  && $request->to_date != NULL){
-//         $query = Project::query()->leftJoin('users', 'projects.user_id', '=', 'users.id');
-//         if ($request->to_date) {
-//             $query->whereDate('projects.created_at', '<=', $request->to_date);
-//         }
-//         if ($request->from_date) {
-//             $query->whereDate('projects.created_at', '>=', $request->from_date);
-//         }
-
-//         if($request->title){
-//             $query->where(function($subQuery) use ($request) {
-//                 $subQuery->where('projects.title', 'LIKE', '%'.$request->title.'%')
-//                     ->orWhere('projects.project_status', 'LIKE', '%'.$request->title.'%')
-//                     ->orWhere('users.name', 'LIKE', '%'.$request->title.'%')
-//                     ->orwhere('projects.id','LIKE','%'.$request->title.'%')
-//                     ->orWhere('users.email', 'LIKE', '%'.$request->title.'%')
-//                     ->orWhere('users.contact_number', 'LIKE', '%'.$request->title.'%');
-//             });
-
-//         }
-
-//         if ($request->ajax() && ($request->to_date || $request->from_date)){
-//             $projects = $query->orderBy('projects.id','DESC')->get();
-//             $view = view('layouts.front.projects.contractor.contractordashboard', compact('projects'))->render();
-//             return response()->json(['html' => $view]);
-//         }
-//     } else {
-//         $currentMonth = Carbon::now()->month;
-//         $projects = Project::whereMonth('projects.created_at', $currentMonth)->orderBy('projects.id', 'DESC')->get();
-//     }
-
-//     return view('layouts.front.projects.contractor.contractor-project-list', compact('projects'));
-// }
-
-
-
-// public function download($filename)
-// {
-//     dd($filename);
-//     $filePath = storage_path('app/public/' . $filename);
-
-//     if (file_exists($filePath)) {
-//         return response()->download($filePath, $filename);
-//     } else {
-//         abort(404, 'File not found');
-//     }
-// }
 
 public function download($filename)
 {
@@ -601,14 +407,9 @@ public function profileUpdate(Request $request)
         'email' => 'required|email|max:255',
         'contactnumber' => 'required|string|max:20',
         'zipcode' => 'required|string|max:10',
-        'customer_profile' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Assuming it's an image upload
-        //'banner_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Assuming it's an image upload
-
+        'customer_profile' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
 
     ]);
-
-    // dd($request->banner_image);
-
 
     if ($validator->fails()) {
         return redirect()->back()->withErrors($validator)->withInput();
@@ -626,18 +427,6 @@ public function profileUpdate(Request $request)
         $contractor->contact_number = $request->contactnumber;
         $contractor->zip_code = $request->zipcode;
 
-        // $storagePath = 'customer_profile/';
-        // if (!File::exists($storagePath)) {
-        //     File::makeDirectory($storagePath, 0755, true);
-        // }
-
-        // if ($request->hasFile('customer_profile')) {
-        //     $image = $request->file('customer_profile');
-        //     $imageName = \Str::random(3).time() . '.' . $image->getClientOriginalExtension();
-        //     Storage::putFileAs($storagePath, $image, $imageName);
-        //     $contractor->profile_image = $imageName;
-        // }
-
         $bannerImageName = null;
 
         if ($request->hasFile('banner_image')) {
@@ -645,10 +434,7 @@ public function profileUpdate(Request $request)
             $bannerImage = $request->file('banner_image');
     
             $bannerImageName = time() . '_' . $bannerImage->getClientOriginalName();
-            // $bannerImage->storeAs($bannerImageName);
-            //dd($bannerImage);
-
-
+            
             $directory = "contractor_banner";
 
                 $publicDirectory = public_path($directory);
@@ -671,25 +457,13 @@ public function profileUpdate(Request $request)
 
         }
 
-        // $bannerImaxgeName = null;
-
-// if ($request->hasFile('banner_image')) {
-//     // dd("in");
-//     $bannerImage = $request->file('banner_image');
-//     dd($bannerImage);
-//     $bannerImageName = time() . '_' . $bannerImage->getClientOriginalName();
-//     $bannerImage->storeAs('uploads/contractor_banner', $bannerImageName);
-//     $contractor->banner_image = $bannerImageName ? 'uploads/contractor_banner/' . $bannerImageName : null;
-// }
-
-
+      
         if ($request->has('password')) {
             $contractor->password = bcrypt($request->password);
         }
 
 
         $contractor->save();
-        // dd($contractor);
 
         return redirect()->back()->with('success', 'Profile updated successfully.');
     } else {
@@ -755,18 +529,12 @@ public function customerprofileUpdate(Request $request){
 }
 
 
-// public function deleteImages(Request $request,$projectId,$filePath){
-//     dd($filePath);
-// }
-
 public function deleteImages($project_id, $media_item_id)
     {
         $mediaItem = ProjectImagesData::find($media_item_id);
-
         if (!$mediaItem) {
             return response()->json(['message' => 'Media item not found.'], 404);
         }
-
         Storage::delete('project_images/' . $mediaItem->project_image);
 
         $mediaItem->delete();
