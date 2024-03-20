@@ -54,78 +54,6 @@
                 </div>
             </div>
             @endforeach
-            {{--<div class="col-6 col-md-4 col-lg-3">
-                <div class="project-list-item">
-                    <div class="project-item-img">
-                        <img src="{{asset('frontend-assets/images/project-list-1.png')}}" alt="project img" width="270" height="230">
-                    </div>
-                    <div class="project-item-title-wrap d-flex align-items-center justify-content-between">
-                        <div class="project-item-title">Roof Project  1</div>
-                        <div class="project-item-icon"><svg width="9" height="17" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 16L7.43043 9.82576C8.18986 9.09659 8.18986 7.90341 7.43043 7.17424L1 1" stroke="#0A84FF" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                    </div>
-                    <a class="project-list-item-link" href="project-detail.html"></a>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="project-list-item">
-                    <div class="project-item-img">
-                        <img src="{{asset('frontend-assets/images/project-list-2.png')}}" alt="project img" width="270" height="230">
-                    </div>
-                    <div class="project-item-title-wrap d-flex align-items-center justify-content-between">
-                        <div class="project-item-title">Roof Project  2</div>
-                        <div class="project-item-icon"><svg width="9" height="17" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 16L7.43043 9.82576C8.18986 9.09659 8.18986 7.90341 7.43043 7.17424L1 1" stroke="#0A84FF" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                    </div>
-                    <a class="project-list-item-link" href="project-detail.html"></a>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="project-list-item">
-                    <div class="project-item-img">
-                        <img src="{{asset('frontend-assets/images/project-list-3.png')}}" alt="project img" width="270" height="230">
-                    </div>
-                    <div class="project-item-title-wrap d-flex align-items-center justify-content-between">
-                        <div class="project-item-title">Roof Project  3</div>
-                        <div class="project-item-icon"><svg width="9" height="17" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 16L7.43043 9.82576C8.18986 9.09659 8.18986 7.90341 7.43043 7.17424L1 1" stroke="#0A84FF" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                    </div>
-                    <a class="project-list-item-link" href="project-detail.html"></a>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="project-list-item">
-                    <div class="project-item-img">
-                        <img src="{{asset('frontend-assets/images/project-list-4.png')}}" alt="project img" width="270" height="230">
-                    </div>
-                    <div class="project-item-title-wrap d-flex align-items-center justify-content-between">
-                        <div class="project-item-title">Roof Project 4</div>
-                        <div class="project-item-icon"><svg width="9" height="17" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 16L7.43043 9.82576C8.18986 9.09659 8.18986 7.90341 7.43043 7.17424L1 1" stroke="#0A84FF" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                    </div>
-                    <a class="project-list-item-link" href="project-detail.html"></a>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="project-list-item">
-                    <div class="project-item-img">
-                        <img src="{{asset('frontend-assets/images/project-list-5.png')}}" alt="project img" width="270" height="230">
-                    </div>
-                    <div class="project-item-title-wrap d-flex align-items-center justify-content-between">
-                        <div class="project-item-title">Roof Project 5</div>
-                        <div class="project-item-icon"><svg width="9" height="17" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 16L7.43043 9.82576C8.18986 9.09659 8.18986 7.90341 7.43043 7.17424L1 1" stroke="#0A84FF" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                    </div>
-                    <a class="project-list-item-link" href="project-detail.html"></a>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-3">
-                <div class="project-list-item">
-                    <div class="project-item-img">
-                        <img src="{{asset('frontend-assets/images/project-list-6.png')}}" alt="project img" width="270" height="230">
-                    </div>
-                    <div class="project-item-title-wrap d-flex align-items-center justify-content-between">
-                        <div class="project-item-title">Roof Project  6</div>
-                        <div class="project-item-icon"><svg width="9" height="17" viewBox="0 0 9 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 16L7.43043 9.82576C8.18986 9.09659 8.18986 7.90341 7.43043 7.17424L1 1" stroke="#0A84FF" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-                    </div>
-                    <a class="project-list-item-link" href="project-detail.html"></a>
-                </div>
-            </div>--}}
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="project-list-item">
                     <div class="project-item-img">
@@ -223,9 +151,7 @@
         $('#addprojectpopup').modal('show');
         });
 
-        // Add event listener to the close button
     $('.btn-close').on('click', function () {
-        // Reload the page
         location.reload();
     });
 
@@ -236,29 +162,19 @@
 
         });
         
-        // $('#addProjectForm').on('submit', function (e) {
-        //  });
-
-            
-    //   $(document).on('keypress','.keypressed',function(e){
-    //     // If the user presses the "Enter" key on the keyboard
-    //     if (event.key === "Enter") {
-    //     $("#approvebtn").trigger("click");
-    //      }
-    //   });
-
-    // $('#projectname').on('keypress',function(e) {
-	// 		if(e.which == 13) {
-	// 			$('#filterButton').click();
-	// 		}
-	// 	});
-
+      
+    $('#projectname').on('keydown', function(event) {
+    if (event.keyCode === 13) { 
+        event.preventDefault(); 
+        $('#approvebtn').click(); 
+    }
+    });
         $('#approvebtn').on("click", function (e) {
             e.preventDefault();
 
             var projectname = $('#projectname').val();
             if (projectname == "") {
-                $('#projectname').css("border", "1px solid red"); // Corrected syntax error
+                $('#projectname').css("border", "1px solid red"); 
             }else{
                 $('#projectname').css("border", "");
                 $.ajax({
@@ -268,10 +184,8 @@
 					success: function (response) {
                         if(response.success == true){
                         $('#addproject').modal('hide');
-                        
-						if(response.success){
+                        if(response.success){
                             var projectId = response.data;
-                                
                             window.location="{{route('add.project')}}" + "/" + btoa(projectId);
                         }
                     }else{
@@ -280,8 +194,7 @@
 					},
 					error: function (xhr, status, error) {
 						console.error(xhr.responseText);
-
-					}
+                    }
 				});
             }
         });

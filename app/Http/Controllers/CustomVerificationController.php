@@ -13,9 +13,7 @@ class CustomVerificationController extends Controller
     {
         try {
             $userID = (int)$request->id;        
-            // Check if the user exists in the users table
             $user = User::where('id', $userID)->first();
-            // Check if the user exists in the contractors table
             $contractor = Contractor::where('id', $userID)->first();
             if ($user) {
                 if (!$user->hasVerifiedEmail()) {

@@ -1,26 +1,4 @@
 
-{{--No images or videos found
-@if($groupedData)
-@foreach($groupedData as $date => $mediaItems)
-    <h6>{{ $date }}</h6>
-@foreach($mediaItems as $mediaItem)
-    @if($mediaItem->media_type == 'image') 
-    <div class="design-studio-img-items">
-        <button type="button" class="remove-img" data-media-item-id="{{ $mediaItem->id }}">X</button>
-                <img src="{{ asset('storage/project_images/'.$mediaItem->project_image)  }}" alt="Image">
-            <span class="image-upload-time">{{$mediaItem->time}}</span>
-        @elseif($mediaItem->media_type == 'video')
-            <video width="150" height="150" controls>
-                <source src="{{ asset('storage/project_images/'.$mediaItem->project_image) }}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <span class="image-upload-time">{{$mediaItem->time}}</span>
-
-        @endif 
-    </div>
-    @endforeach
-@endforeach
-@endif--}}
 
             @if($groupedData)
             @foreach($groupedData as $date => $mediaItems)
@@ -35,7 +13,6 @@
                     <span class="image-upload-time">{{$mediaItem->time}}</span>
                 </div>
                 @elseif($mediaItem->media_type == 'video')
-                <!-- <div class="video-container"> -->
                 <div class="design-studio-img-items video-container">
                     <button type="button" class="remove-img" data-media-item-id="{{ $mediaItem->id }}">X</button>
 
@@ -48,12 +25,10 @@
                     <span class="image-upload-time">{{$mediaItem->time}}</span>
                 </div>	
             @endif 
-                <!-- </div> -->
                 @endforeach
                 @endforeach
             @endif
 
-							{{--<button type="submit" id="submit-all" class="btn btn-primary btn-studio-step-1">Submit and continue</button>--}}
 
 
 

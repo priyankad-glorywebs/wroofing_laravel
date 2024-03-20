@@ -13,8 +13,6 @@ class ProjectDocument extends Model
     protected $fillable = [
        'project_id','document_name','document_file','created_by','updated_by','file_keys'
    ];
-// protected $fillable = ['user_id', 'created_by', 'updated_by'];
-
 
    public function project()
     {

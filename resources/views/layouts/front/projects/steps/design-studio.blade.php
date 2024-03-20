@@ -254,7 +254,6 @@ jQuery(document).ready(function ($) {
 Dropzone.autoDiscover = false;
 
 
-
 $(document).ready(function () {
 
     var project_id = $('#project_id').val();
@@ -338,24 +337,24 @@ $(document).ready(function () {
    		 });
 
 
-        function loadExistingImages(dropzoneInstance) {
-			var existingImages = <?php echo json_encode($imageArray); ?> || [];
+function loadExistingImages(dropzoneInstance) {
+	var existingImages = <?php echo json_encode($imageArray); ?> || [];
 
-			if (existingImages.length > 0) {
-				for (var i = 0; i < existingImages.length; i++) {
-					var file = {
-						name: existingImages[i],
-						size: 12345, 
-						accepted: true,
-						kind: 'image',
-		                dataURL: "{{ asset('storage/project_images/') }}" + '/' + existingImages[i]
-					};
-					dropzoneInstance.emit('addedfile', file);
-					$('.dz-progress').addClass('d-none');
-					dropzoneInstance.emit('thumbnail', file, "{{ asset('storage/project_images/') }}" + '/' + existingImages[i]);
-				}
-			}
+	if (existingImages.length > 0) {
+		for (var i = 0; i < existingImages.length; i++) {
+			var file = {
+				name: existingImages[i],
+				size: 12345, 
+				accepted: true,
+				kind: 'image',
+				dataURL: "{{ asset('storage/project_images/') }}" + '/' + existingImages[i]
+			};
+			dropzoneInstance.emit('addedfile', file);
+			$('.dz-progress').addClass('d-none');
+			dropzoneInstance.emit('thumbnail', file, "{{ asset('storage/project_images/') }}" + '/' + existingImages[i]);
 		}
+	}
+}
 
 
 
@@ -374,105 +373,164 @@ $(document).ready(function () {
 			});
         }
 
-
-	
-
-		$('.remove-img').on('click', function (e) {
-			e.preventDefault();
+	$('.remove-img').on('click', function (e) {
+		e.preventDefault();
     	var project_id = $('#project_id').val();
 		var file = $(this).data('media-item-id'); 
 		console.log(file);
 		currentButton = $(this);
         var isConfirmed = confirm('Are you sure you want to remove this file?');
-
-            if (isConfirmed) {
+		if (isConfirmed) {
 			$.ajax({
-           // url: '/delete-image/' + project_id + '/' + file,
-		   url: "{{ route('delete.image.designstudio', ['project_id' => ':project_id', 'file' => ':file']) }}"
-                .replace(':project_id', project_id)
-                .replace(':file', file),
+			url: "{{ route('delete.image.designstudio', ['project_id' => ':project_id', 'file' => ':file']) }}"
+					.replace(':project_id', project_id)
+					.replace(':file', file),
 
-            type: 'post',
-			data:{_token:'{{ csrf_token() }}'},
-            success: function (response) {
-
-				var file = $(this).closest('media-item-id'); 
-
-				currentButton.closest('.design-studio-img-items').remove();
-
-               // alert("File deleted");
-            },
-            error: function (error) {
-                console.error('Error deleting file:', error);
-            }
-        });
+				type: 'post',
+				data:{_token:'{{ csrf_token() }}'},
+				success: function (response) {
+					var file = $(this).closest('media-item-id'); 
+					currentButton.closest('.design-studio-img-items').remove();
+				},
+				error: function (error) {
+					console.error('Error deleting file:', error);
+				}
+           });
  		  }else{
 				//alert("out")
 			}
         });
 
+//it's me start script
+	// $('#design-filter_todate').datepicker({
+	// 	dateFormat: 'yy-mm-dd', 
+	// 	onSelect: function (dateText, inst) {
+	// 	}
+	// });
 
 
+	// $('#design-filter_fromdate').datepicker({
+	// 	dateFormat: 'yy-mm-dd', 
+	// 	onSelect: function (dateText, inst) {
+	// 	}
+	// });
 
 
+	// $('#dsfilterButton').on('click', function (e) {
+	// 			e.preventDefault();
+	// 			var project_id = $('#project_id').val();
+	// 	//		alert('in');
 
+	// 		var designfilter_todate = $('#design-filter_todate').val();
+	// 		var designfilter_fromdate = $('#design-filter_fromdate').val();
+
+          
+    //         $.ajax({
+    //             // url: '/design/studio/'+project_id, 
+	// 			 url:"{{-- route('design.studio', ['project_id' => $project_id]) --}}",
+
+    //             type: 'GET',
+    //             data: { designfilter_todate: designfilter_todate,
+	// 				designfilter_fromdate:designfilter_fromdate },
+    //             success: function (data) {
+	// 				$('#testData').html(data.filterdata);
+    //                 //$('#test').html(data.html);
+    //             },
+    //             error: function (xhr, status, error) {
+    //                 //console.error(error);
+    //             }
+    //         });
+    //     });
+
+    // $('#dsresetFilterButton').on('click', function () {
+    //        window.location.reload();
+	// });
+	//end it's me start script
+
+	
 	$('#design-filter_todate').datepicker({
-		dateFormat: 'yy-mm-dd', 
+		dateFormat: 'yy-mm-dd',
 		onSelect: function (dateText, inst) {
 		}
 	});
 
 
 	$('#design-filter_fromdate').datepicker({
-		dateFormat: 'yy-mm-dd', 
+		dateFormat: 'yy-mm-dd',
 		onSelect: function (dateText, inst) {
 		}
 	});
 
 
-	$('#dsfilterButton').on('click', function (e) {
-				e.preventDefault();
-				var project_id = $('#project_id').val();
-		//		alert('in');
-
+	    $('#dsfilterButton').on('click', function (e) {
+	    	e.preventDefault();
+    	    var project_id = $('#project_id').val();
 			var designfilter_todate = $('#design-filter_todate').val();
 			var designfilter_fromdate = $('#design-filter_fromdate').val();
-
-          
-            $.ajax({
-                // url: '/design/studio/'+project_id, 
-				 url:"{{ route('design.studio', ['project_id' => $project_id]) }}",
-
-                type: 'GET',
+		    $.ajax({
+                url:"{{ route('design.studio', ['project_id' => $project_id]) }}",
+				type: 'GET',
                 data: { designfilter_todate: designfilter_todate,
-					designfilter_fromdate:designfilter_fromdate },
+				designfilter_fromdate:designfilter_fromdate },
                 success: function (data) {
 					$('#testData').html(data.filterdata);
-                    //$('#test').html(data.html);
                 },
                 error: function (xhr, status, error) {
-                    //console.error(error);
                 }
             });
         });
 
-    $('#dsresetFilterButton').on('click', function () {
+		$('#dsresetFilterButton').on('click', function () {
            window.location.reload();
-	});
+	    });
 
 
-	
+
+//Reset Filter script
+$('#dsresetFilterButton').on('click', function () {
+	var currentDate = new Date();
+    var monthStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), 2);
+	var formattedMonthStart = monthStart.toISOString().slice(0,10);
+	var lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+    var lastDayOfMonth = lastDay.getDate();
+	var formattedEndOfMonth = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1 < 10 ? '0' : '') + (currentDate.getMonth() + 1) + '-' + (lastDayOfMonth < 10 ? '0' : '') + lastDayOfMonth;
+	$('#design-filter_todate').val(formattedMonthStart);
+	$('#design-filter_fromdate').val(formattedEndOfMonth);
+});
 
 });
 
-// });
+//To date Disable script 
+var dateFormat = "yy-mm-dd"; 
+var dates = $("#design-filter_todate, #design-filter_fromdate").datepicker({
+    dateFormat: dateFormat, 
+    onSelect: function(selectedDate) {
+        var option = this.id == "design-filter_fromdate" ? "minDate" : "maxDate",
+            instance = $(this).data("datepicker"),
+            date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
+        if (this.id === "design-filter_todate") {
+            option = "minDate";
+        }
+        else {
+            option = null;
+        }
+        dates.not(this).datepicker("option", option, date);
+    },
+    onChangeMonthYear: function(year, month, instance) {
+        $(this).datepicker('setDate', new Date(year, month - 1, 1));
+    }
+});
 
-
-
+// Display current month date  
+	var currentDate = new Date();
+	var firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 2);
+	var lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+	var formattedFirstDay = firstDayOfMonth.toISOString().slice(0, 10);
+	var formattedLastDay = lastDayOfMonth.toISOString().slice(0, 10);
+	document.getElementById('design-filter_todate').setAttribute('placeholder', formattedFirstDay);
+	document.getElementById('design-filter_fromdate').setAttribute('placeholder', formattedLastDay);
 
 </script>
-
-
-<!-- <script src="https://cdn.plyr.io/3.6.4/plyr.js"></script> -->
+<script src="https://cdn.plyr.io/3.6.4/plyr.js"></script>
 @endsection
 

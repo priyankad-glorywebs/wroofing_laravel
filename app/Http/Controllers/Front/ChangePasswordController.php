@@ -16,7 +16,6 @@ class ChangePasswordController extends Controller
 
     public function changePassword(Request $request)
     {   
-           // Get the ID of the logged-in user
         $userId = Auth::id();
         $validatedData = $request->validate([
             'cpassword' => 'required',
@@ -26,10 +25,8 @@ class ChangePasswordController extends Controller
         try {
             if(!empty($userId) && !empty($request->cpassword) && !empty($request->mpassword) && !empty($request->cfmpassword)){
                 if($request->mpassword == $request->cfmpassword){
-                    // Check if the user exists in the users table
                     $user = User::find($userId);
 
-                    // Check if the user exists in the contractors table
                     $contractor = Contractor::find($userId);
                     if ($user) {
                         $auth = User::where('id', $userId)->first();
@@ -37,7 +34,6 @@ class ChangePasswordController extends Controller
                             if (Hash::check($request->cpassword, $auth->password)) {
                                 $auth->password =  Hash::make($request->mpassword);
                                 $auth->update();
-                                // make sure to re-login the user
                                 Auth::login($auth);
                             }else{
                                 return redirect()->back()->with('error', 'current password not matched.');
@@ -53,7 +49,6 @@ class ChangePasswordController extends Controller
                             if (Hash::check($request->cpassword, $auth->password)) {
                                 $auth->password =  Hash::make($request->mpassword);
                                 $auth->update();
-                                // make sure to re-login the user
                                 Auth::login($auth);
                             }else{
                                 return redirect()->back()->with('error', 'current password not matched.');

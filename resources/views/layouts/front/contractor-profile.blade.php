@@ -90,28 +90,8 @@
 
 
 
-								 <!-- Banner Image Input -->
-    {{--<div class="form-group col-12">
-        <div class="field-wrap">
-            <div class="form-label">
-                <label for="banner_image">Banner Image<span>*</span></label>
-            </div>
-            <div class="form-element">
-                <input id="banner_image" type="file" name="banner_image" accept="image/jpg, image/jpeg, image/png">
-                <label for="banner_image">
-                    <div class="upload-img-icon">
-                        <img src="{{ asset('frontend-assets/images/img-icon.svg') }}" alt="img-icon" width="30" height="30">
-                    </div>
-                    @if(isset($contractor->banner_image) && $contractor->banner_image !== NULL && $contractor->banner_image !== '')
-                        <div class="upload-img-text">{{ $contractor->banner_image ?? '' }}</div>
-                    @else
-                        <div class="upload-img-text">Upload your banner image</div>
-                    @endif
-                    <div class="upload-img-formate">(PNG or JPGE file accepted)</div>
-                </label>
-            </div>
-        </div>
-    </div>--}}
+ <!-- Banner Image Input -->
+   
 
 	<div class="form-group col-12">
 			<div class="field-wrap">

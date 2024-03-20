@@ -117,7 +117,6 @@ class ContractorController extends Controller
 
     public function removeImageContractor(Request $request)
     {
-        // dd($request->all());
         $fileName  = $request->input("file_name");
         $projectId = $request->input("project_id");
 
@@ -136,10 +135,7 @@ class ContractorController extends Controller
 
     public function deleteImagesContractor($project_id, $media_item_id)
     {
-        // dd("in");
         $mediaItem = ProjectImagesData::find($media_item_id);
-        // dd($mediaItem);
-
         if (!$mediaItem) {
             return response()->json(['message' => 'Media item not found.'], 404);
         }
@@ -147,8 +143,6 @@ class ContractorController extends Controller
         Storage::delete('project_images/' . $mediaItem->project_image);
 
         $mediaItem->delete();
-        // dd($mediaItem);
-
         return response()->json(['message' => 'File deleted successfully.']);
     }
 
@@ -189,8 +183,6 @@ class ContractorController extends Controller
 
 
 ///Filter route for design studio contractor side 
-
-
 
 public function DesignstuidoContractorFilter(Request $request, $project_id)
 {
