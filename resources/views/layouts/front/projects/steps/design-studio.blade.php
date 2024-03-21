@@ -22,9 +22,7 @@
 	video {background-color:#000;}
 	 */
     /* .contractor-sec{padding :14px 0;} */
-
-
-	</style>
+</style>
 
 <link rel="stylesheet" href="https://cdn.plyr.io/3.6.4/plyr.css" />
 @endsection
@@ -76,9 +74,6 @@ if(isset($projectId)){
 }
 
 ?>
-
-
-
 	<section class="studio-stepform-sec">
 		<div class="container">
 			<div class="row">
@@ -268,7 +263,7 @@ $(document).ready(function () {
 			addRemoveLinks: true, 
 			acceptedFiles: ".jpeg,.jpg,.png,.gif,.mp4",
 			dictRemoveFile: "Remove file",
-			uploadMultiple: true,
+			// uploadMultiple: true,
 			headers: {
 					'X-CSRF-TOKEN': csrfToken
 				},
@@ -287,55 +282,110 @@ $(document).ready(function () {
 		});
 
 
-		$('#submit-all').click(function () {
-			var files = dropzone.getAcceptedFiles();
-			console.log(files);
-			// Check if no files are selected
-			//   if (files.length === 0 || existingImages.length === 0) {
-			//     alert("Please select at least one image before submitting.");
-			//     return;
-			// }
+		// $('#submit-all').click(function () {
+		// 	var files = dropzone.getAcceptedFiles();
+		// 	console.log(files);
+		// 	// Check if no files are selected
+		// 	//   if (files.length === 0 || existingImages.length === 0) {
+		// 	//     alert("Please select at least one image before submitting.");
+		// 	//     return;
+		// 	// }
 
-			var formData = new FormData();
-
-
-			for (var i = 0; i < files.length; i++) {
-				formData.append('file[]', files[i]);
-			}
-
-			var existingImages = <?php echo json_encode($imageArray); ?> || [];
-			for (var i = 0; i < existingImages.length; i++) {
-				formData.append('existing_images[]', existingImages[i]);
-			}
+		// 	var formData = new FormData();
 
 
-			if (files.length === 0 && existingImages.length === 0) {
-			displayErrorMessage("Please select at least one image before submitting.");
-			return;
-		     }
-			formData.append('_token', '{{ csrf_token() }}');
+		// 	for (var i = 0; i < files.length; i++) {
+		// 		formData.append('file[]', files[i]);
+		// 	}
 
-			$.ajax({
-				type: 'POST',
-				url: "{{ route('design.studio.post', ['project_id' => '__project_id__']) }}".replace('__project_id__', project_id),
-				data: formData,
-				processData: false,
-				contentType: false,
-				success: function (response) {
-					var project_id = response.project_id;
-					console.log(response.designstudio);
-					$('#sendquotepopup').modal('hide');
-				    $('#testData').html(response.designstudio);
-					dropzone.removeAllFiles();
+		// 	var existingImages = <?php //echo json_encode($imageArray); ?> || [];
+		// 	for (var i = 0; i < existingImages.length; i++) {
+		// 		formData.append('existing_images[]', existingImages[i]);
+		// 	}
 
-					// window.location.href = "{{ route('documentation', ['project_id' => '__project_id__']) }}".replace('__project_id__', project_id);
-				},
-				error: function (error) {
-					console.log(error);
-				}
-			});
-   		 });
 
+		// 	if (files.length === 0 && existingImages.length === 0) {
+		// 	displayErrorMessage("Please select at least one image before submitting.");
+		// 	return;
+		//      }
+		// 	formData.append('_token', '{{ csrf_token() }}');
+
+		// 	$.ajax({
+		// 		type: 'POST',
+		// 		url: "{{ route('design.studio.post', ['project_id' => '__project_id__']) }}".replace('__project_id__', project_id),
+		// 		data: formData,
+		// 		processData: false,
+		// 		contentType: false,
+		// 		success: function (response) {
+		// 			var project_id = response.project_id;
+		// 			console.log(response.designstudio);
+		// 			$('#sendquotepopup').modal('hide');
+		// 		    $('#testData').html(response.designstudio);
+		// 			dropzone.removeAllFiles();
+
+		// 			// window.location.href = "{{ route('documentation', ['project_id' => '__project_id__']) }}".replace('__project_id__', project_id);
+		// 		},
+		// 		error: function (error) {
+		// 			console.log(error);
+		// 		}
+		// 	});
+   		//  });
+
+		   $('#submit-all').click(function () {
+        var files = dropzone.getAcceptedFiles();
+        
+
+        if (files.length === 0) {
+            displayErrorMessage("Please select at least one image before submitting.");
+            return;
+        }
+        if (files.length > 5) {
+            displayErrorMessage("You can upload a maximum of 5 images.");
+            return;
+        }
+        showLoader();
+        
+        var formData = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            formData.append('file[]', files[i]);
+        }
+        formData.append('_token', '{{ csrf_token() }}');
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ route('design.studio.post', ['project_id' => '__project_id__']) }}".replace('__project_id__', project_id),
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                var project_id = response.project_id;
+                console.log(response.designstudio);
+                $('#sendquotepopup').modal('hide');
+                $('#testData').html(response.designstudio);
+				dropzone.removeAllFiles();
+                hideLoader();
+            },
+            error: function (error) {
+                //console.log(error);
+                hideLoader();
+                displayErrorMessage("Error uploading image. Please try again.");
+            }
+        });
+    });
+
+	function displayErrorMessage(message) {
+        $('#error-message').text(message);
+    }
+
+    function showLoader() {
+        $('#submit-all').text('Uploading...');
+		
+		
+    }
+
+    function hideLoader() {
+        $('#submit-all').text('Submit and continue');
+    }
 
 function loadExistingImages(dropzoneInstance) {
 	var existingImages = <?php echo json_encode($imageArray); ?> || [];

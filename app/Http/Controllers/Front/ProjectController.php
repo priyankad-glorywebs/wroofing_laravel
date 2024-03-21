@@ -159,6 +159,7 @@ public function __construct(ProjectRepository $projectRepository)
 
     public function designStudioStore(Request $request, $project_id)
     {
+        // dd($request->all());
         $project_id = base64_decode($project_id);
         $project    = Project::findOrFail($project_id);
 
@@ -166,7 +167,6 @@ public function __construct(ProjectRepository $projectRepository)
 
         if($request->hasFile("file")){
             foreach ($request->file("file") as $file) {
-             //   dd($file);
              if(Auth::user()){
 
              $user_id =  \Auth::user();
@@ -187,7 +187,6 @@ public function __construct(ProjectRepository $projectRepository)
                $projectImageData->time = $timeFormatted;
                $projectImageData->media_type = $mediaType; 
                $projectImageData->created_by = $user_id->id;
-              // dd($projectImageData);
                $projectImageData->save();
                 
             }
