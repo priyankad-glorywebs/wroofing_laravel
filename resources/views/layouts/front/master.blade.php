@@ -52,8 +52,8 @@
 				$user = Auth::user();
 				@endphp
 				@php	
-					$contractor = auth()->guard('contractor')->user();
-					@endphp
+				    $contractor = auth()->guard('contractor')->user();
+				@endphp
 				<!-- @if(isset($user)) -->
 				<div class="notification-wrap ms-auto">
 					{{--<div class="notification-icon">
@@ -66,11 +66,11 @@
 					
 						
 					<div class="profile-image">
-						@if(isset($user->profile_image) && $user->profile_image == "" && $user->profile_image == null)
-							<img id="userProfileImage" src="{{ asset($user->profile_image) }}"  alt="Profile Image" width="47" height="47">
-							@else
-							<img id="userProfileImage" src="{{asset('frontend-assets/images/defaultimage.jpg')}}"  style="height:47px;" alt="Profile Image">
+						@if(isset($user->profile_image) && $user->profile_image !== "" && $user->profile_image !== null)
+							<img id="userProfileImage" src="{{ asset($user->profile_image) }}"  alt="Profile Image"  style="height:47px;" width="47" height="47">
+							<!-- else <img id="userProfileImage" src="{{asset('frontend-assets/images/defaultimage.jpg')}}"  style="height:47px;" alt="Profile Image"> -->
 						@endif
+						
 
 					</div>
 					<div class="profile-detail">

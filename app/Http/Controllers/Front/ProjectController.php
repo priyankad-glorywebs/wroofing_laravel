@@ -502,18 +502,34 @@ public function customerprofileUpdate(Request $request){
         $user->contact_number = $request->contactnumber;
         $user->zip_code = $request->zipcode;
 
-        $storagePath = 'customer_profile/';
-        if (!File::exists($storagePath)) {
-            File::makeDirectory($storagePath, 0755, true);
-        }
+        // $storagePath = 'customer_profile/';
+        // if (!File::exists($storagePath)) {
+        //     File::makeDirectory($storagePath, 0755, true);
+        // }
+        // if ($request->hasFile('customer_profile')) {
+        //     $image = $request->file('customer_profile');
+        //     $imageName = \Str::random(3).time() . '.' . $image->getClientOriginalExtension();
+        //     Storage::putFileAs($storagePath, $image, $imageName);
+        //     $user->profile_image = $storagePath . $imageName;
+        
+        // }
+
+        $oldImagePath = $user->profile_image;
+
+
         if ($request->hasFile('customer_profile')) {
             $image = $request->file('customer_profile');
             $imageName = \Str::random(3).time() . '.' . $image->getClientOriginalExtension();
-            Storage::putFileAs($storagePath, $image, $imageName);
-            $user->profile_image = $storagePath . $imageName;
-        
+            $image->move(public_path('customer_image'), $imageName);
+            $user->profile_image = 'customer_image/' . $imageName;
+
+             // Delete the old image file if it exists
+        if ($oldImagePath && file_exists(public_path($oldImagePath))) {
+            unlink(public_path($oldImagePath));
         }
 
+            $user->save();
+        }
 
         if ($request->has('password')) {
             $user->password = bcrypt($request->password);

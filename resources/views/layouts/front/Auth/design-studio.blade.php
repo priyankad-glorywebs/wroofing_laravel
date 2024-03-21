@@ -69,7 +69,7 @@
                                         <label for="name">Name<span>*</span></label>
                                     </div>
                                     <div class="form-element">
-                                        <input type="text" value="{{old('name')}} name="name" placeholder="John doe">
+                                        <input type="text" value="{{old('name')}}" name="name" placeholder="John doe">
                                     </div>
                                     @error('name')
                                         <span class="text-danger">{{ $message }}</span>

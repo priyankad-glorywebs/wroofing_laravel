@@ -48,17 +48,36 @@ public function registerStepOne(Request $request){
 
 
             $user->save();
-            $storagePath = 'customer_profile/';
-            if (!File::exists($storagePath)) {
-                File::makeDirectory($storagePath, 0755, true);
-            }
-            if ($request->hasFile('customer_profile')) {
-                $image = $request->file('customer_profile');
+        // dd($request->all());
+            // $storagePath = 'customer_profile/';
+            // if (!File::exists($storagePath)) {
+            //     File::makeDirectory($storagePath, 0755, true);
+            // }
+            // if ($request->hasFile('customer_profile')) {
+            //     $image = $request->file('customer_profile');
+            //     $imageName = \Str::random(3).time() . '.' . $image->getClientOriginalExtension();
+            //     Storage::putFileAs($storagePath, $image, $imageName);
+            //     $user->profile_image = $storagePath . $imageName;
+                
+            //     $user->save();
+            // }
+            //  $storagePath = 'customer_profile/';
+            // if (!File::exists($storagePath)) {
+            //     File::makeDirectory($storagePath, 0755, true);
+            // }
+            if ($request->hasFile('profile_image')) {
+                // dd("in");
+                $image = $request->file('profile_image');
                 $imageName = \Str::random(3).time() . '.' . $image->getClientOriginalExtension();
-                Storage::putFileAs($storagePath, $image, $imageName);
-                $user->profile_image = $storagePath . $imageName;
+                   // dd($imageName);
+                // Move the uploaded file to the public path
+                $image->move(public_path('customer_image'), $imageName);
+                
+                // Update the user record with the path to the image
+                $user->profile_image = 'customer_image/' . $imageName;
                 $user->save();
             }
+            
             $user->sendEmailVerificationNotification();
             //\Log::info('Email verification notification sent.');
 
