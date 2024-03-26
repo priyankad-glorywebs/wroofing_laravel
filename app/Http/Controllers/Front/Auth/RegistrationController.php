@@ -59,7 +59,7 @@ public function registerStepOne(Request $request){
             //     Storage::putFileAs($storagePath, $image, $imageName);
             //     $user->profile_image = $storagePath . $imageName;
                 
-            //     $user->save();
+             //     $user->save();
             // }
             //  $storagePath = 'customer_profile/';
             // if (!File::exists($storagePath)) {
